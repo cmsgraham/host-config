@@ -21,3 +21,5 @@ writing a new manual. Found while writing it and still true then: Settings' "Bac
 and "autostart task" rows read Windows tools (PowerShell, schtasks) and show `none` /
 `not found` inside WSL; the Activity page hard-codes "1 generation slot"; README.md still opens
 with the Windows-era port 11500 instructions.
+
+**2026-10-19:** added Backups (Overview, after Recommendations), Model swaps (GPUs, before Efficiency) and Local builder (agent-ci, after Stages) sections for the health-panels merge 1660390.
