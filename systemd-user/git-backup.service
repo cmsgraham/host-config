@@ -1,5 +1,5 @@
 [Unit]
-Description=Push fxplat, agent-ci and ollama-gateway to the NAS (all branches + pipeline refs) and fxplat/agent-ci to GitHub (fast-forward only)
+Description=Hourly: refresh host-config, push fxplat/agent-ci/ollama-gateway/host-config to the NAS (all branches) and to GitHub (fast-forward only)
 
 [Service]
 Type=oneshot
@@ -10,6 +10,10 @@ ExecStart=-/usr/bin/git -C /home/cmadrigal/Dukascopy push nas --all
 ExecStart=-/usr/bin/git -C /home/cmadrigal/Dukascopy push nas refs/agent-ci/*:refs/agent-ci/*
 ExecStart=-/usr/bin/git -C /home/cmadrigal/agent-ci push nas --all
 ExecStart=-/usr/bin/git -C /home/cmadrigal/ollama-gateway push nas --all
+ExecStart=-/bin/sh -c 'cd /home/cmadrigal/host-config && ./sync.sh && git add -A && (git diff --cached --quiet || git -c user.name="Cristian Madrigal" -c user.email=cristian.madrigal@gmail.com commit -qm "host-config: hourly snapshot")'
+ExecStart=-/usr/bin/git -C /home/cmadrigal/host-config push nas main
+ExecStart=-/usr/bin/git -C /home/cmadrigal/ollama-gateway push origin master
+ExecStart=-/usr/bin/git -C /home/cmadrigal/host-config push origin main
 ExecStart=/usr/bin/git -C /home/cmadrigal/Dukascopy push origin main
 ExecStart=/usr/bin/git -C /home/cmadrigal/agent-ci push origin master
 SuccessExitStatus=0 1

@@ -91,4 +91,4 @@
 - [local builder gap research](local-builder-gap-research.md) — 2026-10-18 user priority: why local stalls vs escalation; Phase 1 retrospective running, Phase 2 replay bench needs OK
 - [handoff 2026-10-19](handoff-2026-10-19.md) — state when the long session was closed: path to G3 (7.23 -> 3.128 -> v4 flip -> F1/F2 -> G3), brokers, MT5 MCP, Ollama P3 pending
 - [third 3090 OCuLink plan](third-3090-oculink-plan.md) — 2026-10-19 plan, parts not bought: keeps builder+reviewer resident; shopping list; M2_2 holds the F: backup drive; add UUID to gpu-pin.conf
-- [backup layout](backup-layout.md) — 2026-10-19: hourly git-backup pushes all 3 repos to NAS (\\nas1\home) + GitHub; 6TB share is read-only; host-config + full rsync still pending OK
+- [backup layout](backup-layout.md) — hourly git-backup: 4 repos to NAS + GitHub, host-config snapshot; weekly full rsync to NAS 6TB over NFS (msi31-backup.timer)

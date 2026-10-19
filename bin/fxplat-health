@@ -40,7 +40,10 @@ done
 
 # 4. IB live quotes fresh (market-live.json written every 15 s; alert past 10 min on weekdays)
 dow=$(date -u +%u)
-if [ "$dow" -le 5 ] && [ -f "$ml" ] && [ $(( $(date +%s) - $(stat -c %Y "$ml") )) -gt 600 ]; then
+# Age from the feed's own generated_at, not the file mtime: the home mirror rewrites the file on every copy
+# even when the server feed is frozen (stale 03:58-16:50 UTC 2026-10-19 without an alert).
+gen=$(python3 -c "import json,sys,datetime as d;g=json.load(open(sys.argv[1]))['generated_at'];print(int(d.datetime.fromisoformat(g.replace('Z','+00:00')).timestamp()))" "$ml" 2>/dev/null || stat -c %Y "$ml")
+if [ "$dow" -le 5 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; then
   problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json)")
 fi
 
