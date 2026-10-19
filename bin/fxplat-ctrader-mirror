@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# fxplat-ctrader-mirror (2026-10-16, PROPOSAL - not installed): the cTrader demo spread recorder runs on fxplat-server;
+# copy its output home every 5 min into ~/.cache/fxplat/brokers/ctrader/ (hourly/, symbols/, status.json) for the
+# research re-costing and fxplat-health. tokens.json is NEVER copied. Modeled on ~/.local/bin/fxplat-live-mirror.
+# Install: cp to ~/.local/bin/ (chmod +x), the .service to ~/.config/systemd/user/, then
+#          systemctl --user daemon-reload && systemctl --user enable --now fxplat-ctrader-mirror
+set -u
+OUT=~/.cache/fxplat/brokers/ctrader; mkdir -p "$OUT"
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=~/.ssh/cm-fxplat-%C -o ControlPersist=10m fxplat-server)
+# the data dir is nobody:700 on the server, hence sudo -n sh -c; only the three public entries that exist are sent
+REMOTE='cd /opt/fxplat/ctrader-data && tar -czf - --exclude=tokens.json --exclude=".*" $(ls -d hourly symbols status.json 2>/dev/null)'
+while true; do
+  T=$(mktemp -d "$OUT/.in.XXXXXX")
+  if "${SSH[@]}" "sudo -n sh -c '$REMOTE'" 2>/dev/null | tar -C "$T" -xzf - 2>/dev/null && [ -s "$T/status.json" ]; then
+    rm -f "$T/tokens.json"
+    mkdir -p "$OUT/hourly" "$OUT/symbols"
+    for d in hourly symbols; do
+      [ -d "$T/$d" ] && find "$T/$d" -maxdepth 1 -type f -name 'ctrader-*' -exec mv -f {} "$OUT/$d/" \;
+    done
+    mv -f "$T/status.json" "$OUT/status.json"
+  fi
+  rm -rf "$T"
+  sleep 300
+done

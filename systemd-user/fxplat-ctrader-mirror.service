@@ -1,0 +1,10 @@
+[Unit]
+Description=Mirror the server's cTrader demo spread recorder output home every 5 min (2026-10-16)
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-ctrader-mirror
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
