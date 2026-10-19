@@ -17,7 +17,19 @@ Measured (demo "Pro", login 480425693, Exness-MT5Trial11, MT5 MCP read-only + Co
   fxplat-ctrader-mirror since 2026-10-19 to ~/.cache/fxplat/brokers/ctrader/) 0.06-0.21 pips + $3/lot/side
   => ~0.66-0.81 all-in vs Exness Pro 0.6-1.0 no commission. So the SPREAD claim is not obviously false in liquid
   hours; the real questions are demo-vs-real, offshore entity for CR clients, execution/requotes, swaps
-  (EURUSD long -5.5 USD/lot/night, gold long -516.5), affiliate-driven marketing.
+  (EURUSD long -5.5 USD/lot/night; gold -516.5 POINTS = -51.65 USD/lot/night, digits 3 - I misreported 516 once), affiliate-driven marketing.
 - Tick history via MCP get_chart_ticks_history (available from 2026-01-01) - no waiting needed for past events.
 - Public-record research: docs/research/2026-10-19-exness-public-record.md (agent, 2026-10-19). Earlier:
   docs/research/2026-10-18-exness.md. Related [[fxplat-broker-costs]].
+
+**Verdict 2026-10-19 (public-record report, agent-ci docs/research/2026-10-19-exness-public-record.md):**
+spreads HONEST (Exness itself says EURUSD/gold spreads are "stable... usually fixed ~90% of the time"; its public
+real-server tick files show the same 0.6). MISLEADING: (1) "regulated / protected" - FCA/CySEC entities serve no
+retail; Costa Ricans get an offshore entity (Seychelles FSA SD025 / Curaçao / BVI / Belize), "no government-backed
+Compensation Fund", Seychelles courts, final complaint answer in English/French/Creole only; (2) "swap-free" is
+conditional on an undisclosed "mostly intraday" algorithm, else admin fees 25 USD/lot/night EURUSD, 250 XAUUSD
+(~5x swap), applied even to open orders; (3) influencer content: up to 40% lifetime revenue share or CPA up to
+US$960/client in LATAM, 2025 LATAM campaign aimed at influencers/academies. Market maker by its own words; contract
+lets it cancel profits on vague triggers (e.g. "excessive leverage" while advertising 1:Unlimited). SUGEVAL: forex
+is outside its regulation (notice 2018-11-22); Exness not on its alert list. Abroad: CVM Brazil stop order 2022,
+RBI India alert list. Open: which entity onboards CR (needs signup), live fills, actual CR ad wording.

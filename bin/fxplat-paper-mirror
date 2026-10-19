@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# fxplat-paper-mirror (2026-10-19, PROPOSAL - not installed): the SIMULATED paper runner runs on fxplat-server
+# (redeploy-paper.sh); copy its record home every 60 s into ~/.cache/fxplat/paper/ (paper.json, manifests/, sim-vN/)
+# for the dashboard publisher, fxplat-health and research. Read-only on the server; never into the publisher's stage.
+# The append-only logs (*.jsonl, the tape grows ~3 MB/day) are copied with --append (only the new tail travels, no
+# full-file checksum on the shared box); the atomically replaced files (status.json, board.json, reviews) whole.
+# Install: cp to ~/.local/bin/ (chmod +x), the .service to ~/.config/systemd/user/, then
+#          systemctl --user daemon-reload && systemctl --user enable --now fxplat-paper-mirror
+set -u
+OUT=~/.cache/fxplat/paper; mkdir -p "$OUT"
+SRC=fxplat-server:/opt/fxplat/paper/
+RSH="ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=$HOME/.ssh/cm-fxplat-%C -o ControlPersist=10m"
+# the server side runs at the lowest CPU / IO priority: it shares the box with snoopyfrog production
+RP="nice -n 19 ionice -c3 rsync"
+while true; do
+  # 1. append-only logs: only the bytes past what we already have
+  rsync -rt --append --rsh="$RSH" --rsync-path="$RP" --timeout=60 \
+    --include='*/' --include='*.jsonl' --exclude='*' "$SRC" "$OUT/" 2>/dev/null
+  # 2. everything else, whole (temp files of atomic writes excluded); STOP is copied so home sees a K11 stop,
+  #    and removed here when it is removed there (the only --delete, and only for STOP)
+  rsync -rt --rsh="$RSH" --rsync-path="$RP" --timeout=60 \
+    --exclude='.*' --exclude='*.jsonl' --exclude='*.bak-*' --exclude='paper.json.next' "$SRC" "$OUT/" 2>/dev/null
+  for d in "$OUT"/data/sim-*/; do
+    [ -e "$d/STOP" ] && ! $RSH fxplat-server "test -e /opt/fxplat/paper/data/$(basename "$d")/STOP" 2>/dev/null && rm -f "$d/STOP"
+  done
+  sleep 60
+done

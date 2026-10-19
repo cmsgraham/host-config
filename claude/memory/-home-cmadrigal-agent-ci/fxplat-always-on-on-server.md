@@ -26,3 +26,11 @@ the option"; more disk or capacity on the server is fine, just ask.
 **Why:** always-on pieces must survive PC reboots, Windows Update and the WSL GPU freezes.
 **How to apply:** any new always-on fxplat service defaults to the server. Related: [[fxplat-ib-connector-server]],
 [[fxplat-broker-costs]], [[fxplat-phase3-completion-2026-10-14]].
+
+**2026-10-19:** LIVE on the server since 12:25 CST (operator ran redeploy-paper.sh + redeploy-ui.sh); fxplat-health check 4b alerts on stale (>10 min) / error / latch via the mirrored status.json. 7.23 merged (317406f). Paper runner packaged for the server (merge 8d0eabd): deploy/server/
+redeploy-paper.sh (operator runs), compose.paper.yml (fxplat-paper-runner, 768m, 0.5 CPU, no network), pins K9 per
+commit, output /opt/fxplat/paper/data/sim-v3/ (v4 flip -> sim-v4/). Neutral K10 placeholders (operator OK).
+Home: fxplat-paper-mirror (60 s -> ~/.cache/fxplat/paper/) + export_forward.py -> Forward view (SIMULADO).
+Also fxplat-ctrader-mirror installed. Dashboard data still flows via the home publisher (PC off = dashboard frozen,
+server keeps recording); moving the publisher to the server was offered. Memory growth: tape re-read on restart,
+~12 MB/day -> 768m cap lasts ~5 weeks; needs rotation or resize before ~2026-11-20.

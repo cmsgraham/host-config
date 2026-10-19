@@ -125,3 +125,10 @@ net EV -> perturbation.run_noise) after 3.134 + 3.137 merge; the run-dir compose
 3.134-3.138. §10.14 importance per fold needs an operator choice of "pliegues" (WF months / CPCV splits / LOYO years)
 - not asked yet. §10.8 perturbation and §10.10 random entries need build_dataset hooks (family params, injected
 events) - large. Next free ids: 3.139, 4.20, 9.12.
+
+2026-10-19 (spec writer, 18:21 UTC refill): no new ids used. TASK-7.23 had passed, so per decision 2026-10-14 19:10 CST
+lifted the holds on 9.6 / 9.7 / 9.8 / 9.9 / 9.11 after spec-review (all OK, low findings applied). 9.11 givens were
+stale: run_events.ROLES gained DEV_FULL (3.102b) -> Role Literal now DEV / VALIDATION / DEV_FULL. Found: §10.15
+attribution (validation.attribution.attribution(inp, predictions, stable)) is wired nowhere in pipeline; its item-6
+'conditional power' needs `stable` from §10.14 stability, which waits on the operator's "pliegues" choice (not asked
+yet). Next free ids still: 3.139, 4.20, 9.12.

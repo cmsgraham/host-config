@@ -19,3 +19,8 @@ runs I drive), run `~/agent-ci/.venv/bin/python -m agent_ci.cli --config ~/Dukas
 usage --probe`; if either window is >= 50%, stop, tell him the reading and the reset time, and
 leave work to the local pipeline. Re-check every hour or so during long sessions.
 See [[agent-ci-ops-triage]].
+
+**2026-10-19 ~12:00 CST:** Cristian raised the cap to 80% ("we are almost on the reset"; weekly was 46%, resets
+Tue 2026-10-20 03:00). Applied to config `claude_usage_max: 0.8` after the 7.23 merge gate (my first edit landed
+mid-gate and was reverted). Same pattern as 2026-10-11 (70% then back): return to 0.5 after the reset unless he
+says otherwise - tell him when doing it.

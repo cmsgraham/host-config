@@ -1,0 +1,11 @@
+[Unit]
+Description=Mirror the server's SIMULATED paper runner record home every 60 s (2026-10-19)
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-paper-mirror
+Restart=always
+RestartSec=10
+Nice=10
+
+[Install]
+WantedBy=default.target

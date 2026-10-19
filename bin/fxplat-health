@@ -47,6 +47,34 @@ if [ "$dow" -le 5 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; the
   problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json)")
 fi
 
+# 4b. SIMULATED paper runner on fxplat-server (2026-10-19), via the home mirror fxplat-paper-mirror:
+# its status.json advances every 15 s; alert when it is older than 10 min, carries an error, or a K-switch latched.
+if systemctl --user is-enabled --quiet fxplat-paper-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-paper-mirror || problems+=("papermirror|fxplat-paper-mirror is not running")
+  ps_=$(python3 - "$HOME/.cache/fxplat/paper" <<'PY' 2>/dev/null
+import json, sys, time, glob, os
+root = sys.argv[1]
+try:
+    out = json.load(open(os.path.join(root, "paper.json")))["out_dir"].rstrip("/").split("/")[-1]
+except Exception:
+    out = None
+cands = [os.path.join(root, "data", out, "status.json")] if out else sorted(glob.glob(os.path.join(root, "data", "sim-*", "status.json")))
+f = next((c for c in cands if os.path.exists(c)), None)
+if not f:
+    print("paperstatus|paper runner: no status.json mirrored"); sys.exit()
+s = json.load(open(f))
+age = time.time() - s.get("now_ms", 0) / 1000
+if age > 600:
+    print(f"paperstale|paper runner status {int(age // 60)} min old (container down on fxplat-server?)")
+if s.get("error"):
+    print(f"papererror|paper runner error: {str(s['error'])[:120]}")
+if s.get("latches"):
+    print(f"paperlatch|paper runner latched: {', '.join(map(str, s['latches']))[:120]}")
+PY
+)
+  while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$ps_"
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
