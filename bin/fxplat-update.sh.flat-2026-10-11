@@ -1,0 +1,17 @@
+#!/bin/bash
+# fxplat hourly incremental data update. Replaced the Windows task "Dukascopy update"
+# (update.cmd, Windows python) on 2026-10-05 when the repo moved into WSL.
+# The store's .lock holds the writer's PID and dukascopy takes over a lock whose PID
+# is not alive -- but a Windows writer's PID is invisible to Linux, so a lock left
+# by a Windows process is checked with tasklist.exe first.
+set -u
+D=/mnt/d/DukascopyData
+if [ -f "$D/.lock" ]; then
+  pid=$(tr -dc 0-9 < "$D/.lock")
+  if [ -n "$pid" ] && /mnt/c/Windows/System32/tasklist.exe /FI "PID eq $pid" /NH 2>/dev/null | grep -qi python; then
+    echo "a Windows dukascopy writer (pid $pid) holds $D/.lock; skipping this run"
+    exit 0
+  fi
+fi
+cd /home/cmadrigal/Dukascopy || exit 1
+exec .venv/bin/python -m dukascopy --data-dir "$D" update >> "$D/update.log" 2>&1

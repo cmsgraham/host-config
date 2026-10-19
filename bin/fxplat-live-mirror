@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# fxplat-live-mirror (2026-10-14): the IB quote feed runs on fxplat-server; copy its market-live.json home every
+# 15 s for the paper simulator and fxplat-health. Never into the publisher's stage (it would be pushed back).
+set -u
+OUT=~/.cache/fxplat/live; mkdir -p "$OUT"
+REMOTE=/opt/fxplat/web/current/app/bundle/market-live.json
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=~/.ssh/cm-fxplat-%C -o ControlPersist=10m fxplat-server)
+while true; do
+  if "${SSH[@]}" "sudo -n cat $REMOTE" > "$OUT/.market-live.json.tmp" 2>/dev/null && [ -s "$OUT/.market-live.json.tmp" ]; then
+    mv -f "$OUT/.market-live.json.tmp" "$OUT/market-live.json"
+  fi
+  sleep 15
+done

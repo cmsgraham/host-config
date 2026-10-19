@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly fxplat data update (was the Windows task "Dukascopy update")
+
+[Timer]
+OnCalendar=*-*-* *:38:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,25 @@
+[Unit]
+# Docker Desktop injects this proxy into an integrated WSL distro itself, but
+# only when it notices the distro. On 2026-09-06 it did not: the engine had
+# been stopped for hours, and after it was restarted /usr/bin/docker stayed a
+# dangling symlink into an empty cli-tools mount, so every container check in
+# the agent-ci pipeline failed with "docker is not installed or not on PATH".
+# This unit makes the socket the distro's own responsibility: it waits for
+# Docker Desktop's guest-services socket to appear and then runs the very same
+# proxy binary Docker Desktop would have run.
+Description=Docker Desktop socket proxy for this WSL distro
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# Wait, without a deadline, for Docker Desktop's engine to publish its
+# guest-services socket. Before that there is nothing to proxy to.
+ExecStartPre=/bin/sh -c 'until [ -S /mnt/wsl/docker-desktop/shared-sockets/guest-services/docker.proxy.sock ]; do sleep 2; done'
+ExecStart=/mnt/wsl/docker-desktop/docker-desktop-user-distro proxy --distro-name Ubuntu "C:\\Program Files\\Docker\\Docker\\resources"
+TimeoutStartSec=infinity
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

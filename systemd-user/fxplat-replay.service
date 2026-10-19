@@ -1,0 +1,14 @@
+[Unit]
+Description=fxplat Repetición magazine: builds the replay days requested from the dashboard (reads requests over ssh every minute)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/cmadrigal/Dukascopy
+ExecStart=/home/cmadrigal/Dukascopy/.venv/bin/python ui/scripts/replay_service.py
+Restart=always
+RestartSec=60
+Nice=10
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,127 @@
+---
+name: real-run-task-ids
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.136 decay_study, 3.137 noise seed in symbol_stage, 3.138 rerun_loyo queued 2026-10-19; next 3.139 / 4.20 / 9.12"
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
+  modified: 2026-10-12T08:21:20.957Z
+---
+
+REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
+(RESERVED, not yet written), R5 CLI=3.64 (reserved). Pure pieces split out of R4: 3.66 R4a decision records,
+3.67 R4b child runner, 3.68 R4c trade criteria C1/C2/C8/C12, 3.69/3.70/3.71 FFD early-stop + p_m0 + ffd_workers pool,
+3.72 R4d single-run criteria (fxplat.pipeline.run_criteria: B2/B3/C3/C4-B3-half/C11/C14 partial, run_results,
+no_edge_facts), 3.73 verdict.no_edge_statement says DATO NO DISPONIBLE for a NaN DSR, 3.74 decision_outputs fix
+(predictions ⊂ inp raised StopIteration; quadratic lookup), 3.75 CUSUM zero-threshold fix (REAL_RUN §6), 3.76 R5a
+period_split (custom exploration train/test split in splitters.py; runner/CLI wiring still to write). 3.77 bars drop
+non-finite ticks (operator-written). Chunking RESOLVED 2026-10-11 as (b) "bars whole range, ticks per labelling
+window"; queued 2026-10-12: 3.78 barriers TickSource/ArrayTicks/label_events_from_source, 3.79 sources.StoreTicks
+(UTC-month blocks, LRU) + store_symbol_data(ticks=False), 3.80 build_dataset(ticks=TickSource) [deps 3.78].
+3.81 (queued 2026-10-12) run_symbol_stage passes StoreTicks + store_symbol_data(ticks=False) (ingest rows =
+sum(m1_n_ticks); dataset_sha256 pinned 2b500f61... = the old path). 3.82 (queued 2026-10-12) R4f
+fxplat.pipeline.research_run.build_datasets (symbols in spawned children, parent emits 'dataset' events, fail-fast).
+NEXT: the rest of R4 as tasks amending research_run.py (pooled walk-forward; then decisions / criteria / verdict /
+report / registro), then 3.63 as the thin end-to-end composition. Next free id 3.86 (3.63/3.64 were superseded by 3.83-3.85 as R4g/R4h/R5). UI: 9.5 is the operator manual; UI-A5 signals=9.6, A6 backtests=9.7, A7 cross-engine=9.8 (queued 2026-10-12); next 9.9 = UI-A8 risk board, then A9 data coverage, A10 run events. R6 (dvc stages) unwritten, waits on 3.84/3.85.
+
+**Why:** the next spec writer must not reuse 3.63/3.64, and must not re-specify the split-out pieces.
+
+**How to apply:** write TASK-3.63 with depends_on [3.71, 3.72, 3.73, 3.74, 3.81]; it is too big for one task - split
+(e.g. datasets in children + pooled walk-forward, then decisions / criteria / verdict / report / registro). Notes measured 2026-10-11:
+- run_walk_forward has no min_train_years argument; the splitter's registered 3 years + ~1 year D1 feature warm-up
+  mean an end-to-end store fixture needs ~4.5 years of ticks (200 weeks of 3 ticks/min took 106 s to write and
+  ~75 s per symbol to build - too slow). A 66-week store (as tests/pipeline/test_symbol_stage.py) builds in ~9 s per
+  symbol in a child; the e2e test would have to monkeypatch walkforward.walk_forward to min_train_years=0.
+- daily_close for the §9.4 portfolio rules: build from StoredDataset d1 closes (mid, closing 17:00 NY), index =
+  NY local date of the close instant (point-in-time with R5's "strictly before the session date").
+- ffd_workers and capital/risk: config/experiment.yaml has seeds (global_, lightgbm, bootstrap) and risk
+  (capital_usd, risk_pct) but no ffd_workers key; the driver takes it as an argument (R5 reads config).
+- EventWriter cannot be shared with a spawned child: run run_symbol_stage in the child with writer=None and let the
+  parent emit the 'dataset' StageStarted / StageFinished around run_in_child.
+- symbol_stage refuses anything outside DEV, so the driver is DEV-only until symbol_stage changes.
+
+2026-10-13 (spec writer): R1-R5 (3.60-3.85) all passed. R6 = TASK-3.87 HELD "needs operator decision" (conflicts with
+tests/test_dvc_dag.py forbidding data_dir; question in state/decisions-pending.md 2026-10-13, recommended defer).
+New package fxplat.replay: 3.86 R7a/R8a day_rules (day_rule / calendar_rules / model_window; creates
+src/fxplat/replay/__init__.py), 3.88 R7b frames.build_frames (deps 3.86; frame order bar < decision < entry < exit).
+Next R7 pieces still unwritten: the composer that computes a day (ticks -> ... -> fills), R8 service, R9 what-if.
+UI: 9.9 = UI-A8 risk (fxplat.publish.risk) queued; next 9.10 = UI-A9 data coverage, then A10 run events.
+Note: state/ is gitignored, so decisions-pending.md is never committed.
+
+2026-10-14 (spec writer): 3.89-3.96 were used by other work (O1 fixes, O3 prep, turbulence). Queued 3.97 R7c
+fxplat.replay.day_items (decision_log records + label timings -> build_frames inputs, frame refs, carried trades;
+the run's out-of-sample records ARE "the model as it stood that morning" - walk-forward models are not persisted,
+only model_sha256). Still unwritten for R7: bar closes for the day from the store, the file-reading composer
+(decisions.jsonl + labels -> day_items -> build_frames), then R8 service and R9 what-if. Phase 4: 4.13
+fxplat.backtest.nautilus_replay (one engine per trade; alert at t_limit_ns - 1 because Nautilus matches a quote
+before an alert at the same timestamp); 4.4 stub now points at it. Next free ids: 3.98, 4.14, 9.11.
+
+2026-10-14 (spec writer, later): queued 3.98 R7d fxplat.replay.day_bars (m1 bars -> n-minute chart bars stamped at
+bucket close); 9.11 UI-A10 part 1 fxplat.publish.decisions (decision records -> codes, no prose); 4.14
+fxplat.backtest.replay_reconcile (labeller vs replay_trades per field, tolerances passed in, no defaults).
+Remaining: R7 file-reading composer (decisions.jsonl + labels + store m1 -> day_items/day_bars/build_frames), then
+R8/R9. UI-A10: runs index (sketch ui/scripts/export_runs.py), P&L series (needs labels' exit time; sketch
+ui/scripts/export_pnl.py); the 60 s push may be covered by state/ops-scripts/sync-run-events.sh. 4.4: V1 trade pick,
+financing on replayed trades (backtest may not import labeling -> likely pipeline), P&L / Sharpe agreement,
+tolerance VALUES (operator decision). Next free ids: 3.99, 4.15, 9.12.
+
+2026-10-16 (spec writer): lifted 3.106's leftover draft hold (review OK, strong tier). Queued 4.16 cost-model-v4 in
+nautilus_fills (order_fill_px; strong tier per 2026-10-14 routing), 3.108 R7f fxplat.replay.day_replay (replay_day:
+day_rule refusal first, pairs = m1_bars keys covering run symbols, union clock - a clock from run.symbols breaks
+truncation; m1_from_table mid prices; the store read stays with R8), 4.17 fxplat.pipeline.replay_costs (financing per
+replayed trade for 4.15's replay_costs input; 'open' -> 0.0). 4.4 stub now points at 4.16/4.17. Left: R8 service needs
+an HTTP/WebSocket dependency that is NOT installed (no fastapi/aiohttp/websockets) - operator question before speccing;
+R9 what-if; importance MDA/SFI categorical follow-up after 3.106 passes. Next free ids: 3.109, 4.18, 9.12.
+
+2026-10-16 (spec writer, 12:26 refill): queued 3.109 fxplat.validation.importance categorical follow-up of 3.106 (MDA
+permute keeps Categorical dtype, sfi scores Categoricals, skips object/str; owns tests/validation/test_importance.py,
+replaces test_sfi_skips_categorical_columns) and 4.18 fxplat.pipeline.replay_inputs (V1 trade pick: enter records ->
+TRADE_COLUMNS re-derived from labeller rules, label rows, upu mapping; e2e replay_trades/reconcile measured exact on
+times). 4.4 stub now points at 4.18; left: tolerance VALUES (open 2026-10-15) + the wiring composer (run dir + store
+ticks -> replay_inputs -> replay_trades -> replay_costs -> reconcile/agree) - spec it after 4.17 passes (its givens
+need replay_costs on main). R8 service / R9 what-if / UI-C: the operator already built them in ui/ and deploy/ - not
+spec-writer work. Next free ids: 3.110, 4.19, 9.12.
+
+2026-10-16 (spec writer, 17:05 refill): queued 3.110 run_criteria(cal=None) -> B5 (baselines.cell_hit_rate) + fail-only
+partial C5 (Manual; RESULTS_WITH_C5 order; CRITERIA_COMPUTED unchanged because publish.verdict.run_measures iterates it)
+and 3.111 research_run._verdict_stage n_trials = dsr_trial_count (was max(1, effective_trial_count) = 1 on the real
+registry; §10.5 N = 17). FOLLOW-UP once 3.110 passes: research_run passes cal=load_quality_config().calendar to
+run_criteria (+ publish.verdict C5 measure). C6 HELD as an operator question (decisions-pending 2026-10-16): the §10.5
+floor V = 0.5*SR^2 on one run gives SR0 = 1.29*SR, so C6 can never pass. Do not spec C6 before that decision. Re-run
+criteria (C9/C15/C17, B1/B4) are deferred by decision 2026-10-11 until C1/C2/C8 pass. Next free ids: 3.112, 4.19, 9.12.
+
+2026-10-16 (spec writer, 21:04 refill): queued 3.112 publish.verdict run_measures adds a partial 'C5' Measure when
+rc.c5 is set (also edits test_run_criteria_b5.py's run_measures test, which pinned the old keys - review caught it),
+3.113 research_run passes its step-(1) cal to run_criteria (deps 3.111, same file; e2e: B5 n_taken 754 / 1032, C5
+PENDING), 4.19 fxplat.pipeline.replay_check (per pair pick -> replay -> replay_costs -> reconcile, ONE pooled
+agree_replay; refuses swap source 'broker_table' because replay_costs only does IB policy rates; config/cost_model.yaml
+is still v3 = broker_table, so tests build V4 by editing the YAML into tmp_path). 4.4 stub now points at 4.19; left:
+tolerance VALUES (open 2026-10-15) + the file-reading driver (needs config on v4). Next free ids: 3.114, 4.20, 9.12.
+
+2026-10-18 (spec writer, 06:06 refill): queued 3.129 (lopo/loyo take ffd_series - LOYO d* cutoff = excluded year's
+start), 3.130 (fxplat.validation.cpcv_run.run_cpcv: the missing CPCV runner for C17; tau start = largest s with
+s-3..s-1 contiguous non-test years), 3.131 (research_run.run_c14_subperiods: DEV_FULL passes the registered C14
+subperiods its OOS covers; DEV call unchanged - test_research_run_c5 pins its exact kwargs). All under decision
+2026-10-14 Gate 1 item (2). NEXT: drivers that read a run dir and run LOPO/LOYO/C15 (after 3.129) and CPCV/C17
+(after 3.130) into the report; C9 matrix/perturbation/noise drivers. Next free ids: 3.132, 4.20, 9.12.
+
+2026-10-18 (spec writer, 20:17 CST refill): 3.132/3.133 were taken by F1_COSTOS / F2_PRESUPUESTO. Queued 3.134
+fxplat.pipeline.rerun_criteria (read_pooled = run_pooled_walk_forward's inputs via research_run's private helpers;
+rerun_c15 = lopo + c15 on entered rows; rerun_c17 = run_cpcv + c17, 2010-2021 only) and 3.135 fxplat.pipeline.rerun_matrix
+(rerun_c9_matrix with the official walk-forward keywords; c9_partial -> Manual False on matrix fail, None = PENDING
+otherwise, since robustness.c9 with None studies would FAIL). Measured: the 6-cell matrix WITH per-window FFD took ~460 s
+on the 2009-2013 stored fixture (7 s without) - test FFD forwarding with spies. NEXT (after both merge): the composer that
+reads a run dir's manifest (symbols, OOS window, role DEV_FULL) -> read_pooled -> rerun_c15/c17/c9_matrix -> files +
+re-run report. Next free ids: 3.136, 4.20, 9.12.
+
+2026-10-19 (spec writer, 04:33 CST refill): queued 3.136 fxplat.validation.decay_study (§10.11: dollar_trend = USD
+index of the 7 majors = -cumsum(DOL), 252-row momentum; dollar_trend_at uses rows dated STRICTLY before the decision's
+UTC date; decay_study composes regimes by_year / rolling / slope / terciles of b27_vol_regime and dollar trend / c14),
+3.137 symbol_stage(noise_seed=None, noise_mode='atr') (§10.9: perturbation.noisy_symbol_data on the store bars inside
+the dataset stage, real StoreTicks; inputs gain noise_seed/noise_mode only when given; measured seed 100 = 1,578 events
+vs 1,552 unnoised, ~11 s/build on the 66-week fixture), 3.138 fxplat.pipeline.rerun_loyo (loyo + entered rows + year_ev,
+report only). NEXT: noise driver (per seed: run_symbol_stage(noise_seed) per symbol -> read_pooled -> walk-forward ->
+net EV -> perturbation.run_noise) after 3.134 + 3.137 merge; the run-dir composer (C15/C17/C9 matrix/LOYO/decay) after
+3.134-3.138. §10.14 importance per fold needs an operator choice of "pliegues" (WF months / CPCV splits / LOYO years)
+- not asked yet. §10.8 perturbation and §10.10 random entries need build_dataset hooks (family params, injected
+events) - large. Next free ids: 3.139, 4.20, 9.12.

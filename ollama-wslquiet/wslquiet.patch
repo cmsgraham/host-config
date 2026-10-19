@@ -1,0 +1,312 @@
+From 4d4f6c20e21df29c2e8554689452a4512bb6ac92 Mon Sep 17 00:00:00 2001
+From: Cristian Madrigal <cristian.madrigal@gmail.com>
+Date: Sat, 17 Oct 2026 08:00:20 -0600
+Subject: [PATCH] discover/sched: fewer GPU discovery probes after unload;
+ SIGTERM cancelled probes (WSL dxg)
+
+P1 server/sched.go waitForVRAMRecovery: one GPU refresh at the mid-point of
+the settle window instead of a bootstrap discovery every 250ms.
+P2 discover: cancelled discovery probes get SIGTERM; WaitDelay remains the
+SIGKILL fallback.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ discover/llama_server.go           | 27 ++++++++++++
+ discover/native_probe.go           |  1 +
+ discover/probe_cancel_test.go      | 51 ++++++++++++++++++++++
+ server/sched.go                    | 68 ++++++++++++++++++-----------
+ server/sched_vram_recovery_test.go | 70 ++++++++++++++++++++++++++++++
+ 5 files changed, 191 insertions(+), 26 deletions(-)
+ create mode 100644 discover/probe_cancel_test.go
+ create mode 100644 server/sched_vram_recovery_test.go
+
+diff --git a/discover/llama_server.go b/discover/llama_server.go
+index ba8ace5..e7a2d1d 100644
+--- a/discover/llama_server.go
++++ b/discover/llama_server.go
+@@ -13,6 +13,7 @@ import (
+ 	"runtime"
+ 	"strconv"
+ 	"strings"
++	"syscall"
+ 	"time"
+ 
+ 	"github.com/ollama/ollama/llm"
+@@ -24,6 +25,30 @@ import (
+ // the short-lived discovery subprocess.
+ const llamaServerDiscoveryWaitDelay = 5 * time.Second
+ 
++// setDiscoveryProbeCancel makes a cancelled or expired context stop a
++// discovery probe with SIGTERM instead of exec.CommandContext's default
++// SIGKILL. cmd.WaitDelay (llamaServerDiscoveryWaitDelay) still SIGKILLs the
++// probe if it has not exited that long after the SIGTERM.
++//
++// The probes are GPU clients. On WSL2 their driver calls cross the dxgkrnl
++// paravirtualized GPU bridge, and SIGKILL during one of those calls abandons
++// the host request mid-flight ("dxgvmb_send_sync_msg: wait_for_completion
++// failed" in the guest kernel log; see microsoft/WSL#12756). SIGTERM lets a
++// probe that handles it (llama-server installs a SIGTERM handler) leave the
++// driver call and shut down normally. A probe without a handler (the
++// --list-devices path, the Go gpu-discover subprocess) still dies at once, as
++// before.
++//
++// Windows has no SIGTERM delivery for processes, so the default (Kill) stays.
++func setDiscoveryProbeCancel(cmd *exec.Cmd) {
++	if runtime.GOOS == "windows" {
++		return
++	}
++	cmd.Cancel = func() error {
++		return cmd.Process.Signal(syscall.SIGTERM)
++	}
++}
++
+ // llamaServerDiscoverDevices spawns llama-server briefly (without a model) to
+ // discover GPU devices and their capabilities. The server prints device info
+ // and system_info (including compiled CUDA architectures) on startup before
+@@ -64,6 +89,7 @@ func llamaServerDiscoverDevices(ctx context.Context, libDirs []string, extraEnvs
+ 		"--verbose",
+ 	)
+ 	cmd.WaitDelay = llamaServerDiscoveryWaitDelay
++	setDiscoveryProbeCancel(cmd)
+ 	cmd.Env = os.Environ()
+ 
+ 	llm.SetupLlamaServerCommandEnv(cmd, llamaServer, libDirs, extraEnvs)
+@@ -142,6 +168,7 @@ func llamaServerDiscoverDevices(ctx context.Context, libDirs []string, extraEnvs
+ 	// (the brief server startup doesn't print that)
+ 	cmd2 := exec.CommandContext(ctx, llamaServer, "--list-devices", "--offline", "--verbose")
+ 	cmd2.WaitDelay = llamaServerDiscoveryWaitDelay
++	setDiscoveryProbeCancel(cmd2)
+ 	cmd2.Env = cmd.Env // reuse same environment
+ 	listOutput, err := cmd2.CombinedOutput()
+ 	_, _ = status.Write(listOutput)
+diff --git a/discover/native_probe.go b/discover/native_probe.go
+index 190ebcb..9fc6772 100644
+--- a/discover/native_probe.go
++++ b/discover/native_probe.go
+@@ -85,6 +85,7 @@ func discoverNativeDevices(ctx context.Context, llamaServer string, libDirs []st
+ 	}
+ 	cmd := exec.CommandContext(ctx, exe, args...)
+ 	cmd.WaitDelay = llamaServerDiscoveryWaitDelay
++	setDiscoveryProbeCancel(cmd)
+ 	llm.SetupLlamaServerCommandEnv(cmd, llamaServer, libDirs, extraEnvs)
+ 
+ 	var stderr bytes.Buffer
+diff --git a/discover/probe_cancel_test.go b/discover/probe_cancel_test.go
+new file mode 100644
+index 0000000..320651f
+--- /dev/null
++++ b/discover/probe_cancel_test.go
+@@ -0,0 +1,51 @@
++//go:build linux
++
++package discover
++
++import (
++	"context"
++	"os/exec"
++	"testing"
++	"time"
++)
++
++// A cancelled discovery probe must get SIGTERM (so a probe that handles it can
++// leave its driver call and exit cleanly), not exec.CommandContext's SIGKILL.
++func TestDiscoveryProbeCancelSendsSIGTERM(t *testing.T) {
++	if _, err := exec.LookPath("sh"); err != nil {
++		t.Skip("sh not available")
++	}
++
++	ctx, cancel := context.WithCancel(t.Context())
++	// The child exits 42 only if it receives SIGTERM; SIGKILL cannot be trapped.
++	cmd := exec.CommandContext(ctx, "sh", "-c", `trap 'exit 42' TERM; echo ready; while :; do sleep 0.05; done`)
++	cmd.WaitDelay = llamaServerDiscoveryWaitDelay
++	setDiscoveryProbeCancel(cmd)
++
++	stdout, err := cmd.StdoutPipe()
++	if err != nil {
++		t.Fatal(err)
++	}
++	if err := cmd.Start(); err != nil {
++		t.Fatal(err)
++	}
++	buf := make([]byte, 6)
++	if _, err := stdout.Read(buf); err != nil { // wait until the trap is installed
++		t.Fatal(err)
++	}
++
++	start := time.Now()
++	cancel()
++	err = cmd.Wait()
++
++	// ExitCode -1 means killed by a signal, i.e. the old SIGKILL behaviour.
++	if err == nil {
++		t.Fatal("Wait() = nil, want the probe's non-zero exit")
++	}
++	if got := cmd.ProcessState.ExitCode(); got != 42 {
++		t.Fatalf("exit code = %d (%v), want 42: the probe was not stopped with SIGTERM", got, cmd.ProcessState)
++	}
++	if elapsed := time.Since(start); elapsed >= llamaServerDiscoveryWaitDelay {
++		t.Fatalf("probe took %v to stop; SIGTERM should not need the WaitDelay fallback", elapsed)
++	}
++}
+diff --git a/server/sched.go b/server/sched.go
+index ade9143..bd2337f 100644
+--- a/server/sched.go
++++ b/server/sched.go
+@@ -1464,36 +1464,52 @@ func (s *Scheduler) waitForVRAMRecovery(runner *runnerRef, runners []ml.Filtered
+ 		// typical convergence is 0.5-1.5s - If it takes too long to discover and converge, let the scheduler estimate VRAM usage
+ 		ctx, cancel := context.WithTimeout(context.Background(), s.waitForRecovery)
+ 		defer cancel()
+-		ticker := time.NewTicker(250 * time.Millisecond)
+-		defer ticker.Stop()
+-		for {
+-			select {
+-			case <-ticker.C:
+-				// Query GPUs, look for free to go back up
+-				gpusNow := s.getGpuFn(ctx, runners)
+-				totalMemoryNow = 0
+-				freeMemoryNow = 0
+-				for _, gpu := range gpusNow {
+-					totalMemoryNow += gpu.TotalMemory
+-					freeMemoryNow += gpu.FreeMemory
+-				}
+-				if freeMemoryNow > freeMemoryBefore {
+-					logutil.Trace("gpu VRAM convergence", "percent", int(float32(freeMemoryNow-freeMemoryBefore)/float32(runner.vramSize)*100))
+-				} else {
+-					logutil.Trace("gpu VRAM convergence", "percent", 0)
+-				}
+-				// If we're within ~75% of the estimated memory usage recovered, bail out
+-				if float32(freeMemoryNow-freeMemoryBefore) > float32(runner.vramSize)*0.75 {
+-					slog.Debug(fmt.Sprintf("gpu VRAM free memory converged after %0.2f seconds", time.Since(start).Seconds()), "free_before", format.HumanBytes2(freeMemoryBefore), "free_now", format.HumanBytes2(freeMemoryNow), "runner", runner)
+-					finished <- struct{}{}
+-					return
+-				}
+-			case <-ctx.Done():
+-				slog.Debug("gpu VRAM usage didn't recover within timeout", "seconds", time.Since(start).Seconds(), "free_before", format.HumanBytes2(freeMemoryBefore), "free_now", format.HumanBytes2(freeMemoryNow), "runner", runner)
++
++		// Probe once, at the mid-point of the settle window, instead of every
++		// 250ms. unload() has already cleared runner.gpus, so every getGpuFn
++		// call here is a full bootstrap discovery that launches up to three
++		// short-lived GPU-client processes (llama-server --verbose,
++		// llama-server --list-devices, ollama gpu-discover). On WSL2 each GPU
++		// client goes through the dxgkrnl paravirtualized GPU bridge and
++		// leaks host-side driver state that only a host GPU reset or reboot
++		// frees (microsoft/WSL#12756), and a probe still running when ctx
++		// expires is killed mid-ioctl ("dxgvmb_send_sync_msg:
++		// wait_for_completion failed" in the guest kernel log).
++		//
++		// Trade-off: convergence is detected no earlier than waitForRecovery/2
++		// (2.5s by default) instead of within ~0.25s of it happening, and when
++		// the mid-point probe has not seen recovery we wait out the rest of the
++		// window without probing again (same outcome as the old timeout path:
++		// the scheduler falls back to its own estimate). Free-memory figures
++		// observed here are therefore up to ~2.5-5s staler than before.
++		probe := time.NewTimer(s.waitForRecovery / 2)
++		defer probe.Stop()
++		select {
++		case <-probe.C:
++			// Query GPUs, look for free to go back up
++			gpusNow := s.getGpuFn(ctx, runners)
++			totalMemoryNow = 0
++			freeMemoryNow = 0
++			for _, gpu := range gpusNow {
++				totalMemoryNow += gpu.TotalMemory
++				freeMemoryNow += gpu.FreeMemory
++			}
++			if freeMemoryNow > freeMemoryBefore {
++				logutil.Trace("gpu VRAM convergence", "percent", int(float32(freeMemoryNow-freeMemoryBefore)/float32(runner.vramSize)*100))
++			} else {
++				logutil.Trace("gpu VRAM convergence", "percent", 0)
++			}
++			// If we're within ~75% of the estimated memory usage recovered, bail out
++			if float32(freeMemoryNow-freeMemoryBefore) > float32(runner.vramSize)*0.75 {
++				slog.Debug(fmt.Sprintf("gpu VRAM free memory converged after %0.2f seconds", time.Since(start).Seconds()), "free_before", format.HumanBytes2(freeMemoryBefore), "free_now", format.HumanBytes2(freeMemoryNow), "runner", runner)
+ 				finished <- struct{}{}
+ 				return
+ 			}
++		case <-ctx.Done():
+ 		}
++		<-ctx.Done()
++		slog.Debug("gpu VRAM usage didn't recover within timeout", "seconds", time.Since(start).Seconds(), "free_before", format.HumanBytes2(freeMemoryBefore), "free_now", format.HumanBytes2(freeMemoryNow), "runner", runner)
++		finished <- struct{}{}
+ 	}()
+ 	return finished
+ }
+diff --git a/server/sched_vram_recovery_test.go b/server/sched_vram_recovery_test.go
+new file mode 100644
+index 0000000..cdead95
+--- /dev/null
++++ b/server/sched_vram_recovery_test.go
+@@ -0,0 +1,70 @@
++package server
++
++import (
++	"context"
++	"sync/atomic"
++	"testing"
++	"time"
++
++	"github.com/ollama/ollama/format"
++	"github.com/ollama/ollama/ml"
++)
++
++// waitForVRAMRecovery must not poll GPU discovery in a loop: after unload()
++// every getGpuFn call is a full bootstrap discovery that launches GPU-client
++// subprocesses. Expect the pre-unload baseline plus exactly one refresh.
++func TestWaitForVRAMRecoveryProbesOnce(t *testing.T) {
++	const window = 2 * time.Second // the old 250ms ticker would have probed ~8 times
++
++	for _, tc := range []struct {
++		name        string
++		recovered   bool
++		minDuration time.Duration
++		maxDuration time.Duration
++	}{
++		// Recovery seen by the mid-point probe: finish then, not at the deadline.
++		{"recovered", true, window / 2, window - 250*time.Millisecond},
++		// No recovery: wait out the window, without probing again.
++		{"not recovered", false, window, window + time.Second},
++	} {
++		t.Run(tc.name, func(t *testing.T) {
++			var calls atomic.Int32
++			s := &Scheduler{
++				waitForRecovery: window,
++				getGpuFn: func(ctx context.Context, _ []ml.FilteredRunnerDiscovery) []ml.DeviceInfo {
++					n := calls.Add(1)
++					free := uint64(1 * format.GibiByte)
++					if n > 1 && tc.recovered {
++						free = 24 * format.GibiByte
++					}
++					return []ml.DeviceInfo{{
++						DeviceID:    ml.DeviceID{ID: "0", Library: "CUDA"},
++						TotalMemory: 24 * format.GibiByte,
++						FreeMemory:  free,
++					}}
++				},
++			}
++			runner := &runnerRef{
++				gpus:         []ml.DeviceID{{ID: "0", Library: "CUDA"}},
++				discreteGPUs: true,
++				vramSize:     20 * format.GibiByte,
++			}
++
++			start := time.Now()
++			finished := s.waitForVRAMRecovery(runner, nil)
++			select {
++			case <-finished:
++			case <-time.After(window + 5*time.Second):
++				t.Fatal("waitForVRAMRecovery did not finish")
++			}
++			elapsed := time.Since(start)
++
++			if got := calls.Load(); got != 2 {
++				t.Errorf("getGpuFn calls = %d, want 2 (baseline + one refresh)", got)
++			}
++			if elapsed < tc.minDuration || elapsed > tc.maxDuration {
++				t.Errorf("finished after %v, want between %v and %v", elapsed, tc.minDuration, tc.maxDuration)
++			}
++		})
++	}
++}
+-- 
+2.43.0
+

@@ -1,0 +1,8 @@
+[Unit]
+Description=fxplat (Dukascopy) incremental data update into /home/cmadrigal/fxdata
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/cmadrigal/.local/bin/fxplat-update.sh
+Nice=10

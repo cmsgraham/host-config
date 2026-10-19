@@ -1,0 +1,94 @@
+# Memory index
+
+- [agent-ci build progress](agent-ci-build-progress.md) — phases A..J done+proven; Phase L TASK-1.3 dogfood state and diagnosis
+- [agent-ci conventions](agent-ci-conventions.md) — native WSL execution (wsl -lc/UNC obsolete), nohup for long runs, AGENT_CI_SMOKE=1 for real-LLM tests
+- [unified dashboard preference](unified-dashboard-preference.md) — ONE monitoring view in the gateway; render agent flow as a friendly chat/transcript, never a standalone dashboard
+- [gateway dashboard live file](gateway-dashboard-live-file.md) — UI is static files in ~/ollama-gateway/ui/ served per request; no embedded copy; backend changes need an idle restart
+- [docker wedge issue](docker-wedge-issue.md) — recurrent unkillable-container wedge; always `--init`, never `--privileged` for Chrome workers; WSL-deadlock recovery steps
+- [WSL migration recovery](wsl-migration-recovery.md) — 2026-09-01 Windows→Remote-WSL move: what was restored; the home split that blinded the RAG was closed 2026-09-29 (see history RAG in WSL)
+- [agent-ci failure modes](agent-ci-failure-modes.md) — the 3 recurring stall causes (bad builder tests, reviewer blindness, integration conflicts) and the guards
+- [agent-ci is a product](agent-ci-is-a-product.md) — application-agnostic pipeline for all future projects; onboard any repo with agent-ci init
+- [roadmap and WSL switch](roadmap-and-wsl-switch.md) — planned platform work; the model stack still runs on the Windows host and must move into WSL
+- [reference repos review](reference-repos-review.md) — 3 comparable orchestrators cloned to ~/reference-repos; ranked adoption plan in docs/research/2026-09-05-reference-repos.md
+- [pipeline-revision branch](pipeline-revision-branch.md) — 2026-09-05 branch with items 0-9 of the consolidated plan landed; open items 10-12; not merged
+- [user goal: autonomous dev infra](user-goal-autonomous-devinfra.md) — high quality, resilient, self-adjusting, minimal human intervention, frontier models
+- [user timezone: Costa Rica](user-timezone-costa-rica.md) — report times in UTC-6; logs and run ids are UTC
+- [watchdog role](watchdog-role.md) — deterministic stall detection + bounded restarts, systemd user timer per project
+- [docker WSL socket proxy](docker-wsl-socket-proxy.md) — the 2026-09-06 proxy unit DEADLOCKED the engine and is disabled; real fix is EnableIntegrationWithDefaultWslDistro
+- [WSL disk exhaustion crash](wsl-disk-exhaustion-crash.md) — VM kills that drop VS Code are C: pagefile exhaustion (NTFS event 141), not guest OOM
+- [open threads 2026-09-08](open-threads-2026-09-08.md) — pinned: spec-review panel unbuilt, local tier has landed nothing unaided, phase 8, prod blockers
+- [contour and watchdog redesign](contour-and-watchdog-redesign.md) — contour lints spec shape not just size; watchdog now catches tasks frozen behind a running loop
+- [agent-ci env policy](agent-ci-env-policy.md) — tasks get an allow-listed env; the builder's slot vars never reached its shell
+- [agent-ci feedback response](agent-ci-feedback-response.md) — the 2026-09-08 architecture review, what it got right, and the build order
+- [agent-ci verification stack](agent-ci-verification-stack.md) — items 1-6 built; the empty-diff review bug; why 3 and 4 stay advisory
+- [gateway model override hijack](gateway-model-override-hijack.md) — a dashboard model switch silently reroutes agent-ci's architect role; only alias tags are hijacked
+- [gateway LAN access on NAT](gateway-lan-access-nat.md) — portproxy + iphlpsvc restart; mirrored mode is broken on this box; self-heals via logon task
+- [reporting style: decisions first](reporting-style-decisions-first.md) — lead with what needs the operator, 2-3 line status, detail on request; use the question prompt for decisions
+- [branch drift guard trap](branch-drift-guard-trap.md) — a hand-merged agent branch is parked by the drift guard every time master moves; re-merge until it lands
+- [snoopyfrog Linode deploy](snoopyfrog-linode-deploy.md) — v3 live at https://snoopyfrog.com (Linode 172.238.203.34); TLS, Google, AI (OpenAI) on; worker exits via the user's PC (relay + Connector)
+- [snapshot filemode trap](snapshot-filemode-trap.md) — empty-index snapshots dropped +x under fileMode=false; every task failed protected-paths; fixed in write_tree
+- [ENOMEM classifier trap](enomem-classifier-trap.md) — host out of memory surfaced as "ImportError while loading conftest"; filed as a code defect until d56fcf5; read raw stderr first
+- [docker pool + slot leak](docker-pool-slot-leak.md) — per-task compose stacks never torn down: port squat cost an attempt, exhausted pools refused a merge; teardown_cmd fixes it
+- [merge-pending race](merge-pending-race.md) — 2 runners + a merge gate staging in the root: dependents started early (31a5516) and containment blamed a builder for another task's merge (1f267cb)
+- [spec given-claims trap](spec-given-claims-trap.md) — false "take as given" preamble claims cost 2 Phase 12 escalations; machine-check identifiers AND semantics before a phase runs
+- [orphaned builder in tmux](orphaned-builder-tmux.md) — the builder survives HUMAN_REQUIRED and stashes/resets the escalation's worktree under it; commit to the branch to survive it
+- [ticket history order flake](ticket-history-order-flake.md) — tied occurred_at broken by a random UUID; fails the suite at random and blames whichever task is running
+- [snoopyfrog phase 11 voice](snoopyfrog-phase11-voice.md) — "train the AI" for the partner: scope, automatic learning from edits, interview+rehearse chat; KB/guardrails deferred
+- [gateway usage card](gateway-usage-card.md) — 2026-09-27 one period card (cost+tokens, MoM delta, $/Mtok, projection, daily bars); daily buckets collect since the 2026-09-27 restart
+- [dashboard charts expected](dashboard-charts-expected.md) — user expects a per-period bar chart in any card rebuild without asking; tile + delta + bars is the default
+- [WSL passwordless sudo](wsl-passwordless-sudo.md) — since 2026-09-27 `sudo -n` works; restart the gateway only when in-flight is empty
+- [gateway rebuild 2026-09-27](gateway-rebuild-2026-09-27.md) — all 7 waves of the ops-console backlog executed; telemetry.db, health.py, ui/, /_dash APIs, correlation headers; rules for touching them
+- [gateway user manual](gateway-user-manual.md) — Claude Docs doc, 8 tabs (one per console page); edit it when the UI changes; lists 3 stale spots found in the UI
+- [cold prefill loop](cold-prefill-loop.md) — cache dies with the model unload; gateway now refuses oversized prompts, sends early headers + keep-alives, keeps agentic models warm 2h; llama.cpp slot restore works only for a prompt-only state
+- [research before workaround](research-before-workaround.md) — user wants the established engineering solution, researched and tested on their stack, not the quickest patch
+- [history RAG in WSL](history-rag-in-wsl.md) — moved 2026-09-29; indexes both homes; 15-min user timer; summaries only when the gateway is quiet; Windows copy retired
+- [gateway SIGTERM outage](gateway-sigterm-outage.md) — 2026-10-01 external SIGTERM + Restart=on-failure left it dead; restart.conf now Restart=always; forensic steps
+- [fxplat 80b registration](fxplat-80b-hand-registered.md) — properly `ollama create`d 2026-10-05; big creates need ~2x temp disk, stage on C: with a throwaway instance
+- [WSL clock + timesyncd](wsl-clock-timesyncd.md) — "Time jumped backwards" = timesyncd fighting Hyper-V sync; timesyncd disabled 2026-10-05; watchdog stale-code now compares hashes, not clocks
+- [focus fxplat 2026-10](focus-fxplat-2026-10.md) — only fxplat is live; snoopy watchdog disabled, other dashboards stopped; Dukascopy worktree prune left to the user; all 16 passed tasks escalated
+- [host crash 2026-10-05](host-crash-2026-10-05.md) — WSL2 GPU-PV host-side degradation (microsoft/WSL#41701) froze the host; fixed with gateway gpupv watch + automatic host GPU reset task + 1 GiB headroom; user refuses capacity cuts
+- [fxplat Phase 2 specs 2026-10-05](fxplat-phase2-specs-2026-10-05.md) — all Phase 2 tasks specified; leakage suite is governance-owned and self-arming; 3 spec bugs caught; Phase 3 specs next
+- [disk layout + OCuLink](disk-layout-oculink.md) — WSL moved to G: (SN730 1TB) 2026-10-05, F: 960 EVO = backup, guard 850G; OCuLink goes in M2_2
+- [fxplat in WSL](fxplat-in-wsl.md) — repo moved 2026-10-05 to ~/Dukascopy; worktree links, units, update timer repointed; C: copy to rename
+- [fxplat Phase 3 specs 2026-10-05](fxplat-phase3-specs-2026-10-05.md) — 3.1-3.10 specified, 6 runnable at once; self-tests A-D governance; every bound measured first; DVC/config freeze left
+- [fxplat spec source of truth](spec-source-of-truth-fxplat.md) — ground every fxplat spec in prompt.txt (Rodrigo) by section; Phase 3 was written from summaries and diverged
+- [fxplat Phase 3 decisions 2026-10-06](fxplat-phase3-specs-2026-10-06-decisions.md) — Cristian decides (not Rodrigo): 7-major adaptations, all 4 research tracks, counterparty field required
+- [TODO: local code reviewer](todo-local-code-reviewer.md) — 2026-10-07: evaluate an anti-slop / "thermos"-style code reviewer running locally for agent-ci
+- [queue refill + autostash](queue-refill-autostash.md) — 2026-10-07: spec-writer refill below 4 runnable tasks (approved), loop waits; merge gate autostashes stray edits
+- [commit during merge gate](commit-during-merge-gate.md) — commit with a pathspec in a supervised root; never leave untracked files there: my uncommitted docs got TASK-8.7 refused 2026-10-10
+- [fxplat Phases 4-8 re-grounded](fxplat-phases4-8-regrounded.md) — 2026-10-08: TASK-3.6 = C1-C18 verdict aggregator; stubs 4.1-8.1 follow prompt.txt §12; Nautilus is the spine (decided), Phase 4 = 7 majors
+- [WireGuard home hub](wireguard-home-hub.md) — office->home VPN via Linode 172.233.190.28 (10.6.0.0/24); Rodrigo has a peer (10.6.0.14); prefer it for remote access to the PC
+- [fxplat deploy plan](fxplat-deploy-plan.md) — 2026-10-09: dashboard on own Linode, fxplat.trade, Google login, pull-based CI/CD; host + domain + OAuth decided 2026-10-12, nothing deployed
+- [fxplat real-run plan](fxplat-real-run-plan.md) — 2026-10-10: nothing has run on real data; R1-R6 tasks + O1-O4 runs are TOP priority; events feed the UI live views
+- [agent-ci ops + triage](agent-ci-ops-triage.md) — 2026-10-11: ntfy phone alerts + headless-Claude triage on stalls/refusals/BLOCKs; only a person's STOP ends a task mid-way
+- [Claude usage 50% rule](claude-usage-50pct-rule.md) — stop pipeline AND my own Claude work at 50% of 5-hour/weekly plan usage; check `agent-ci usage --probe` first
+- [fxplat UI: no AI-app look](ui-no-ai-app-look.md) — he rejected the generic AI dashboard; v2 "instrument" (terminal frame, panes on seams, Barlow + Plex Mono) is the language, UI_DESIGN §8
+- [fxplat crypto: future only](fxplat-crypto-future.md) — 2026-10-11 Binance as a later second market; not now, FX first; what carries over vs rebuilds
+- [fxplat UI CSS prefix](fxplat-ui-css-prefix.md) — CSS is global; prefix each view's classes, scan for duplicate selectors before publishing
+- [fxplat UI: no personal names](fxplat-ui-no-names.md) — no Rodrigo/Cristian in UI copy, hints, help or samples; only the access list
+- [runaway background search](runaway-background-search.md) — never find/bfs over /; stop timed-out commands by PID; my 15 h bfs starved RAM and stalled TASK-3.79
+- [fxplat O2 + speed plan 2026-10-13](fxplat-o2-speed-2026-10-13.md) — O2 NO_EDGE (costs 0.275 R/trade), store in ~/fxdata, profiled hotspots, quick wins -> O3 -> ETL; WSL 48 GB pending restart
+- [fxplat run analysis](fxplat-run-analysis.md) — every Corrida gets a written analysis from Claude (runs/<id>.analysis.json) when it ends; O3 next
+- [fxplat turbulence design](fxplat-turbulence-design.md) — 2026-10-13 regime indexes designed: tier 0 + V-TURB-F, daily first, tasks M1-M5 when O3 starts
+- [fxplat dashboard publisher](fxplat-dashboard-publisher.md) — 2026-10-13 real data replaced samples: ui/scripts exporters + fxplat-publish service (60 s) + views poll; never ship samples as real
+- [pgrep self-match trap](pgrep-self-match-trap.md) — pgrep/pkill -f patterns match my own bash -c line: endless waits, self-kills; wait on PIDs/units or grep "[x]"
+- [fxplat broker costs](fxplat-broker-costs.md) — account fixed at US$5k; IB min+odd lot = 2/3 of costs; Dukascopy/cTrader raw halve them (-0.122 -> ~-0.017 R)
+- [Windows Update boot resilience](windows-update-boot-resilience.md) — 2026-10-14 WU reboot left everything down until logon; no-reboot policy + S4U boot task; IB unit cycle fixed
+- [fxplat replay what-if](fxplat-replay-whatif.md) — 2026-10-14 trade ledgers + R9 sliders; exploration until registered; user runs the deploys
+- [fxplat Phase 3 completion 2026-10-14](fxplat-phase3-completion-2026-10-14.md) — Gate 1: finish Phase 3 2010-2021, cost v4, M2 fix, 7A sim plumbing; queued/held/to-spec lists
+- [fxplat health timer](fxplat-health-timer.md) — 30-min phone-alert check for dashboard feed, data download, IB feed, publisher, loop; restart dashboards after loader changes
+- [fxplat IB connector on server](fxplat-ib-connector-server.md) — 2026-10-14 Xvfb-hidden at home; containers on the snoopyfrog Linode via redeploy-ib.sh; LIVE since 14:36 CST; mirror + SERVER_OWNED
+- [spec risk measure (future)](spec-risk-measure-future.md) — 2026-10-15 ask: measure risky specs + decompose for local builds; recalibrate contour, add coupling term; not started
+- [Operator Backlog artifact](operator-backlog-artifact.md) — the shared TODO list (db "todos"); add every deferred item, move status as work happens
+- [nvidia-smi probe trap](nvidia-smi-probe-trap.md) — each nvidia-smi call logs 5 dxg lines; looping it trips gpu_pv and arms the watchdog GPU reset; read the gateway instead
+- [user editor: vi](user-editor-vi.md) — hand-edit instructions use vi + :wq, never nano
+- [fxplat always-on on server](fxplat-always-on-on-server.md) — 2026-10-16: simulator, broker recorders, IB feed run on fxplat-server (no GPUs needed); cap memory, ask for a resize
+- [parallel suite starves gate](parallel-suite-gate-timeout.md) — my heavy suite runs time out the merge gate (3.113 refused 2026-10-16); nice -n 19 + cap xdist; check timed_out first
+- [fxplat cost-v4 migration](fxplat-cost-v4-migration.md) — 2026-10-16 TASK-3.114..3.127 queued (a6ae298); 3.127 ui is mine; final v4 config flip + goldens is my commit after all merge
+- [Ollama wslquiet patch](ollama-wslquiet-patch.md) — 2026-10-17 Ollama runs patched 0.33.2+wslquiet (1 GPU probe per swap, not ~30); rollback script; re-apply on upgrade
+- [fxplat updater never backfills](fxplat-updater-no-backfill.md) — hourly ingest update resumes from the latest day; AUDUSD/USDCHF 2020-21 gap found 10-17, backfilled with --symbols --start; check manifests, not logs
+- [subagents vs real-data gates](subagent-real-data-gates.md) — briefs must forbid runs on real fxplat data behind a gate (G2c/G3); a pre-G2c probe slipped 10-18 and was registered (N=0)
+- [local builder gap research](local-builder-gap-research.md) — 2026-10-18 user priority: why local stalls vs escalation; Phase 1 retrospective running, Phase 2 replay bench needs OK
+- [handoff 2026-10-19](handoff-2026-10-19.md) — state when the long session was closed: path to G3 (7.23 -> 3.128 -> v4 flip -> F1/F2 -> G3), brokers, MT5 MCP, Ollama P3 pending
+- [third 3090 OCuLink plan](third-3090-oculink-plan.md) — 2026-10-19 plan, parts not bought: keeps builder+reviewer resident; shopping list; M2_2 holds the F: backup drive; add UUID to gpu-pin.conf
+- [backup layout](backup-layout.md) — 2026-10-19: hourly git-backup pushes all 3 repos to NAS (\\nas1\home) + GitHub; 6TB share is read-only; host-config + full rsync still pending OK

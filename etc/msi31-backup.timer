@@ -1,0 +1,10 @@
+[Unit]
+Description=Weekly full backup to the NAS (Sunday 03:30 local)
+
+[Timer]
+OnCalendar=Sun 03:30
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target

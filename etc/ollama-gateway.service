@@ -1,0 +1,15 @@
+[Unit]
+Description=Ollama smart gateway (WSL) - front door on 11434/11500 -> 11435
+After=ollama.service network-online.target
+Wants=ollama.service
+
+[Service]
+User=cmadrigal
+WorkingDirectory=/home/cmadrigal/ollama-gateway
+Environment=AGENT_CI_URL=http://127.0.0.1:8765
+ExecStart=/usr/bin/python3 /home/cmadrigal/ollama-gateway/gateway.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

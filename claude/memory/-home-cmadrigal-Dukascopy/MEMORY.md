@@ -1,0 +1,18 @@
+- [Leakage fixture D1 warm-up limit](leakage-fixture-d1-warmup-limit.md) — tests/leakage market has 330 D1 bars; longer warm-ups fail the vacuous check
+- [REAL_RUN task ids](real-run-task-ids.md) — R-row → TASK id map; 3.136 decay, 3.137 noise seed, 3.138 LOYO queued 2026-10-19; next 3.139 / 4.20 / 9.12
+- [Strong-direct escalations](strong-direct-escalations.md) — "NOT BUILT YET" HUMAN_REQUIRED = no failure to diagnose; build from spec (also builder-timeout with missing test file)
+- [suite-green timeout diagnosis](suite-green-timeout-diagnosis.md) — full validator logs in logs/<run>-a1/; stdout mtime = last test; motif planted0 fixture stalls intermittently under load (3.78, 3.79)
+- [Full suite runtime > 10 min](full-suite-runtime-over-10-min.md) — background Bash default 600s kills suite-green; use ~1900s, check exit code (no summary line)
+- [Containment false positive](containment-false-positive-operator-ui.md) — operator's concurrent root commits (ui/, config/) get blamed on the builder; check git log in the run window
+- [Owned file inside protected dir](owned-inside-protected-dir.md) — fixed in agent-ci 068334d (exact owned files exempt); pre-fix runs just need a retry
+- [strict-lint 1000-line cap](strict-lint-1000-line-cap.md) — lint-new fails modules >1000 lines; research_run.py at 996 after 3.131
+- [lint-new counts per (file, rule)](lint-new-counts-per-file-rule.md) — old violations reappear when a change adds one more of the same rule in that file
+- [Counterfactual venv symlink](counterfactual-venv-symlink.md) — BASE_ALREADY_PASSES is false: counterfactual .venv imports the task worktree's src
+- [Walk-forward min_train_years fixture](walkforward-min-train-years-fixture.md) — walk-forward fixtures need ≥3y of events before OOS or yield zero windows
+- [Walk-forward fixture families](walkforward-fixture-families.md) — 3.83 fixture families F1/F2 fail run_criteria; use DON20/RSI2; filter 'resources' events in order asserts
+- [pandas 3 event dtypes](pandas3-event-dtypes.md) — event timestamps are ms/us/s not ns; compare categorical dtypes as str
+- [pandas 3 check_exact=False on ints](pandas3-check-exact-false-ints.md) — rtol tolerance also applies to int columns; split float/non-float for exact compare
+- [Worktree pyarrow drift vs golden hashes](worktree-pyarrow-drift-golden-hash.md) — worktree venv pyarrow 26 ≠ home 25.0.1; create dataset goldens with the home venv + PYTHONPATH=src
+- [UI bundle envelope conflict](ui-bundle-envelope-conflict.md) — ui/public/fixtures envelope ≠ TASK-9.1's; RESOLVED 2026-10-12 (c): numbers + codes, wording in UI i18n
+- [PLR0402 vs spec module alias](strict-lint-plr0402-module-alias.md) — `import a.b.c as c` fails strict lint; use `from a.b import c`; float abs-1e-12 on notionals
+- [experiment.yaml string guard](experiment-yaml-string-guard.md) — any src module (not config.py) containing the text "experiment.yaml", even in a docstring, fails suite-green

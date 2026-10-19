@@ -1,0 +1,4 @@
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+//192.168.1.201/main /mnt/z drvfs uid=1000,gid=1000,metadata,nofail 0 0
+\\nas1\home /mnt/nas-home drvfs uid=1000,gid=1000,nofail 0 0
+192.168.1.200:/volumeUSB1/usbshare /mnt/nas-usb nfs vers=3,rsize=131072,wsize=131072,hard,timeo=600,nofail,_netdev 0 0

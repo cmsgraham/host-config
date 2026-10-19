@@ -1,0 +1,10 @@
+[Unit]
+Description=Mirror the server's IB live quotes (market-live.json) home every 15 s (2026-10-14)
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-live-mirror
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

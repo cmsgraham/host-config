@@ -1,0 +1,23 @@
+# Second Ollama instance, pinned to the second RTX 3090 (GPU 1, PCI 06:00.0), on 127.0.0.1:11436.
+# Shares the model store with ollama.service: anything pulled through either is visible to both.
+[Unit]
+Description=Ollama B (WSL, GPU 1) - serves models on 127.0.0.1:11436
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=cmadrigal
+Environment=OLLAMA_HOST=127.0.0.1:11436
+Environment=OLLAMA_MODELS=/home/cmadrigal/.ollama/models
+Environment=OLLAMA_MAX_LOADED_MODELS=2
+Environment=OLLAMA_KEEP_ALIVE=30m
+Environment=OLLAMA_FLASH_ATTENTION=1
+Environment=OLLAMA_KV_CACHE_TYPE=q8_0
+Environment=CUDA_DEVICE_ORDER=PCI_BUS_ID
+Environment=CUDA_VISIBLE_DEVICES=GPU-8c44fdd0-e03d-2fcd-f916-4f610d3d5379
+ExecStart=/home/cmadrigal/.local/bin/ollama serve
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

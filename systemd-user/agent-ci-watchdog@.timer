@@ -1,0 +1,11 @@
+[Unit]
+Description=Check every 15 minutes that agent-ci for %I is still making progress
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+AccuracySec=1min
+Unit=agent-ci-watchdog@%i.service
+
+[Install]
+WantedBy=timers.target

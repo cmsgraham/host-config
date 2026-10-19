@@ -1,0 +1,14 @@
+[Unit]
+Description=agent-ci read-only dashboard (fxplat / Dukascopy) on 127.0.0.1:8767
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=cmadrigal
+WorkingDirectory=/home/cmadrigal/agent-ci
+ExecStart=/home/cmadrigal/agent-ci/.venv/bin/agent-ci --config /home/cmadrigal/Dukascopy/config.yaml dashboard --host 127.0.0.1 --port 8767
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[Unit]
+Description=fxplat health check: dashboard feed, data download, IB feed, publisher, replay, loop alive (phone alert on new problems)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/fxplat-health

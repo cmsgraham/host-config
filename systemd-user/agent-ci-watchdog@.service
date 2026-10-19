@@ -1,0 +1,21 @@
+[Unit]
+Description=agent-ci watchdog for %I
+After=ollama-gateway.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/cmadrigal/agent-ci
+# The host GPU link (microsoft/WSL#41701, the 2026-10-05 freeze): when the gateway's
+# health names a gpu_pv_* rule, the watchdog stops the loop at a task boundary and,
+# once nothing runs, starts the elevated Windows task registered by
+# ~/ollama-gateway/contrib/windows/register-gpu-pv-reset.ps1 (wsl --shutdown, pnputil
+# /restart-device on the GPUs, restart the distro). WSL comes back with this timer.
+ExecStart=/home/cmadrigal/agent-ci/.venv/bin/python -m agent_ci.cli --config /mnt/c/Users/crist/%I/config.yaml watchdog --once --fix --host-gpu-reset-cmd '/mnt/c/Windows/System32/schtasks.exe /run /tn "agent-ci GPU-PV reset"'
+# a check that cannot run is not a reason to page anyone
+SuccessExitStatus=0 1
+# The whole point of this unit is to leave a pipeline running behind it.
+# With the default control-group kill, systemd tore the loop the watchdog
+# had just started out of the cgroup the moment this oneshot exited: the
+# watchdog reported success, the log file stayed empty, and fifteen minutes
+# later it started another one that died the same way.
+KillMode=process

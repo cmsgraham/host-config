@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the fxplat health check every 30 minutes (added 2026-10-14)
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

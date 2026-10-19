@@ -1,0 +1,17 @@
+[Unit]
+Requires=fxplat-xvfb.service
+After=fxplat-xvfb.service
+Description=IB Gateway (PAPER, Read-Only API on 127.0.0.1:4002) signed in by IBC - market data for fxplat Mercados
+# After=default.target removed 2026-10-14: default.target already waits on this unit (WantedBy) -> ordering cycle dropped fxplat-ib-market at boot
+
+[Service]
+Type=simple
+WorkingDirectory=/home/cmadrigal/ibc
+# DISPLAY :99 = fxplat-xvfb (invisible), 2026-10-14: was :0 (WSLg), which put the gateway windows on the desktop
+Environment=DISPLAY=:99 XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/home/cmadrigal/ibc/gatewaystart.sh -inline
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=default.target

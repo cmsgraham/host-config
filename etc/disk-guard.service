@@ -1,0 +1,9 @@
+[Unit]
+Description=WSL disk guard - stop ollama before ext4 fills host F:
+After=multi-user.target
+[Service]
+ExecStart=/usr/local/bin/disk-guard.sh
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

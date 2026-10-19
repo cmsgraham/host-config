@@ -1,0 +1,34 @@
+[Unit]
+Description=Open WebUI - chat over the local models, through the Ollama gateway only
+After=ollama-gateway.service
+Wants=ollama-gateway.service
+
+[Service]
+Type=simple
+Environment=DATA_DIR=%h/.open-webui
+Environment=PORT=8080
+# Every model call goes through the gateway (pinned context, generation mutex,
+# watchdogs, usage accounting). Never Ollama directly.
+Environment=OPENAI_API_BASE_URL=http://127.0.0.1:11434/v1
+Environment=OPENAI_API_KEY=<redacted>
+Environment=ENABLE_OLLAMA_API=false
+Environment=ENABLE_OPENAI_API=true
+Environment=WEBUI_NAME=Local models
+# no phoning home, no update nags, no arena of remote models
+Environment=OFFLINE_MODE=false
+Environment=ENABLE_VERSION_UPDATE_CHECK=false
+Environment=SCARF_NO_ANALYTICS=true
+Environment=DO_NOT_TRACK=true
+Environment=ANONYMIZED_TELEMETRY=false
+Environment=ENABLE_EVALUATION_ARENA_MODELS=false
+# side-by-side answers from several models is the point of this install
+Environment=ENABLE_COMMUNITY_SHARING=false
+# this is a home LAN: whoever signs up is an admin, not "pending approval"
+Environment=DEFAULT_USER_ROLE=admin
+Environment=ENABLE_SIGNUP=true
+ExecStart=%h/.local/bin/open-webui serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=claude-history RAG: index new conversation turns, summarize idle sessions (max 4 per run)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/.claude/history-rag
+ExecStart=%h/.claude/history-rag/.venv/bin/python %h/.claude/history-rag/indexer.py --quiet
+Nice=10
+TimeoutStartSec=25min

@@ -1,0 +1,15 @@
+- [Branded Chrome ignores --load-extension](branded-chrome-ignores-load-extension.md) — worker image needs Chrome for Testing; fix was only on TASK-1.5/experiment branches, verify `--version` says "for Testing"
+- [Docker Desktop: no host networking](docker-desktop-no-host-network.md) — reach Chrome CDP/x11vnc in workers via in-container forwarder + published 127.0.0.1 port
+- [Two SQLite layers in orchestrator](two-sqlite-layers-in-orchestrator.md) — task/lease work belongs in task_queue.py, not DatabaseManager
+- [Failed validation runs leak worker containers](failed-validation-runs-leak-worker-containers.md) — check docker ps for leftover scraper-worker-w-* before debugging container-count assertions
+- [SQLite heartbeats are UTC](sqlite-heartbeats-are-utc.md) — CST box vs CURRENT_TIMESTAMP; use reconciliation.find_stale_workers, seed test heartbeats as UTC strings
+- [agent-ci builders stub tests when stuck](agent-ci-builders-stub-tests-when-stuck.md) — on escalation, diff the test file against the task requirements before chasing the reported error
+- [agent-ci review-only stalls](agent-ci-review-only-stalls.md) — validation green but reviewer FIX x3: cover every YAML requirement at once; reviewer nits drift and can contradict requirements
+- [Starlette 1.6 TemplateResponse signature](starlette-16-template-response-signature.md) — venv Starlette 1.6 needs TemplateResponse(request, name, ctx); legacy form fails as "unhashable type: dict" in jinja2
+- [pytest garbage-dir warnings are noise](pytest-garbage-dir-warnings-are-noise.md) — "(rm_rf) Directory not empty" under /tmp/pytest-of-cmadrigal/garbage-* is root-owned Docker leftovers; filter it out before diagnosing
+- [Worktree venv truncated installs](worktree-venv-truncated-installs.md) — "No module named botocore.vendored"/missing dist-info means an interrupted pip on /mnt/c; wipe the partial package and reinstall before touching code
+- [moto mock_aws endpoints and speed](moto-mock-aws-endpoints-and-speed.md) — mock_aws ignores localhost:5000/linodeobjects.com hosts; boto3.client costs ~7s on /mnt/c so scope moto fixtures to the module
+- [Console tests must isolate X_SESSIONS_ROOT](console-tests-must-isolate-x-sessions-root.md) — ~/x-sessions has real profiles on this box; monkeypatch the env var in any test rendering /ops or the roster
+- [Linode tests patch subprocess.run globally](linode-tests-patch-subprocess-run-globally.md) — FakeTerraform patch hits ssh/docker subprocess calls too; dispatch non-terraform commands to the real run
+- [Mock(name=) stalls builders](mock-name-kwarg-stalls-builders.md) — `<Mock name=...>` in a failing assertion means the fixture is wrong; rewrite against the real fakes, expect placeholder impl
+- [agent-ci capture-teardown misclassified](agent-ci-capture-teardown-misclassified.md) — missing_test_target on a _pytest/capture.py FileNotFoundError or terraform plugin mid-download is environment noise; rerun the acceptance commands by hand first

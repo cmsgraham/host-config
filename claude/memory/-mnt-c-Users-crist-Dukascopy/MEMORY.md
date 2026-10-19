@@ -1,0 +1,11 @@
+- [agent-ci workspace-escape false positive](agent-ci-workspace-escape-false-positive.md) — containment failures may be operator edits in the root; diff escaped-files before blaming the builder
+- [agent-ci real failure records](agent-ci-real-failure-records.md) — state/history.json holds per-check output + reviewer findings when escalation evidence says "none"
+- [Builder uses system python](agent-ci-builder-system-python.md) — builder can't import fxplat, never runs tests, ships stubs; check builder-activity.log; pytest exit=5 on a -k check = named test never written
+- [Requirement vs protected path](agent-ci-requirement-vs-protected-path.md) — spec may demand edits to its own protected files; also sqlite mode=ro can't read WAL in ro dir
+- [strong_direct on an already-built task](agent-ci-strong-direct-on-built-task.md) — "nothing attempted" may be a re-run of a PASSED task whose merge gate failed on main; check state/unmerged.json
+- [Spec hand vector vs frozen math](agent-ci-spec-hand-vector-contradiction.md) — TASK-2.1 RSI(2)=50 contradicts Wilder; re-derive expectations, don't trust builder tests/reviewer repairs
+- [Reviewer findings misdiagnose](agent-ci-reviewer-findings-misdiagnose.md) — TASK-2.2: findings blamed np.roll/dtypes; real cause was tests calling (c,)-signature families as f(h,l,c)
+- [Partition root vs partition dir](agent-ci-partition-root-vs-partition-dir.md) — post-TASK-1.10 helpers (derive_bars/Store) take <data_dir>/<partition>; builders pass the root
+- [Registry growth breaks prior task test](agent-ci-registry-growth-breaks-prior-test.md) — TASK-2.3: new FAMILIES ids broke TASK-2.2 test_families.py (not owned) → suite-green unreachable
+- [Governance commit breaks lint](agent-ci-governance-commit-breaks-lint.md) — TASK-2.11: b1904ba put ruff errors in protected tests/leakage/; waived via pyproject per-file-ignores
+- [Builder deletes impl on timeout](agent-ci-builder-deletes-impl-on-timeout.md) — TASK-2.11: "transport timeout" hid a rm'd module + wrong test vectors; mirror 1e-9 needs zero price-scaled costs

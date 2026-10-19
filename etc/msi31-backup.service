@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly full backup of this WSL machine to the NAS 6TB drive (NFS, rsync)
+After=network-online.target remote-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/msi31-backup.sh
+Nice=19
+IOSchedulingClass=idle

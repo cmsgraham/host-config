@@ -1,0 +1,14 @@
+[Unit]
+Description=fxplat dashboard publisher: exports real data and pushes changed files to fxplat.trade every minute
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/cmadrigal/Dukascopy
+ExecStart=/home/cmadrigal/Dukascopy/.venv/bin/python ui/scripts/publish.py --watch
+Restart=always
+RestartSec=30
+Nice=10
+
+[Install]
+WantedBy=default.target
