@@ -94,3 +94,4 @@
 - [backup layout](backup-layout.md) — hourly git-backup: 4 repos to NAS + GitHub, host-config snapshot; weekly full rsync to NAS 6TB over NFS (msi31-backup.timer)
 - [Exness investigation](exness-investigation.md) — 2026-10-19: CR-advertised broker; demo spread pinned at a floor, all-in ≈ IC Raw in liquid hours; open: demo-vs-real, offshore entity, execution, affiliates
 - [fxplat research sprint 2026-10-19](fxplat-research-sprint-2026-10-19.md) — proposed then REVERSED same hour: infra keeps going, plan = v4 flip -> F1 -> F2 -> G3; 20-variant budget approved for later
+- [fxplat Hallazgos + Caleidoscopio](fxplat-hallazgos-caleidoscopio.md) — 2026-10-19 approved+queued TASK-11.1..11.22; my items: RW bound for 11.6, 11.12 spec, HALLAZGOS_DEV approval when 11.7 lands
