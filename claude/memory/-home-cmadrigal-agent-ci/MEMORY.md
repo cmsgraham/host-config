@@ -84,7 +84,7 @@
 - [user editor: vi](user-editor-vi.md) — hand-edit instructions use vi + :wq, never nano
 - [fxplat always-on on server](fxplat-always-on-on-server.md) — 2026-10-16: simulator, broker recorders, IB feed run on fxplat-server (no GPUs needed); cap memory, ask for a resize
 - [parallel suite starves gate](parallel-suite-gate-timeout.md) — my heavy suite runs time out the merge gate (3.113 refused 2026-10-16); nice -n 19 + cap xdist; check timed_out first
-- [fxplat cost-v4 migration](fxplat-cost-v4-migration.md) — 2026-10-16 TASK-3.114..3.127 queued (a6ae298); 3.127 ui is mine; final v4 config flip + goldens is my commit after all merge
+- [fxplat cost-v4 migration](fxplat-cost-v4-migration.md) — DONE 2026-10-19: config = v4 (f3f150b), suite green; next F1, counted V1 re-run, sim redeploy to sim-v4
 - [Ollama wslquiet patch](ollama-wslquiet-patch.md) — 2026-10-17 Ollama runs patched 0.33.2+wslquiet (1 GPU probe per swap, not ~30); rollback script; re-apply on upgrade
 - [fxplat updater never backfills](fxplat-updater-no-backfill.md) — hourly ingest update resumes from the latest day; AUDUSD/USDCHF 2020-21 gap found 10-17, backfilled with --symbols --start; check manifests, not logs
 - [subagents vs real-data gates](subagent-real-data-gates.md) — briefs must forbid runs on real fxplat data behind a gate (G2c/G3); a pre-G2c probe slipped 10-18 and was registered (N=0)

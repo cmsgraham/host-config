@@ -26,3 +26,9 @@ Also 2026-10-16: merge-gate full_suite_timeout 1800 -> 3600 (8e31811), suite is 
 
 **Why:** multi-day chain; next sessions must not re-derive it. **How to apply:** check `agent-ci tasks` for
 3.114-3.127, then do the flip. Related: [[fxplat-phase3-completion-2026-10-14]], [[parallel-suite-gate-timeout]].
+
+**DONE 2026-10-19 ~16:00 CST: config flipped to cost-model-v4 (0ad8977c), merge f3f150b.** Suite 6114 passed under v4;
+no src change needed (fixtures lacked the policy-rate snapshot; conftest snapshot redirect now session-scoped);
+goldens: DATASET_SHA256_HOME 76cee981..., research_run EURUSD 02ecd9b4..., GBPUSD f56b87de.... D45 +0.088 R avg,
+outcome_R avg -0.035 R. Next: operator redeploys the paper runner (fresh sim-v4 record), F1 report, then the
+counted V1 re-run under v4 (decision 2).
