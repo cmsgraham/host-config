@@ -93,3 +93,4 @@
 - [third 3090 OCuLink plan](third-3090-oculink-plan.md) — 2026-10-19 plan, parts not bought: keeps builder+reviewer resident; shopping list; M2_2 holds the F: backup drive; add UUID to gpu-pin.conf
 - [backup layout](backup-layout.md) — hourly git-backup: 4 repos to NAS + GitHub, host-config snapshot; weekly full rsync to NAS 6TB over NFS (msi31-backup.timer)
 - [Exness investigation](exness-investigation.md) — 2026-10-19: CR-advertised broker; demo spread pinned at a floor, all-in ≈ IC Raw in liquid hours; open: demo-vs-real, offshore entity, execution, affiliates
+- [fxplat research sprint 2026-10-19](fxplat-research-sprint-2026-10-19.md) — proposed then REVERSED same hour: infra keeps going, plan = v4 flip -> F1 -> F2 -> G3; 20-variant budget approved for later
