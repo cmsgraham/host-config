@@ -11,6 +11,6 @@ new Cline project ~/voicelab (server.py since 19:59, workers/qwen3_worker.py) ho
 gateway/Ollama - so VRAM use is invisible to the scheduler (Oct 5 freeze trigger = swaps at 92-95% VRAM).
 He chose "keep voicelab, pause the pipeline" (20:20 CST). Done: operator STOP in ~/Dukascopy/state/STOP (watchdog does
 not restart over a non-watchdog STOP) + C:\Users\crist\gpu-pv-reset.dryrun (reset only logs).
-**UNDO when he is done with voicelab:** rm state/STOP (watchdog restarts the loop) and delete gpu-pv-reset.dryrun.
+**UNDONE 2026-10-20 01:22 CST** (automatic, after 30 min voicelab idle): STOP removed, gpu-pv-reset.dryrun deleted. Since 2026-10-19 the gateway GPU lease (gpulease.py, b21cad1) arbitrates voicelab vs Ollama.
 Longer term: route voicelab's models through the gateway or give it a GPU budget; find who opens dxg with
 `sudo lsof /dev/dxg`. Related [[host-crash-2026-10-05]], [[nvidia-smi-probe-trap]].
