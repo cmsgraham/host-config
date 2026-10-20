@@ -97,3 +97,5 @@
 - [fxplat Hallazgos + Caleidoscopio](fxplat-hallazgos-caleidoscopio.md) — 2026-10-19 approved+queued TASK-11.1..11.22; my items: RW bound for 11.6, 11.12 spec, HALLAZGOS_DEV approval when 11.7 lands
 - [voicelab GPU contention](voicelab-gpu-contention.md) — 2026-10-19: Cline voicelab uses GPUs directly; pipeline STOP + GPU reset dry-run while it runs; UNDO both after
 - [stock indexes exploration](fxplat-stock-indexes-exploration.md) — 2026-10-20: S&P500/Nikkei/DAX 2012+ downloading to ~/fxdata-idx (separate, exploration only); feed Hallazgos conditions
+- [handoff 2026-10-20](handoff-2026-10-20.md) — state when the session was closed for UI freezing: sim-v4 live, pipeline building 11.x, F1 next, G2c/G3 approvals empty
+- [fxplat live start plan](fxplat-live-start-plan.md) — 2026-10-20: live with US$1,000 at a proportional broker, only when the edge after costs is likely; reports need a US$1k ruler
