@@ -34,3 +34,5 @@ Home: fxplat-paper-mirror (60 s -> ~/.cache/fxplat/paper/) + export_forward.py -
 Also fxplat-ctrader-mirror installed. Dashboard data still flows via the home publisher (PC off = dashboard frozen,
 server keeps recording); moving the publisher to the server was offered. Memory growth: tape re-read on restart,
 ~12 MB/day -> 768m cap lasts ~5 weeks; needs rotation or resize before ~2026-11-20.
+
+**2026-10-19 19:00:** first v4 deploy failed closed (policy-rate snapshot missing in the container); full BIS CSV parses at ~850 MB RSS > 768m cap. Fix 4ad14c1: redeploy-paper.sh ships a verbatim 2019+ cut (~13 MB, ~100 MB parse, rate_on identical 2020-2026) to /opt/fxplat/paper/rates, compose mounts it at /home/cmadrigal/fxdata/rates. Simulator was DOWN from 18:50 until the operator reruns the script.

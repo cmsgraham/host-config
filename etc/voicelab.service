@@ -1,0 +1,22 @@
+[Unit]
+Description=Voice lab TTS server (Piano Friends) - LAN only, bearer token, port 8765
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cmadrigal
+Group=cmadrigal
+WorkingDirectory=/home/cmadrigal/voicelab
+Environment=VOICELAB_HOME=/home/cmadrigal/voicelab
+Environment=HF_HOME=/home/cmadrigal/voicelab/models/hf
+Environment=VOICELAB_MAX_RESIDENT=1
+Environment=PATH=/usr/lib/wsl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/cmadrigal/voicelab/envs/server/bin/python /home/cmadrigal/voicelab/server.py
+Restart=on-failure
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=40
+
+[Install]
+WantedBy=multi-user.target
