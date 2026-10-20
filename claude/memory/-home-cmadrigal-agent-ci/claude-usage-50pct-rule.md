@@ -24,3 +24,5 @@ See [[agent-ci-ops-triage]].
 Tue 2026-10-20 03:00). Applied to config `claude_usage_max: 0.8` after the 7.23 merge gate (my first edit landed
 mid-gate and was reverted). Same pattern as 2026-10-11 (70% then back): return to 0.5 after the reset unless he
 says otherwise - tell him when doing it.
+
+**2026-10-20 06:40:** back to 0.5 after the reset (9e64d4f); told Cristian.
