@@ -1,6 +1,6 @@
 [Unit]
 Description=Voice lab TTS server (Piano Friends) - LAN only, bearer token, port 8765
-After=network-online.target
+After=network-online.target ollama-gateway.service
 Wants=network-online.target
 
 [Service]
@@ -11,6 +11,12 @@ WorkingDirectory=/home/cmadrigal/voicelab
 Environment=VOICELAB_HOME=/home/cmadrigal/voicelab
 Environment=HF_HOME=/home/cmadrigal/voicelab/models/hf
 Environment=VOICELAB_MAX_RESIDENT=1
+# GPU sharing: the Ollama gateway arbitrates both GPUs; every engine load needs a lease from it
+Environment=VOICELAB_GATEWAY_URL=http://127.0.0.1:11434
+Environment=VOICELAB_GATEWAY_TOKEN_FILE=<redacted>
+Environment=CUDA_DEVICE_ORDER=PCI_BUS_ID
+# EMERGENCY ONLY (gateway down and the lab is needed): load without a lease, invisible to the arbiter
+#Environment=VOICELAB_GPU_LEASE=0
 Environment=PATH=/usr/lib/wsl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart=/home/cmadrigal/voicelab/envs/server/bin/python /home/cmadrigal/voicelab/server.py
 Restart=on-failure
