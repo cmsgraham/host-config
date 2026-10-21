@@ -17,3 +17,7 @@ combined with main". Recovered with renice 19 on the probe + `agent-ci retry TAS
 `nice -n 19` (tell subagents explicitly, and cap xdist workers, e.g. `-n 4`). When a gate refusal says suite-green
 failed, check validation.json for `timed_out: true` before treating it as an integration bug. Related:
 [[merge-pending-race]], [[runaway-background-search]].
+
+**Again 2026-10-21 09:xx CST:** my xdist trial agent (-n 8) + a statistics prototype (4 procs) pushed load to ~60;
+TASK-3.142's merge gate timed out at 3600 s and was REFUSED (retried). Rule for agents: check for an active merge
+gate (`agent-ci status | grep '^merge gate:'` / .git/MERGE_HEAD) before any heavy run, cap workers, single-thread BLAS.

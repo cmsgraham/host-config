@@ -17,3 +17,11 @@ Assessment given (for when it comes back):
 
 **Why:** he's thinking ahead; the FX evidence machine is the asset.
 **How to apply:** only when he raises it again or after FX real runs land; reuse this list. See [[fxplat-real-run-plan]].
+
+**2026-10-21:** Cristian raised it again ("once we are set with FX, effort to add crypto? same model? another build
+process? start gathering data?"). Answered: ~2/3 carries over, 40-60 pipeline tasks (~1-2 weeks), second market
+inside fxplat, start AFTER the first FX verdict, model must be re-tested. Started data gathering: ~/cryptodata/
+fetch_binance.sh (Binance public data, BTCUSDT+ETHUSDT 1m spot klines 2017-2026-09 + USD-M funding rates 2019+,
+checksummed, resumable; log fetch.log). Dukascopy also has BTCUSD ticks from 2017 (fxplat.data.instruments).
+**Decisions 2026-10-21 (Cristian):** evaluate 3-4 crypto exchanges the same way as the FX brokers (live recorded
+costs, fees, API, Costa Rica access) and pick the cheapest/most convenient; SPOT first, futures only once learned.

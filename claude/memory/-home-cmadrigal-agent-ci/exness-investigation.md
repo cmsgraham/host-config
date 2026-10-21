@@ -22,6 +22,8 @@ Measured (demo "Pro", login 480425693, Exness-MT5Trial11, MT5 MCP read-only + Co
 - Public-record research: docs/research/2026-10-19-exness-public-record.md (agent, 2026-10-19). Earlier:
   docs/research/2026-10-18-exness.md. Related [[fxplat-broker-costs]].
 
+**Role (Cristian 2026-10-21):** Exness is kept ONLY as a reference / evidence of why not to use it (many Costa Rican influencers/scammers use it) - never a trading venue; keep its CostRecorder data for that purpose.
+
 **Verdict 2026-10-19 (public-record report, agent-ci docs/research/2026-10-19-exness-public-record.md):**
 spreads HONEST (Exness itself says EURUSD/gold spreads are "stable... usually fixed ~90% of the time"; its public
 real-server tick files show the same 0.6). MISLEADING: (1) "regulated / protected" - FCA/CySEC entities serve no
