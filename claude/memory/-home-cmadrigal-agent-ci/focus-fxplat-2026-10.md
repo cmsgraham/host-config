@@ -32,3 +32,6 @@ not move the number, the next lever is routing everything strong_direct (contour
 project ever landed without an escalation (previous record 0 of 23). The 27b re-runs its own tests,
 checks fixtures and runs the full suite before returning control; the 30b declared done without a working
 test setup. Keep counting: `agent-ci stats` escalation reliance should fall below 100%.
+
+**2026-10-21:** agent-ci-dashboard-v3.service (snoopy_frog, :8766) stopped AND disabled at Cristian's request ("kill it, I don't need that"); it had kept running since boot despite the focus note. agent-ci-dashboard.service (x-scraping, :8765) still runs.
+agent-ci-dashboard.service (x-scraping, :8765) also stopped+disabled 2026-10-21; gateway projects.json now lists ONLY fxplat (backup projects.json.bak-2026-10-21), so the agent-ci page defaults to fxplat. Only agent-ci-dashboard-fxplat (:8767) remains.
