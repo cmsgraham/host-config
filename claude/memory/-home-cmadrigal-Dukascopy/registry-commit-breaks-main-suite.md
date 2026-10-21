@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 8e397d9f-bc64-47e8-8782-5d9871f61445
-  modified: 2026-10-21T18:27:37.645Z
+  modified: 2026-10-21T19:28:05.144Z
 ---
 
 When a `merge_refused` case fails `suite-green` on
@@ -19,4 +19,8 @@ commits 23b497a/4a2fc57, N became 21).
 
 **How to apply:** confirm the task diff is innocent (`git diff --stat main...agent/<id>`), run the two tests on
 main, append a `NEEDS DECISION` section to `state/decisions-pending.md` recommending the operator's one-line test
-fix, report NEEDS YOU without retrying. Related: [[containment-false-positive-operator-ui]].
+fix, report NEEDS YOU without retrying. Fixed on main by 29978f3/f7cec04 (2026-10-21); a task branch cut
+before that (e.g. TASK-12.1 on 32ece26) still fails suite-green with these two tests → check
+`git log HEAD..main`, and if the branch has no commits, `git merge --ff-only main` in the worktree
+(untracked builder files survive). Recurred on TASK-12.2 (2026-10-21, same base 32ece26; uncommitted
+builder edits survive the ff too). Related: [[containment-false-positive-operator-ui]].
