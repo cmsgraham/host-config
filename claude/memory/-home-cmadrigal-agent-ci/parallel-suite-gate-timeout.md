@@ -21,3 +21,8 @@ failed, check validation.json for `timed_out: true` before treating it as an int
 **Again 2026-10-21 09:xx CST:** my xdist trial agent (-n 8) + a statistics prototype (4 procs) pushed load to ~60;
 TASK-3.142's merge gate timed out at 3600 s and was REFUSED (retried). Rule for agents: check for an active merge
 gate (`agent-ci status | grep '^merge gate:'` / .git/MERGE_HEAD) before any heavy run, cap workers, single-thread BLAS.
+
+**2026-10-21 fix landed (c3e0c4f):** the full suite now runs on 6 xdist workers (--dist loadfile, native threads
+capped at 1) via tests/_plugins/fxplat_parallel.py (auto-on for a whole-suite run when xdist is installed; per-file
+checks stay serial). 3 clean runs, ~9 min vs 23-36. Fallback: FXPLAT_XDIST=0 in the supervisor env (or =N). Floor =
+tests/validation/test_discovery_motif_search.py ~305 s. Also max_parallel_tasks 2 (f5d3c33).
