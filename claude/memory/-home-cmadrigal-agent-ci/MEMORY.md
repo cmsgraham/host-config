@@ -100,3 +100,5 @@
 - [handoff 2026-10-20](handoff-2026-10-20.md) — state when the session was closed for UI freezing: sim-v4 live, pipeline building 11.x, F1 next, G2c/G3 approvals empty
 - [fxplat live start plan](fxplat-live-start-plan.md) — 2026-10-20: live with US$1,000 at a proportional broker, only when the edge after costs is likely; reports need a US$1k ruler
 - [fxplat iteration speed](fxplat-iteration-speed-preference.md) — 2026-10-21: he wants changes visible often, not weekly; quick registered DEV studies now, heavier process later; PC has UPS
+- [discarded strategies book](fxplat-discarded-strategies-book.md) — experiments/descartadas.yaml: append every NO_EDGE strategy with numbers + why + lesson; panel on Investigación; 4/20 tries used
+- [remix cross-domain ideation](fxplat-remix-crossdomain-ideation.md) — 2026-10-21: Caleidoscopio must draw from outside finance (biology, physics, sociology, Nobel work) and remix existing ideas; far analogies at high temperature

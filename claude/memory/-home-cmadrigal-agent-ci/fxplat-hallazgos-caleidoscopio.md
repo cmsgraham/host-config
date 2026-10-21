@@ -13,7 +13,8 @@ Approved D1-D12 as recommended (log: Dukascopy state/decisions-pending.md). Queu
 - Caleidoscopio: typed idea specs, temperature = LLM temp (0.3+0.9θ) + diversity rule; P0/P1/P2 from explicit
   Bayesian model (family priors, Sellke bound, LLM ±0.3 log-odds); Brier/reliability tracking; promotion = signed
   approvals/HALLAZGOS_PROMOCION_<HZ>.txt, 1 of 20 budget, N counts promotions only.
-- MINE in session: measure the Romano-Wolf null-rejection bound (TO-MEASURE) then unhold 11.6; finish 11.12's spec
+- MINE in session: finish 11.12 spec after 11.11 merges; finish TASK-12.7 spec after 11.7 merges; HALLAZGOS_DEV approval when 11.7 lands. (11.6 done 2026-10-21: studentised RW, FWER 0.0498.)
   after 11.11 merges; Cristian signs approvals/HALLAZGOS_DEV.txt when the scanner (11.7) is built.
 - Prior art: Gençay 2026 arXiv:2608.27734 (LLM strategies all rejected under DSR/PBO).
 Related: [[fxplat-research-sprint-2026-10-19]], [[fxplat-broker-costs]], [[spec-source-of-truth-fxplat]].
+- 2026-10-21: TASK-12.1..12.16 queued (4809564): weekly frame + fxplat.xsec portfolio engine; 12.6 + 12.16 held for his sign-off, 12.7 for my spec finish.
