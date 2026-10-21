@@ -132,3 +132,15 @@ stale: run_events.ROLES gained DEV_FULL (3.102b) -> Role Literal now DEV / VALID
 attribution (validation.attribution.attribution(inp, predictions, stable)) is wired nowhere in pipeline; its item-6
 'conditional power' needs `stable` from §10.14 stability, which waits on the operator's "pliegues" choice (not asked
 yet). Next free ids still: 3.139, 4.20, 9.12.
+
+2026-10-20 (spec writer, 01:12 UTC refill): queued 3.139 fxplat.pipeline.rerun_noise (§10.9 driver: stage_builder =
+one run_in_child(run_symbol_stage, noise_seed) per symbol into <work_dir>/noise-<seed>; seed_ev = official walk-forward
+keywords, taken-row EV by event_id, 0.0 if none; rerun_noise -> run_noise; c9_with_noise -> Manual False / None, never
+True since §10.8 perturbation is unrun), 3.140 fxplat.pipeline.rerun_decay (predictions.parquet read back, taken rows in
+inp row order, daily_close -> UTC-midnight closes with any-NaN sessions dropped -> decay_study; report only), 3.141
+fxplat.pipeline.rerun_verdict (F3 JSON -> Verdict checked against its rows; merge_reruns fills ONLY PENDING rows via
+verdict._check_results/_passed_of/_summary_of; oracle = evaluate(BASE+REST)). All review OK (low findings applied).
+Run manifest has NO oos window (caller/CLI must supply it). NEXT: the re-run CLI composing read_pooled -> rerun_c15/c17/
+c9_matrix/noise/loyo/decay -> rerun_verdict + files; §10.8 perturbation and §10.10 random entries still need build_dataset
+hooks (11.11 extra_signals may serve §10.10). 4.4 driver blocked on design: PairData wants whole tick arrays (12 y x 7
+pairs won't fit) + tolerance values still OPEN. Next free ids: 3.142, 4.20, 9.12.
