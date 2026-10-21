@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.136 decay_study, 3.137 noise seed in symbol_stage, 3.138 rerun_loyo queued 2026-10-19; next 3.139 / 4.20 / 9.12"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.142 rerun_run composer, 3.143 rerun_report queued 2026-10-21; next 3.144 (re-run facts) / 4.20 / 9.12"
 metadata:
   node_type: memory
   type: project
@@ -144,3 +144,17 @@ Run manifest has NO oos window (caller/CLI must supply it). NEXT: the re-run CLI
 c9_matrix/noise/loyo/decay -> rerun_verdict + files; §10.8 perturbation and §10.10 random entries still need build_dataset
 hooks (11.11 extra_signals may serve §10.10). 4.4 driver blocked on design: PairData wants whole tick arrays (12 y x 7
 pairs won't fit) + tolerance values still OPEN. Next free ids: 3.142, 4.20, 9.12.
+
+2026-10-21 (spec writer, 11:01 UTC refill): queued 3.142 fxplat.pipeline.rerun_run (composer: read_manifest -> symbols
+must equal manifest's, seed = manifest seeds['global'] for both model seed and bootstrap global_seed; read_verdict;
+refuses non-PENDING C9/C15/C17 targets BEFORE read_pooled; read_pooled once; studies in order c15, c17, c9_matrix,
+loyo, decay; optional precomputed NoiseVerdict -> c9_with_noise; merge_reruns) and 3.143 fxplat.pipeline.rerun_report
+(study_summaries plain JSON, F3-layout JSON + 'studies' that read_verdict reads back, Markdown = render_report + one
+table per study, never overwrites). render_report REQUIRES NoEdgeFacts on NO_EDGE: the original run's facts are not
+persisted, so the re-run CLI needs them rebuilt - idea: run_criteria uses only result.predictions, so
+WFResult(read_predictions(run_dir), empty windows, ()) + read_pooled labels -> run_criteria -> check evaluate(run_results)
+== read_verdict(report) -> no_edge_facts (N = dsr_trial_count at re-run time). MEASURED 2026-10-21: run_criteria ALSO reads result.windows (ValueError "windows: missing column 'p_m0'" with an
+empty frame) - the facts task must rebuild windows from walkforward/windows.jsonl (p_m0 round trip unverified). The e2e
+synthetic run (tests/pipeline/test_research_run_end_to_end helpers) takes ~42 s; a measuring script needs an
+if __name__ == '__main__' guard (spawned children re-import it, else it hangs). UI-A10 part 2 / R8 / pnl: the operator already has
+ui/scripts/export_runs.py, export_pnl.py, replay_service.py - skip. Next free ids: 3.144, 4.20, 9.12.
