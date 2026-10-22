@@ -2,7 +2,9 @@
 """fxplat-binance-health (2026-10-22): problems of the docker1 crypto node, read from the home mirror
 (fxplat-binance-mirror). Prints one `key|message` line per problem (the fxplat-health format) and nothing when
 all is well. Called by ~/.local/bin/fxplat-health when fxplat-binance-mirror is enabled.
-Install: cp to ~/.local/bin/ (chmod +x). Crypto trades 24/7: there is no market-closed exception."""
+Install: cp to ~/.local/bin/ (chmod +x). Crypto trades 24/7: there is no market-closed exception.
+2026-10-22: also the SIMULATED crypto paper runner (crypto-sim), mirrored to ~/.cache/fxplat/paper-crypto/:
+status older than 20 min, not streaming, quotes stale, an error, or a brake latched (K1/K2/K3/K17)."""
 import json
 import sys
 import time
@@ -25,6 +27,25 @@ def load(path: Path) -> dict | None:
         return json.loads(path.read_text())
     except (OSError, ValueError):
         return None
+
+
+def sim_problems(sim: Path, now: float) -> list[str]:
+    st = load(sim / "status.json")
+    if st is None:
+        return ["cryptosimstatus|crypto simulator: no status.json mirrored (deployed? mirror running?)"]
+    out = []
+    age = now - (st.get("now_ms") or 0) / 1000
+    if age > STALE_S:
+        out.append(f"cryptosimstale|crypto simulator status {int(age // 60)} min old (container down on docker1?)")
+    elif st.get("state") != "streaming":
+        out.append(f"cryptosimstate|crypto simulator {st.get('state')}: {str(st.get('error'))[:120]}")
+    elif not st.get("feed_up"):
+        out.append("cryptosimfeed|crypto simulator: Binance quotes older than 60 s")
+    if st.get("error"):
+        out.append(f"cryptosimerror|crypto simulator error: {str(st['error'])[:120]}")
+    if st.get("latches"):
+        out.append(f"cryptosimlatch|crypto simulator brake latched: {', '.join(map(str, st['latches']))[:120]}")
+    return out
 
 
 def problems(root: Path, now: float) -> list[str]:
@@ -64,5 +85,6 @@ def problems(root: Path, now: float) -> list[str]:
 
 if __name__ == "__main__":
     root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.home() / ".cache/fxplat/brokers"
-    for line in problems(root, time.time()):
+    sim = Path(sys.argv[2]) if len(sys.argv) > 2 else Path.home() / ".cache/fxplat/paper-crypto"
+    for line in problems(root, time.time()) + sim_problems(sim, time.time()):
         print(line)

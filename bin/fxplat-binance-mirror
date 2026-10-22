@@ -3,12 +3,15 @@
 # its public output home for the Brókers view and fxplat-health:
 #   recorder  /opt/fxplat-crypto/binance-data/{hourly,trades,fees,status.json} -> ~/.cache/fxplat/brokers/binance/
 #   trader    /opt/fxplat-crypto/trader-data/{status.json,smoke}              -> ~/.cache/fxplat/brokers/binance-trader/
+#   simulator /opt/fxplat-crypto/sim-data/{status.json, MODE.json, book.json, *.jsonl} -> ~/.cache/fxplat/paper-crypto/
+#             (SIMULATED crypto paper runner, 2026-10-22; read by ui/scripts/export_forward_crypto.py)
 # Only those named entries travel; env files live outside the data dirs and are never copied. Modeled on
 # fxplat-ctrader-mirror. Install: cp to ~/.local/bin/ (chmod +x), the .service to ~/.config/systemd/user/, then
 #          systemctl --user daemon-reload && systemctl --user enable --now fxplat-binance-mirror
 set -u
 HOST=${DOCKER1:-cmsgraham@192.168.1.43}
 OUT=~/.cache/fxplat/brokers
+SIM_OUT=${FXPLAT_PAPER_CRYPTO:-~/.cache/fxplat/paper-crypto}
 SSH=(ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=~/.ssh/cm-docker1-%C -o ControlPersist=10m "$HOST")
 # data dirs are nobody:700 on docker1, hence sudo -n sh -c
 pull() {  # $1 remote dir, $2 local dir, $3 entries
@@ -18,7 +21,11 @@ pull() {  # $1 remote dir, $2 local dir, $3 entries
     find "$T" -name '*.env' -delete
     for d in $3; do
       [ "$d" = status.json ] && continue
-      [ -d "$T/$d" ] && mkdir -p "$2/$d" && find "$T/$d" -maxdepth 1 -type f -exec mv -f {} "$2/$d/" \;
+      if [ -d "$T/$d" ]; then
+        mkdir -p "$2/$d" && find "$T/$d" -maxdepth 1 -type f -exec mv -f {} "$2/$d/" \;
+      elif [ -f "$T/$d" ]; then
+        mv -f "$T/$d" "$2/$d"
+      fi
     done
     mv -f "$T/status.json" "$2/status.json"
   fi
@@ -29,5 +36,6 @@ pull() {  # $1 remote dir, $2 local dir, $3 entries
 while true; do
   pull /opt/fxplat-crypto/binance-data "$OUT/binance" "hourly trades fees status.json"
   pull /opt/fxplat-crypto/trader-data "$OUT/binance-trader" "smoke status.json"
+  pull /opt/fxplat-crypto/sim-data "$SIM_OUT" "MODE.json book.json decisions-SIMULATED.jsonl positions.jsonl closes-SIMULATED.jsonl marks.jsonl bars-h1.jsonl status.json"
   sleep 300
 done
