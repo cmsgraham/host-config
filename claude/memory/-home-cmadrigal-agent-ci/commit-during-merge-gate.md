@@ -40,3 +40,5 @@ a gate - unstage with `git restore --staged <mine>`; (3) BUILD-TIME containment,
 file I created in the root (config/variants.yaml) while TASK-9.10 was building was moved to
 logs/<run>/escaped-files/ and reverted as a "builder escape". Rule now: write the file and commit it in the SAME
 command, any time a run is active; restore from escaped-files if it happens. TS under ui/ is ignored by ruff/stray.
+
+**Trap 2026-10-22:** a supervisor restore runs `git clean -fd` in the MAIN tree (agent_ci/git/repository.py:156) - an agent's untracked experiments/observations/ was wiped mid-task. Agents must work outside ~/Dukascopy (or in a worktree) and copy in only at commit time.

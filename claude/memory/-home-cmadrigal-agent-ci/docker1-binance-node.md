@@ -18,3 +18,4 @@ Purpose: Binance node (Binance blocks the US Linode, HTTP 451) - read-only recor
 Related: [[server-hardening-saturday]], [[fxplat-crypto-future]], [[wireguard-home-hub]].
 
 **2026-10-22 deployed** (operator ran redeploy-binance.sh --smoke): compose project fxplat-crypto in /opt/fxplat-crypto - fxplat-binance-recorder (public stream, healthy) + fxplat-binance-trader (TESTNET, healthy); smoke PASS on docker1 (order lifecycle + flatten). Bug: the smoke 'compose run' container did not exit after 'smoke PASS' (removed by hand) - fix in redeploy (--rm / exit code). Home mirror fxplat-binance-mirror installed (5 min -> ~/.cache/fxplat/brokers/binance{,-trader}/). Real [binance] key still -2015 from home (IP whitelist needs 143.255.29.93 / Enable Reading) -> no fee snapshot yet.
+- home-ip-watch on docker1 (timer every 10 min, state /var/lib/home-ip-watch/ip, ntfy env /etc/fxplat/ntfy.env root 600); test alert sent 2026-10-22.
