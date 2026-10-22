@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.142 rerun_run composer, 3.143 rerun_report queued 2026-10-21; next 3.144 (re-run facts) / 4.20 / 9.12"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.144 (re-run NoEdgeFacts rebuild) scoped 2026-10-22, not written; next free 3.144 / 4.20 / 9.12"
 metadata:
   node_type: memory
   type: project
@@ -158,3 +158,13 @@ empty frame) - the facts task must rebuild windows from walkforward/windows.json
 synthetic run (tests/pipeline/test_research_run_end_to_end helpers) takes ~42 s; a measuring script needs an
 if __name__ == '__main__' guard (spawned children re-import it, else it hangs). UI-A10 part 2 / R8 / pnl: the operator already has
 ui/scripts/export_runs.py, export_pnl.py, replay_service.py - skip. Next free ids: 3.144, 4.20, 9.12.
+
+2026-10-22 (spec writer, 21:27 UTC refill): finished operator-held drafts whose merge conditions had passed: 11.25
+(Remix seeds + operator pool in ideate.py) and 11.34 (calendar_event + econ calendar in scan.py). No R ids used.
+3.144 (NoEdgeFacts rebuild for the re-run CLI) scoped but NOT written: run_criteria reads result.windows ONLY via
+walkforward.m0_probabilities (columns start_ms + p_m0; predictions need segment_start_ms); windows.jsonl lines =
+_window_line (NaN -> null, d_star dict). Plan: read_windows(run_dir) + WFResult(read_predictions, windows, ()) +
+read_pooled labels -> run_criteria(same seeds/n_boot/cal/c14_subperiods) -> check evaluate(run_results(rc)) rows ==
+read_verdict(report) -> research_run._verdict_stage(rc, registry, role, variant)[1]. Needs a measured e2e round trip
+(STORED fixture of test_rerun_criteria.py). 11.12 waits for 11.35 (promoted.load_promoted) to merge. Next free ids:
+3.144, 4.20, 9.12.
