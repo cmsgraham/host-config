@@ -17,4 +17,5 @@
 - [UI bundle envelope conflict](ui-bundle-envelope-conflict.md) — ui/public/fixtures envelope ≠ TASK-9.1's; RESOLVED 2026-10-12 (c): numbers + codes, wording in UI i18n
 - [PLR0402 vs spec module alias](strict-lint-plr0402-module-alias.md) — `import a.b.c as c` fails strict lint; use `from a.b import c`; float abs-1e-12 on notionals
 - [Stale reviewer findings](stale-reviewer-lint-findings.md) — reviewer re-quotes an earlier attempt's lint/test output after the fix (3.143, 12.10); diff the attempt snapshot first, and do not apply its "repair" blindly
+- [Sibling worktree contamination](sibling-worktree-contamination.md) — builder copies a sibling task's untracked files (11.31 ← 11.30 prim_age) → protected-paths fail; cmp, delete, ff to main
 - [experiment.yaml string guard](experiment-yaml-string-guard.md) — any src module (not config.py) containing the text "experiment.yaml", even in a docstring, fails suite-green
