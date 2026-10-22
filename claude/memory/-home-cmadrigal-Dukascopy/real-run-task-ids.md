@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-12T08:21:20.957Z
+  modified: 2026-10-22T23:11:24.383Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -168,3 +168,12 @@ read_pooled labels -> run_criteria(same seeds/n_boot/cal/c14_subperiods) -> chec
 read_verdict(report) -> research_run._verdict_stage(rc, registry, role, variant)[1]. Needs a measured e2e round trip
 (STORED fixture of test_rerun_criteria.py). 11.12 waits for 11.35 (promoted.load_promoted) to merge. Next free ids:
 3.144, 4.20, 9.12.
+
+2026-10-22 (spec writer, 22:58 UTC refill): wrote 3.144 fxplat.pipeline.rerun_facts (read_windows + rebuild_facts;
+MEASURED on the e2e synthetic run: read_predictions (event_id index - the raw parquet is refused) + windows(start_ms,
+p_m0) + read_pooled -> run_criteria -> rows == report rows and facts == the run's; n_boot 60 vs 50 caught by the C1
+row) and 11.36 = part 2 of 11.12 (symbol_stage hallazgo=PromotedRule; StateInputs built from SymbolData = store_bars
+oracle; W1-frame predicates refused - weekly_bars needs ts_open/bid/ask; cross-pair predicates fail without closes).
+11.12 part 3 BLOCKED on design: research_run.py is 996/1000 lines, so passing hallazgo through build_datasets +
+hypothesis_test row + report label needs a new wrapper module or a research_run split. 12.7 (W1 in scan) waits for
+12.3 AND scan.py is 974 lines after 11.34 -> needs a helper-module split. Next free ids: 3.145, 4.20, 9.12, 11.37.
