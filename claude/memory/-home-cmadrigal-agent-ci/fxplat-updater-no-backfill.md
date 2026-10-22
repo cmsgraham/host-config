@@ -21,3 +21,5 @@ the timer. Log: ~/fxdata/backfill-2026-10-17.log.
 **Why:** the V1 re-run on 2010-2021 needs every major complete; "the download is slow" hid a gap, not throttling.
 **How to apply:** before promising data-dependent dates, query the manifests per symbol (min/max complete day,
 last updated_at) instead of reading update.log. Related: [[fxplat-cost-v4-migration]], [[fxplat-phase3-completion-2026-10-14]].
+
+**2026-10-22 backfill (holes from the Datos grid):** ingest update --symbols X --start D refilled NZDUSD/USDCAD Nov-Dec 2018 (50 days each), USDCHF Jan 2010, XAUUSD Oct 2025, AUDUSD single days 2024-26; the hourly timer had to be PAUSED (back-to-back hourly runs held the store lock under throttling). TRAP: ticks filled != bars - rebuild derived bars per partition after a backfill: `python -m dukascopy bars --data-dir ~/fxdata/<partition> --symbol S --start D --end D` (NZD/CAD D1 then ran to 2018-12-28). Still missing at the source: USDJPY 2009-06-14..18 (warm-up), XAGUSD 2010-11-17..2011-01-19.
