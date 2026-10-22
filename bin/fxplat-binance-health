@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""fxplat-binance-health (2026-10-22): problems of the docker1 crypto node, read from the home mirror
+(fxplat-binance-mirror). Prints one `key|message` line per problem (the fxplat-health format) and nothing when
+all is well. Called by ~/.local/bin/fxplat-health when fxplat-binance-mirror is enabled.
+Install: cp to ~/.local/bin/ (chmod +x). Crypto trades 24/7: there is no market-closed exception."""
+import json
+import sys
+import time
+from datetime import UTC, datetime
+from pathlib import Path
+
+STALE_S = 20 * 60  # status.json is rewritten every 15 s (recorder) / 5 s (trader); the mirror copies every 5 min
+
+
+def age_s(doc: dict, now: float) -> float | None:
+    try:
+        t = datetime.strptime(doc["updated_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC).timestamp()
+    except (KeyError, TypeError, ValueError):
+        return None
+    return now - t
+
+
+def load(path: Path) -> dict | None:
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError):
+        return None
+
+
+def problems(root: Path, now: float) -> list[str]:
+    out = []
+    rec = load(root / "binance" / "status.json")
+    if rec is None:
+        out.append("binancestatus|Binance recorder: no status.json mirrored (deployed? mirror running?)")
+    else:
+        a = age_s(rec, now)
+        if a is None or a > STALE_S:
+            out.append(f"binancestale|Binance recorder status {int((a or 0) // 60)} min old (container down on docker1?)")
+        elif rec.get("state") != "streaming":
+            out.append(f"binancestate|Binance recorder {rec.get('state')}: {str(rec.get('last_error'))[:120]}")
+        fees = rec.get("fees") or {}
+        if fees.get("state") == "key_not_read_only":
+            out.append(f"binancekey|Binance [binance] key is NOT read-only: {str(fees.get('error'))[:120]}")
+        elif fees.get("state") == "error":
+            out.append(f"binancefees|Binance fee snapshot failing: {str(fees.get('error'))[:120]}")
+    trd = load(root / "binance-trader" / "status.json")
+    if trd is None:
+        out.append("cryptotraderstatus|crypto trader: no status.json mirrored")
+        return out
+    a = age_s(trd, now)
+    state = trd.get("state")
+    if a is None or a > STALE_S:
+        out.append(f"cryptotraderstale|crypto trader status {int((a or 0) // 60)} min old (container down on docker1?)")
+    elif state == "refused":
+        out.append(f"cryptotraderrefused|crypto trader REFUSED to start: {str(trd.get('last_error'))[:120]}")
+    elif state in ("running", "halted") and not all((trd.get("connected") or {"x": False}).values()):
+        out.append(f"cryptotraderconn|crypto trader not connected: {trd.get('connected')}")
+    if trd.get("halted") and "daily loss" in str(trd.get("halted")):
+        out.append(f"cryptotraderloss|crypto trader halted: {str(trd['halted'])[:120]}")
+    if trd.get("mode") == "live":
+        out.append("cryptotraderlive|crypto trader is in LIVE mode (real money)")
+    return out
+
+
+if __name__ == "__main__":
+    root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.home() / ".cache/fxplat/brokers"
+    for line in problems(root, time.time()):
+        print(line)

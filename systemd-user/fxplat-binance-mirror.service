@@ -1,0 +1,11 @@
+# fxplat-binance-mirror (2026-10-22): copy to ~/.config/systemd/user/ with fxplat-binance-mirror in ~/.local/bin/
+[Unit]
+Description=Mirror the docker1 fxplat-crypto node output (Binance recorder + trader status) home every 5 min
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-binance-mirror
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

@@ -75,6 +75,15 @@ PY
   while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$ps_"
 fi
 
+# 4c. Binance crypto node on docker1 (2026-10-22), via the home mirror fxplat-binance-mirror: recorder streaming and
+# fresh, fee key read-only, trader fresh / connected / not refused / not loss-halted (fxplat-binance-health).
+if systemctl --user is-enabled --quiet fxplat-binance-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-binance-mirror || problems+=("binancemirror|fxplat-binance-mirror is not running")
+  if [ -x ~/.local/bin/fxplat-binance-health ]; then
+    while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$(~/.local/bin/fxplat-binance-health 2>/dev/null)"
+  fi
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
