@@ -102,3 +102,4 @@
 - [fxplat iteration speed](fxplat-iteration-speed-preference.md) — 2026-10-21: he wants changes visible often, not weekly; quick registered DEV studies now, heavier process later; PC has UPS
 - [discarded strategies book](fxplat-discarded-strategies-book.md) — experiments/descartadas.yaml: append every NO_EDGE strategy with numbers + why + lesson; panel on Investigación; 4/20 tries used
 - [remix cross-domain ideation](fxplat-remix-crossdomain-ideation.md) — 2026-10-21: Caleidoscopio must draw from outside finance (biology, physics, sociology, Nobel work) and remix existing ideas; far analogies at high temperature
+- [server hardening Saturday](server-hardening-saturday.md) — Sat 2026-10-24 he runs harden-update.sh; phone reminder set; verify after; server is US (Binance 451)
