@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: fc147c98-d508-4486-941c-54473608583c
-  modified: 2026-10-22T19:56:08.079Z
+  modified: 2026-10-22T20:38:33.907Z
 ---
 
 2026-10-22: operator commit e19cd49 (f1costs/observations exporters) put 16 E501 errors in
@@ -24,5 +24,7 @@ TASK-11.17 (2026-10-22) applied the byte-identical patch (`git -C <11.13 worktre
 | `git apply`) so the branches merge cleanly — reuse that patch until main gets the fix. TASK-9.7
 (2026-10-22, strong-direct build) reused it too; its protected_paths list only named test_publish_*.py, so
 the test_export_*.py edit is not a protected-path hit there — check each spec's list before applying.
-TASK-9.8 (2026-10-22, strong-direct) reused it as well (same protected_paths shape; still red on main 70d0b2f). Related: [[containment-false-positive-operator-ui]],
+TASK-9.8 (2026-10-22, strong-direct) reused it as well (same protected_paths shape; still red on main 70d0b2f).
+RESOLVED on main 01d744f (2026-10-22): the patch landed via the TASK-9.7 merge (5ab89b2); `ruff check src
+tests` is green on main, so do not re-apply it — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
 [[registry-commit-breaks-main-suite]].
