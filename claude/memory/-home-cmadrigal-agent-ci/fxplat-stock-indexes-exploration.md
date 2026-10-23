@@ -14,3 +14,5 @@ Cristian 2026-10-20: "just for fun, can we add stock market indexes? maybe we fi
   open, DAX->EUR, US close->AUD/NZD in Asia) - exploratory; promotion = new variable -> protocol approval + counts N.
 - Expectation: equity/FX links are mostly contemporaneous (risk sentiment), lead-lag weak; say so plainly.
 Related: [[fxplat-hallazgos-caleidoscopio]].
+
+**2026-10-23:** index downloads COMPLETE (USA500/JPN/DEU 2012..2026-10-19). Commodities added at operator request: ~/fxdata-cmd (README), XAUUSD / BRENTCMDUSD / LIGHTCMDUSD 2010..2026-10-22, 9 nice'd backfill writers (one per symbol x period dir), started 07:48 CST; throttles are handled by the client's pauses. Copper not in fxplat.data.instruments. Participants design (2026-10-23) is folding commodity COT + price primitives in.

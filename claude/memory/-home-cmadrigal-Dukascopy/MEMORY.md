@@ -3,7 +3,8 @@
 - [Strong-direct escalations](strong-direct-escalations.md) — "NOT BUILT YET" HUMAN_REQUIRED = no failure to diagnose; build from spec (also builder-timeout with missing test file)
 - [suite-green timeout diagnosis](suite-green-timeout-diagnosis.md) — full validator logs in logs/<run>-a1/; stdout mtime = last test; motif planted0 fixture stalls intermittently under load (3.78, 3.79)
 - [Full suite runtime > 10 min](full-suite-runtime-over-10-min.md) — background Bash default 600s kills suite-green; >32 min under load, use 7200000 ms, check exit code (no summary line)
-- [Containment false positive](containment-false-positive-operator-ui.md) — operator's concurrent root commits (ui/, config/, experiments/observations) get blamed on the builder; check git log in the run window (3.78, 9.10, 12.14)
+- [Containment false positive](containment-false-positive-operator-ui.md) — operator's concurrent root commits (ui/, config/, experiments/observations, hallazgos/ideas.jsonl) get blamed on the builder; check git log in the run window (3.78, 9.10, 12.14, 13.1)
+- [Caleidoscopio test clock time bomb](caleidoscopio-test-clock-timebomb.md) — 6 tests/publish caleidoscopio tests red since 2026-10-23 12Z (fixed NOW vs real-clock 24 h expiry); reuse 13.1's frozen-datetime patch
 - [Registry commit breaks main suite](registry-commit-breaks-main-suite.md) — registro.csv rows broke test_trials / n_trials==17; fixed on main 29978f3 — stale-base task branches: ff to main
 - [Owned file inside protected dir](owned-inside-protected-dir.md) — fixed in agent-ci 068334d (exact owned files exempt); pre-fix runs just need a retry; builders still misread it and quit (11.27)
 - [strict-lint 1000-line cap](strict-lint-1000-line-cap.md) — lint-new fails modules >1000 lines; research_run.py at 996 after 3.131
