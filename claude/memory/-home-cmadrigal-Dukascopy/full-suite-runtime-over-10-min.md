@@ -1,15 +1,21 @@
 ---
 name: full-suite-runtime-over-10-min
-description: fxplat full suite takes >10 min (>32 min under load by 2026-10-20); background Bash default 600s kills it — use timeout 7200000
+description: "fxplat full suite: `pytest tests -q` runs on 6 xdist workers (~10 min); any --deselect/-k makes it serial (35+ min) and exposes a test_rerun_facts MonkeyPatch leak (6 false tests/pipeline failures)"
 metadata:
   node_type: memory
   type: feedback
   originSessionId: e7706c60-0b1c-4d51-8f37-911b20aee52e
-  modified: 2026-10-21T01:47:38.701Z
+  modified: 2026-10-23T18:13:40.102Z
 ---
 
-The fxplat `pytest tests -q` suite (~4,929 tests on 2026-10-14) runs longer than 10 minutes, and its `-q` output shows no "N passed" summary line (only dots and `[100%]`), so check the exit code. On 2026-10-20 (TASK-9.11, load avg ~10 on 24 cores) it was still only at 85% after 32 min. pytest-xdist is not installed.
+The fxplat `pytest tests -q` output shows no "N passed" summary line (only dots and `[100%]`), so check the exit code. Since 2026-10-21, `tests/_plugins/fxplat_parallel.py` (addopts `-p fxplat_parallel`) runs the whole suite on 6 xdist workers with `--dist loadfile`. On 2026-10-23 that took about 10 min.
 
-**Why:** in the TASK-3.102a escalation, a background run with timeout 600000 was killed partway through. In TASK-9.11, a run with timeout 1900000 was also killed, at 85%. A `pgrep -f "<pattern>"` wait loop also matched its own command line and never exited.
+Any narrowing makes the run serial: `--deselect`, `-k`, `-m`, `--lf`, a path other than `tests`, or `FXPLAT_XDIST=0`. A serial run took over 35 min under load. On 2026-10-23 it also failed 6 tests/pipeline tests that are green on xdist:
+- test_research_helpers::test_research_run_contract_unchanged
+- test_research_run_hallazgo: dev_full_once, verdict_stage_attribution, report, registry_and_manifest, predictions_equal
 
-**How to apply:** run suite-green in the background (`... > log 2>&1; echo EXIT=$? >> log`) with the maximum Bash background timeout of 7200000 ms. Wait for the completion notification instead of a pgrep loop. See also [[suite-green-timeout-diagnosis]].
+The errors read `spy_stage() got an unexpected keyword argument 'hallazgo'` / `'pipeline.test_rerun_facts' == 'fxplat.pipeline.research_run'`. Cause: the module fixture `run` in tests/pipeline/test_rerun_facts.py does `_spies(pytest.MonkeyPatch())` and never calls undo, so its spies stay on `research_run` for the rest of the process.
+
+**Why:** in the TASK-14.5 escalation, I deselected the 6 caleidoscopio time-bomb tests to "verify the rest". The run went serial and showed 6 extra failures that are not the task's. Earlier serial runs were killed by short background timeouts (TASK-3.102a, TASK-9.11).
+
+**How to apply:** verify with the exact acceptance command (`.venv/bin/python -m pytest tests -q`; `-p no:cacheprovider` is OK) in the background with timeout 7200000. Compare its FAILED list against known main breakage; don't deselect. If you see those 6 pipeline failures, check whether the run was serial before blaming the branch. The leak is in a protected dir, so fixing it is an operator job. See [[suite-green-timeout-diagnosis]], [[caleidoscopio-test-clock-timebomb]].

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 738f264e-af0c-4d38-87a0-5260ccd5ff4c
-  modified: 2026-10-23T17:29:35.556Z
+  modified: 2026-10-23T18:39:03.810Z
 ---
 
 From 2026-10-23 12:00Z, 6 tests in tests/publish/test_caleidoscopio_service.py (no_approval..., new_batch_detection...,
@@ -31,3 +31,4 @@ Still unfixed ~17Z: TASK-14.1 escalation 2 (run-163704) hit exactly these 6 agai
 Still unfixed ~16:55Z: TASK-13.1 escalation 3 (run-163705, main 91e0d12). Branch left at f52043e with only its 3 owned files, and every own check is green (module tests, ruff, stray, strict-lint-new). The patch still applies cleanly and turns the file 38/38 green. TASK-13.1 has used all 3 escalations, and 13.2..13.9 are blocked behind it.
 Still unfixed ~17:30Z: TASK-14.5 escalation 2 (run-170747, main 91e0d12). Branch left at 64ac03c with only its 2 owned files, and every own check is green. Its 5 reviewer findings (F001..F005: conflicts / missing_days / empty-frame sort) were all misreadings, so nothing was applied ([[stale-reviewer-lint-findings]]). A copy of the patch was saved to /tmp/caleido-clock-fix-14.5.patch.
 Still unfixed ~17:35Z: TASK-14.4 escalation 2 (run-170210, main 91e0d12). The full suite has exactly these 6 red. Changes left uncommitted with only the 5 owned files, and every own check is green. To verify the patch without touching protected files even temporarily, use a scratch mirror: a /tmp dir with symlinks to `ui` and `tests/_plugins` (pyproject's `-p fxplat_parallel` needs it), copies of tests/conftest.py and pyproject.toml, and the patched test file. Run it with the worktree's .venv. Result: 38/38 green.
+Still unfixed ~18:45Z: TASK-14.1 escalation 3/3 (run-183706, main 91e0d12). The evidence file's "progress: partial" is hard-coded for strong_direct routes (agent_ci/escalation.py decide()); it is not a measured failure. Own checks green, the 3 owned files untouched, suite = these 6 only. TASK-14.1 has now used every escalation.
