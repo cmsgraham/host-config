@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.144 (re-run NoEdgeFacts rebuild) scoped 2026-10-22, not written; next free 3.144 / 4.20 / 9.12"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.145 merged_facts queued 2026-10-23, 3.146 re-run CLI drafted (waits 3.145); next free 3.147 / 4.20 / 9.12 / 11.37"
 metadata:
   node_type: memory
   type: project
@@ -177,3 +177,14 @@ oracle; W1-frame predicates refused - weekly_bars needs ts_open/bid/ask; cross-p
 11.12 part 3 BLOCKED on design: research_run.py is 996/1000 lines, so passing hallazgo through build_datasets +
 hypothesis_test row + report label needs a new wrapper module or a research_run split. 12.7 (W1 in scan) waits for
 12.3 AND scan.py is 974 lines after 11.34 -> needs a helper-module split. Next free ids: 3.145, 4.20, 9.12, 11.37.
+
+2026-10-23 (spec writer, 00:29 UTC refill): 3.144 merged (2a9af23). Gap found: rebuild_facts returns None when the
+SINGLE run was INCOMPLETE, but the main re-run case is INCOMPLETE -> NO_EDGE via a failed C15/C17/C9 (render_report
+then refuses). Queued 3.145 rerun_facts.merged_facts (merged rows may differ only on PENDING C9/C15/C17; facts via
+no_edge_facts + MERGED_LIMITATIONS 'más las re-ejecuciones ... de: {reran}'). Drafted 3.146 rerun_cli (hold "draft,
+under review" until 3.145 merges: re-verify merged_facts on main): manifest -> symbols/role/run_id, OOS default =
+research_cli._PERIODS[role], merged_facts PREFLIGHT with report._replace(verdict='NO_EDGE') before studies,
+rerun_run, merged_facts, write_rerun_report, exit 3 on refusals, no registry row, no noise. MEASURED on the e2e
+synthetic run under load: c15 126 s, c17 540 s, c9_matrix 196 s, loyo 7-14 s; 'decay' FAILS on synthetic datasets
+(inp.X missing 'b27_vol_regime') - tests run loyo only. spec-review can exceed the 600 s Bash background limit: run
+it with run_in_background + explicit long timeout. Next free ids: 3.147, 4.20, 9.12, 11.37.
