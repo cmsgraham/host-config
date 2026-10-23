@@ -105,3 +105,4 @@
 - [server hardening Saturday](server-hardening-saturday.md) — Sat 2026-10-24 he runs harden-update.sh; phone reminder set; verify after; server is US (Binance 451)
 - [docker1 Binance node](docker1-binance-node.md) — home BRIX 192.168.1.43 reinstalled 2026-10-22: Ubuntu 24.04 unencrypted, Docker, hardened; Binance recorder goes here
 - [observation-days DB](fxplat-observation-days-db.md) — experiments/observations/observations.sqlite: tagged market days (calendar + Haiku + web), sets to cross-match findings; first set = 113 turbulent-USD days
+- [fxplat Contexto del día](fxplat-contexto-del-dia.md) — 2026-10-22 day diagnosis + score as one factor + hot-days calendar; design 55abb10, 16 drafts unqueued, D1-D10 pending
