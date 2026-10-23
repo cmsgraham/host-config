@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""fxplat-swfx-health (2026-10-23): problems of the docker1 SWFX sentiment capture (fxplat-swfx), read from the home
+mirror (fxplat-swfx-mirror, ~/.cache/fxplat/sentiment/swfx/status.json). Prints one `key|message` line per problem
+(the fxplat-health format) and nothing when all is well. Called by ~/.local/bin/fxplat-health when
+fxplat-swfx-mirror is enabled. Install: cp to ~/.local/bin/ (chmod +x).
+Alerts: status older than 25 min (container down, or the mirror stuck), 3+ consecutive failed snapshots, and a last
+snapshot with zero instruments. The sentiment index is published around the clock: no market-closed exception."""
+import json
+import sys
+import time
+from datetime import UTC, datetime
+from pathlib import Path
+
+STALE_S = 25 * 60  # the capture rewrites status.json every 60 s; the mirror copies it every 5 min
+MAX_FAILURES = 3
+
+
+def age_s(doc: dict, now: float) -> float | None:
+    try:
+        t = datetime.strptime(doc["updated_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC).timestamp()
+    except (KeyError, TypeError, ValueError):
+        return None
+    return now - t
+
+
+def problems(root: Path, now: float) -> list[str]:
+    try:
+        st = json.loads((root / "status.json").read_text())
+    except (OSError, ValueError):
+        return ["swfxstatus|SWFX capture: no status.json mirrored (deployed? fxplat-swfx-mirror running?)"]
+    out = []
+    a = age_s(st, now)
+    if a is None or a > STALE_S:
+        out.append(f"swfxstale|SWFX capture status {int((a or 0) // 60)} min old (container down on docker1?)")
+    elif st.get("state") == "stopped":
+        out.append("swfxstopped|SWFX capture stopped on docker1")
+    n = int(st.get("consecutive_failures") or 0)
+    if n >= MAX_FAILURES:
+        out.append(f"swfxfail|SWFX capture: {n} snapshots failed in a row: {str(st.get('last_error'))[:120]}")
+    if "last_counts" in st and not (st.get("last_counts") or {}).get("instruments"):
+        out.append(f"swfxempty|SWFX capture: last snapshot ({st.get('last_slot')}) had zero instruments")
+    return out
+
+
+if __name__ == "__main__":
+    root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.home() / ".cache/fxplat/sentiment/swfx"
+    for line in problems(root, time.time()):
+        print(line)

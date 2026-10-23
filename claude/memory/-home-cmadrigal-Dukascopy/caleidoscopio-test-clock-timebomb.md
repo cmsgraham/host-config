@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 738f264e-af0c-4d38-87a0-5260ccd5ff4c
-  modified: 2026-10-23T14:25:19.276Z
+  modified: 2026-10-23T16:54:23.107Z
 ---
 
 From 2026-10-23 12:00Z, 6 tests in tests/publish/test_caleidoscopio_service.py (no_approval..., new_batch_detection...,
@@ -26,3 +26,6 @@ branch with only owned files and hand the operator the one-file patch for main. 
 [[operator-commit-red-lint-on-main]], [[registry-commit-breaks-main-suite]].
 
 Still unfixed on main at 2026-10-23 ~15:40Z (triage of TASK-13.1 run-143452: NEEDS YOU, not retried to save escalation; TASK-14.5 suite: exactly these 6 red; TASK-14.1 escalation later that day: same 6, patch verified green then reverted). `git diff <ref>^ <ref> -- tests/publish/test_caleidoscopio_service.py` applies cleanly to main.
+Still unfixed ~16Z (TASK-14.4 escalation run-152524: same 6 + an owned-file E501; patch re-checked against main with `git apply --check`).
+Still unfixed ~17Z: TASK-14.1 escalation 2 (run-163704) hit exactly these 6 again with main = 91e0d12. TASK-14.1 has now burned 3 runs on it, so retrying before the main fix wastes the escalation.
+Still unfixed ~16:55Z: TASK-13.1 escalation 3 (run-163705, main 91e0d12). Branch left at f52043e with only its 3 owned files, and every own check is green (module tests, ruff, stray, strict-lint-new). The patch still applies cleanly and turns the file 38/38 green. TASK-13.1 has used all 3 escalations, and 13.2..13.9 are blocked behind it.

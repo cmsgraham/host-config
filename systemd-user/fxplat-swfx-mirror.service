@@ -1,0 +1,11 @@
+# fxplat-swfx-mirror (2026-10-23): copy to ~/.config/systemd/user/ with fxplat-swfx-mirror in ~/.local/bin/
+[Unit]
+Description=Mirror the docker1 SWFX sentiment capture (fxplat-swfx) home every 5 min
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-swfx-mirror
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

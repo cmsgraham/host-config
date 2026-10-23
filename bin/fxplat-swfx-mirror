@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# fxplat-swfx-mirror (2026-10-23): the SWFX sentiment capture runs on docker1 (home BRIX 192.168.1.43, compose project
+# fxplat-swfx). Every 5 min copy its store home:
+#   /opt/fxplat-swfx/swfx-data/{YYYY-MM-DD.jsonl, status.json} -> ~/.cache/fxplat/sentiment/swfx/
+# Same layout and format as the PC's ~/fxdata-sentiment/swfx/ (the two stores are interchangeable). docker1 has no
+# rsync, so this is an rsync-like pull over ssh + tar: list the remote day files with their sizes and copy only the
+# ones whose size differs (append-only files: a size change = new rows), plus status.json every time. Files land via
+# a temp dir + mv, so a reader never sees a half-written file. Only *.jsonl and status.json travel.
+# Private research, not redistributed. Install: cp to ~/.local/bin/ (chmod +x), the .service to
+# ~/.config/systemd/user/, then  systemctl --user daemon-reload && systemctl --user enable --now fxplat-swfx-mirror
+set -u
+HOST=${DOCKER1:-cmsgraham@192.168.1.43}
+REMOTE=${SWFX_REMOTE:-/opt/fxplat-swfx/swfx-data}
+OUT=${SWFX_MIRROR:-~/.cache/fxplat/sentiment/swfx}
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=~/.ssh/cm-docker1-%C -o ControlPersist=10m "$HOST")
+
+# the day files whose remote size differs from the local copy (stdin: "name size" lines from the remote)
+changed() {  # $1 local dir
+  local name size
+  while read -r name size; do
+    case "$name" in [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].jsonl) ;; *) continue ;; esac
+    [ "$(stat -c %s "$1/$name" 2>/dev/null || echo -1)" = "$size" ] || echo "$name"
+  done
+}
+
+# data dir is nobody:700 on docker1, hence sudo -n sh -c
+pull() {  # $1 remote dir, $2 local dir
+  local T list files
+  mkdir -p "$2"; T=$(mktemp -d "$2/.in.XXXXXX")
+  list=$("${SSH[@]}" "sudo -n sh -c 'cd $1 && find . -maxdepth 1 -type f -name \"*.jsonl\" -printf \"%f %s\\n\"'" 2>/dev/null) || { rm -rf "$T"; return 1; }
+  files=$(printf '%s\n' "$list" | changed "$2" | tr '\n' ' ')
+  if "${SSH[@]}" "sudo -n sh -c 'cd $1 && tar -czf - status.json $files'" 2>/dev/null | tar -C "$T" -xzf - 2>/dev/null \
+     && [ -s "$T/status.json" ]; then
+    for f in $files; do [ -f "$T/$f" ] && mv -f "$T/$f" "$2/$f"; done
+    mv -f "$T/status.json" "$2/status.json"
+  fi
+  rm -rf "$T"
+}
+# sourced with MIRROR_SOURCE_ONLY=1 (tests): define changed() and pull() only
+[ "${MIRROR_SOURCE_ONLY:-}" = 1 ] && return 0 2>/dev/null
+while true; do
+  pull "$REMOTE" "$OUT"
+  sleep 300
+done

@@ -84,6 +84,15 @@ if systemctl --user is-enabled --quiet fxplat-binance-mirror 2>/dev/null; then
   fi
 fi
 
+# 4d. SWFX sentiment capture on docker1 (2026-10-23), via the home mirror fxplat-swfx-mirror: status fresh (<25 min),
+# fewer than 3 failed snapshots in a row, last snapshot with instruments (fxplat-swfx-health).
+if systemctl --user is-enabled --quiet fxplat-swfx-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-swfx-mirror || problems+=("swfxmirror|fxplat-swfx-mirror is not running")
+  if [ -x ~/.local/bin/fxplat-swfx-health ]; then
+    while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$(~/.local/bin/fxplat-swfx-health 2>/dev/null)"
+  fi
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
