@@ -211,3 +211,12 @@ need hallazgo-specific attribution; DEV report gets promoted.SELECTION_NOTE. The
 12.7 (W1 in scan) still waits 12.3; scan.py 974 lines - put W1 logic in a new module rather than a split task.
 Scratch-copy measuring: `git init` + commit the copy, else research_cli tests fail on git_state. Next free ids:
 3.147, 4.20, 9.12, 11.40.
+
+2026-10-23 (spec writer, 05:00 UTC refill): queued 12.17 (29f6066) = scan.py split-prep: 14 pure helpers verbatim into
+fxplat.hallazgos.scan_helpers (scan.py 974 -> 870 on prototype; import back WITHOUT noqa - all names used, a noqa F401 is
+a RUF100 lint-new violation). Finished 12.7 (9ca4a10, still HELD "draft, under review: lift after 12.3 and 12.17 merge"):
+W1 = weekly_bars(D1).assign(thin_flag=False) before _check_lock, emission_base W1 all True, any non-STATE primitive in a
+W1 cell refused before the store; OWNS tests/hallazgos/test_hz_scan.py for one edit (it pinned emission_base('W1')
+raising -> now M15). Measured on fixture: 43 W1 bars, fixed_h n 17 / brk_2R n 16. Next lifts 12.7 after re-verifying on
+main. Follow-ups: confirm.py W1 (KeyError on W1 cells once 12.3 merges), idea_scan REASON_W1 wording. 11.40 still waits
+11.39. Next free ids: 3.147, 4.20, 9.12, 11.40, 12.18.

@@ -1,5 +1,5 @@
 - [Leakage fixture D1 warm-up limit](leakage-fixture-d1-warmup-limit.md) — tests/leakage market has 330 D1 bars; longer warm-ups fail the vacuous check
-- [REAL_RUN task ids](real-run-task-ids.md) — R-row → TASK id map; 11.39 research_run split queued 2026-10-23 (11.12 part 3a); part 3b plan in file; next free 3.147 / 4.20 / 9.12 / 11.40
+- [REAL_RUN task ids](real-run-task-ids.md) — R-row → TASK id map + spec-writer log; 12.17 scan split queued, 12.7 held until 12.3+12.17 merge (2026-10-23); next free 3.147 / 4.20 / 9.12 / 11.40 / 12.18
 - [Strong-direct escalations](strong-direct-escalations.md) — "NOT BUILT YET" HUMAN_REQUIRED = no failure to diagnose; build from spec (also builder-timeout with missing test file)
 - [suite-green timeout diagnosis](suite-green-timeout-diagnosis.md) — full validator logs in logs/<run>-a1/; stdout mtime = last test; motif planted0 fixture stalls intermittently under load (3.78, 3.79)
 - [Full suite runtime > 10 min](full-suite-runtime-over-10-min.md) — background Bash default 600s kills suite-green; >32 min under load, use 7200000 ms, check exit code (no summary line)
