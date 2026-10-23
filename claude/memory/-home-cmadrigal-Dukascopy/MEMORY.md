@@ -18,6 +18,7 @@
 - [UI bundle envelope conflict](ui-bundle-envelope-conflict.md) — ui/public/fixtures envelope ≠ TASK-9.1's; RESOLVED 2026-10-12 (c): numbers + codes, wording in UI i18n
 - [PLR0402 vs spec module alias](strict-lint-plr0402-module-alias.md) — `import a.b.c as c` fails strict lint; use `from a.b import c`; float abs-1e-12 on notionals
 - [Stale reviewer findings](stale-reviewer-lint-findings.md) — reviewer re-quotes an earlier attempt's lint/test output after the fix (3.143, 12.10); diff the attempt snapshot first, and do not apply its "repair" blindly
+- [Reviewer PEP 701 f-string false positive](reviewer-pep701-fstring-false-positive.md) — nested-quote f-strings in redeploy verdict() are valid on 3.12; its single-quote repair breaks bash quoting (14.4 F001)
 - [Reviewer misreads error-path tests](reviewer-misreads-error-path-tests.md) — "second call -> FileExistsError" test flagged as contradiction (14.1 F001); don't apply its repair, split + quote the requirement
 - [Sibling worktree contamination](sibling-worktree-contamination.md) — builder copies a sibling task's untracked files (11.31 ← 11.30 prim_age) → protected-paths fail; cmp, delete, ff to main
 - [Operator commit leaves main lint red](operator-commit-red-lint-on-main.md) — e19cd49 E501s in tests/publish/ fail every `ruff check src tests` acceptance (11.13, 11.17); RESOLVED on main 01d744f via 9.7 merge — don't re-apply
