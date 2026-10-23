@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 11.40 queued 2026-10-23 (run_research hallazgo); 11.41 CLI waits 11.40 (exit 5/6 taken); 12.7 held until 12.3+12.17; next free 3.147 / 4.20 / 9.12 / 11.41 / 12.18"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 11.41 research_cli --hallazgo queued 2026-10-23 (exit 7) - TASK-11.12 chain fully specified; 12.7 held until 12.3; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.18"
 metadata:
   node_type: memory
   type: project
@@ -230,3 +230,13 @@ dev_verdict_label + SELECTION_NOTE after the title. OWNS test_research_helpers.p
 Prototype: 888 lines, strict-lint-new clean, new tests 2m54s (3 full e2e runs). NEXT: 11.41 research_cli --hallazgo
 after 11.40 merges - NOTE exit codes 5 (RSS) and 6 (symbol stage) are TAKEN; 11.12's "exit 5 validation already
 used" must become a new code (7). Next free ids: 3.147, 4.20, 9.12, 11.41, 12.18.
+
+2026-10-23 (spec writer, 09:06 UTC refill): 11.40 + 12.17 merged. Queued 11.41 (0d3eb06) = 11.12 part 4: research_cli
+run --hallazgo HZ-NNN [--promotions PATH]; load_promoted in _resolve with protocols_dir=Path('experiments/protocols')
+(cwd-relative, = append_trial's require_registered; promote.LEDGER_PATH / PROTOCOLS_DIR are ABSOLUTE repo paths bound
+at def time); symbols default rule_symbols, other order = exit 2; DEV_FULL + validation_used = exit 7; every rule
+refusal = HallazgoRefusedError -> EXIT_HALLAZGO 7 (5 is MEMORY). Prototype: research_cli 474 -> 556 lines, 21 tests in
+~4 s; tests/hallazgos is NOT a package (copy test_hz_promoted helpers, don't import). TASK-11.12 itself keeps its
+operator hold (all parts 11.35/36/39/40/41 written). Nothing else spec-able: confirm.py / idea_scan W1 follow-ups wait
+12.3 + 12.7; contexto-del-dia (TASK-13.*) drafts wait operator decisions; 4.4 tolerances / C6 / pliegues still OPEN.
+Next free ids: 3.147, 4.20, 9.12, 11.42, 12.18.
