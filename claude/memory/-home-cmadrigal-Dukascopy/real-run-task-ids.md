@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.146 re-run CLI queued 2026-10-23 (chain complete); 11.12 part 3 blocked by research_run 996 lines; next free 3.147 / 4.20 / 9.12 / 11.37"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 11.40 queued 2026-10-23 (run_research hallazgo); 11.41 CLI waits 11.40 (exit 5/6 taken); 12.7 held until 12.3+12.17; next free 3.147 / 4.20 / 9.12 / 11.41 / 12.18"
 metadata:
   node_type: memory
   type: project
@@ -220,3 +220,13 @@ W1 cell refused before the store; OWNS tests/hallazgos/test_hz_scan.py for one e
 raising -> now M15). Measured on fixture: 43 W1 bars, fixed_h n 17 / brk_2R n 16. Next lifts 12.7 after re-verifying on
 main. Follow-ups: confirm.py W1 (KeyError on W1 cells once 12.3 merges), idea_scan REASON_W1 wording. 11.40 still waits
 11.39. Next free ids: 3.147, 4.20, 9.12, 11.40, 12.18.
+
+2026-10-23 (spec writer, 07:10 UTC refill): 11.39 merged (387e4a6). Queued 11.40 (6a2b075) = 11.12 part 3b:
+run_research(hallazgo=PromotedRule) + build_datasets(hallazgo=) + _check_hallazgo (PromotedRule / not with variant /
+symbols == rule_symbols in order / trials.require_registered via MODULE attr - append_trial uses the same global, so
+tests fake it on fxplat.common.trials / sha == protocol_sha256 / DEV_FULL refused if validation_used), run_type
+hypothesis_test, stem F3_<role>_HZ-NNN_<run>, provenance hallazgo keys (manifest key set is fixed), DEV md gets
+dev_verdict_label + SELECTION_NOTE after the title. OWNS test_research_helpers.py to raise its 820-line cap to 950.
+Prototype: 888 lines, strict-lint-new clean, new tests 2m54s (3 full e2e runs). NEXT: 11.41 research_cli --hallazgo
+after 11.40 merges - NOTE exit codes 5 (RSS) and 6 (symbol stage) are TAKEN; 11.12's "exit 5 validation already
+used" must become a new code (7). Next free ids: 3.147, 4.20, 9.12, 11.41, 12.18.
