@@ -3,8 +3,9 @@
 # its public output home for the Brókers view and fxplat-health:
 #   recorder  /opt/fxplat-crypto/binance-data/{hourly,trades,fees,status.json} -> ~/.cache/fxplat/brokers/binance/
 #   trader    /opt/fxplat-crypto/trader-data/{status.json,smoke}              -> ~/.cache/fxplat/brokers/binance-trader/
-#   simulator /opt/fxplat-crypto/sim-data/{status.json, MODE.json, book.json, *.jsonl} -> ~/.cache/fxplat/paper-crypto/
-#             (SIMULATED crypto paper runner, 2026-10-22; read by ui/scripts/export_forward_crypto.py)
+#   simulator /opt/fxplat-crypto/sim-data/{status.json, MODE.json, book.json, market.json, *.jsonl} -> ~/.cache/fxplat/paper-crypto/
+#             (SIMULATED crypto paper runner, 2026-10-22; read by ui/scripts/export_forward_crypto.py and
+#             export_crypto_market.py - market.json since 2026-10-22, absent until the runner is redeployed)
 # Only those named entries travel; env files live outside the data dirs and are never copied. Modeled on
 # fxplat-ctrader-mirror. Install: cp to ~/.local/bin/ (chmod +x), the .service to ~/.config/systemd/user/, then
 #          systemctl --user daemon-reload && systemctl --user enable --now fxplat-binance-mirror
@@ -36,6 +37,6 @@ pull() {  # $1 remote dir, $2 local dir, $3 entries
 while true; do
   pull /opt/fxplat-crypto/binance-data "$OUT/binance" "hourly trades fees status.json"
   pull /opt/fxplat-crypto/trader-data "$OUT/binance-trader" "smoke status.json"
-  pull /opt/fxplat-crypto/sim-data "$SIM_OUT" "MODE.json book.json decisions-SIMULATED.jsonl positions.jsonl closes-SIMULATED.jsonl marks.jsonl bars-h1.jsonl status.json"
+  pull /opt/fxplat-crypto/sim-data "$SIM_OUT" "MODE.json book.json market.json decisions-SIMULATED.jsonl positions.jsonl closes-SIMULATED.jsonl marks.jsonl bars-h1.jsonl status.json"
   sleep 300
 done
