@@ -194,3 +194,20 @@ lifted 3.146's hold and committed (e55b16d) - the re-run chain 3.134-3.146 is no
 work found: 4.4 (tolerance values), 5.1-8.4 (wait on 4.4), 11.12 part 3 (research_run 996/1000 lines - needs a split
 design), C6 / §10.14 pliegues all operator-blocked. Untracked tasks/TASK-11.35.yaml in the main tree is not the spec
 writer's - left alone. Next free ids: 3.147, 4.20, 9.12, 11.37.
+
+2026-10-23 (spec writer, 03:30 UTC refill): queued 11.39 (2ccd43f) = 11.12 part 3a: research_run.py split - twelve
+pure helpers (_parallel_symbols, _tree_sample, _ResourceSampler, _session_dates, _daily_close, _pooled_labels,
+_json_value, _window_line, _write_atomic, _write_lines, _segment_stats, _segment_events + _NY) verbatim into new
+fxplat.pipeline.research_helpers, re-exported; research_run <= 820 lines (prototype 806; all research_run / cli /
+rerun tests pass on it). Names tests PATCH on research_run (_build_symbol, _check_writer, build_datasets,
+run_pooled_walk_forward, run_criteria, dsr_trial_count, load_cost_model, _verdict_stage, run_research) must stay
+defined there. NEXT (after 11.39 merges): 11.40 = part 3b run_research(hallazgo=PromotedRule): refuse with variant;
+symbols == promoted.rule_symbols; DEV_FULL refused when promoted.validation_used(registry rows); hallazgo through
+build_datasets + parallel ds_kwargs to run_symbol_stage; dataset_cache inputs gain hallazgo /
+hallazgo_protocol_sha256 (as symbol_stage); checkpoint key must differ from V1 (_checkpoint_key returns pinned_sha256
+when options None!); verdict variant / registry variante = HZ id; append_trial hypothesis_id FX-HZ-NNN run_type
+hypothesis_test; manifest run_type too; _ATTRIBUTION strings say 'exploratory ... no es una prueba de hipótesis' -
+need hallazgo-specific attribution; DEV report gets promoted.SELECTION_NOTE. Then 11.41 = research_cli --hallazgo.
+12.7 (W1 in scan) still waits 12.3; scan.py 974 lines - put W1 logic in a new module rather than a split task.
+Scratch-copy measuring: `git init` + commit the copy, else research_cli tests fail on git_state. Next free ids:
+3.147, 4.20, 9.12, 11.40.

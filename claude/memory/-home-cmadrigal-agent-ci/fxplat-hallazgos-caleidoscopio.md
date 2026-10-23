@@ -18,3 +18,5 @@ Approved D1-D12 as recommended (log: Dukascopy state/decisions-pending.md). Queu
 - Prior art: Gençay 2026 arXiv:2608.27734 (LLM strategies all rejected under DSR/PBO).
 Related: [[fxplat-research-sprint-2026-10-19]], [[fxplat-broker-costs]], [[spec-source-of-truth-fxplat]].
 - 2026-10-21: TASK-12.1..12.16 queued (4809564): weekly frame + fxplat.xsec portfolio engine; 12.6 + 12.16 held for his sign-off, 12.7 for my spec finish.
+
+**2026-10-22 update:** 11.13 (exporter) + 11.17 (ideate) merged. Gaps found by spec review: ideate persisted nothing -> new TASK-11.37 (batch artifact artifacts/hallazgos/ideas/<batch_id>.json) and TASK-11.38 (idea_scan: ideas -> catalogue -> scan.run_scan on discovery half -> p_success -> PredictionsLedger freeze -> <batch_id>.scan.json). Operator decision: STRICT luck filter for ideas — p_adj = q_by over cumulative m (all scan + idea cells), batch-only RW is informational only (commit 168cbaa). expected_net_r = p_real*0.5*mean_net (agent default, unsigned). Idea narratives still unproduced. UI tasks need node_modules symlink + tsbuildinfo restore in acceptance (11.14 a74d521/f0e686d).
