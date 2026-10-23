@@ -108,3 +108,4 @@
 - [fxplat Contexto del día](fxplat-contexto-del-dia.md) — 2026-10-22 day diagnosis + score as one factor + hot-days calendar; design 55abb10, 16 drafts unqueued, D1-D10 pending
 - [fxplat Participantes design](fxplat-participantes-design.md) — 2026-10-23 who trades (COT/FFAJ/MoF/Binance) + commodities; design ecfa843, 16 drafts unqueued, capture-now 14.1/14.4-14.6; Dukascopy ToS flag
 - [handoff 2026-10-23](handoff-2026-10-23.md) — session closed at 250 MB (chat freeze): roadmap + markets-cmd worktrees stopped on denied prompts, 14.2 CFTC check to redo, commodity downloads slow
+- [SWFX sentiment capture](swfx-sentiment-capture.md) — 2026-10-23: LIVE via official embed + headless Chromium every 10 min (swfx-sentiment.timer); consent email pending; commodity backfill now 1 writer yielding to fxplat-update

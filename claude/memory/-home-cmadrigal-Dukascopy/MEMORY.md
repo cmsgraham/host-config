@@ -6,7 +6,7 @@
 - [Containment false positive](containment-false-positive-operator-ui.md) — operator's concurrent root commits (ui/, config/, experiments/observations, hallazgos/ideas.jsonl) get blamed on the builder; check git log in the run window (3.78, 9.10, 12.14, 13.1)
 - [Caleidoscopio test clock time bomb](caleidoscopio-test-clock-timebomb.md) — 6 tests/publish caleidoscopio tests red since 2026-10-23 12Z (fixed NOW vs real-clock 24 h expiry); fix only via operator commit on main — in a task branch it fails protected-paths (13.1)
 - [Registry commit breaks main suite](registry-commit-breaks-main-suite.md) — registro.csv rows broke test_trials / n_trials==17; fixed on main 29978f3 — stale-base task branches: ff to main
-- [Owned file inside protected dir](owned-inside-protected-dir.md) — fixed in agent-ci 068334d (exact owned files exempt); pre-fix runs just need a retry; builders still misread it and quit (11.27)
+- [Owned file inside protected dir](owned-inside-protected-dir.md) — fixed in agent-ci 068334d (exact owned files exempt); pre-fix runs just need a retry; builders still misread it and quit (11.27); not-yet-existing protected dir → mkdir vetoed, write owned files only, no __init__.py (14.5)
 - [strict-lint 1000-line cap](strict-lint-1000-line-cap.md) — lint-new fails modules >1000 lines; research_run.py at 996 after 3.131
 - [lint-new counts per (file, rule)](lint-new-counts-per-file-rule.md) — old violations reappear when a change adds one more of the same rule in that file
 - [Counterfactual venv symlink](counterfactual-venv-symlink.md) — BASE_ALREADY_PASSES is false: counterfactual .venv imports the task worktree's src

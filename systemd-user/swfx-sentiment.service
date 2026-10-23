@@ -1,0 +1,12 @@
+[Unit]
+Description=SWFX sentiment snapshot via the official Dukascopy embed (headless Chromium)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/cmadrigal/fxdata-sentiment
+ExecStart=/home/cmadrigal/fxdata-sentiment/.venv/bin/python capture_embed.py
+TimeoutStartSec=330
+Nice=10
+StandardOutput=append:/home/cmadrigal/fxdata-sentiment/capture.log
+StandardError=append:/home/cmadrigal/fxdata-sentiment/capture.log

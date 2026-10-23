@@ -24,3 +24,5 @@ never commit-then-revert it on the branch: the re-run refresh rebases, and the r
 operator's fix on main. Check `git log main -- tests/publish/test_caleidoscopio_service.py`; if unfixed, leave the
 branch with only owned files and hand the operator the one-file patch for main. Related:
 [[operator-commit-red-lint-on-main]], [[registry-commit-breaks-main-suite]].
+
+Still unfixed on main at 2026-10-23 ~15:40Z (triage of TASK-13.1 run-143452: NEEDS YOU, not retried to save escalation; TASK-14.5 suite: exactly these 6 red; TASK-14.1 escalation later that day: same 6, patch verified green then reverted). `git diff <ref>^ <ref> -- tests/publish/test_caleidoscopio_service.py` applies cleanly to main.
