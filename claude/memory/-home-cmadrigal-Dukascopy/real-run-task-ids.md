@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 11.41 research_cli --hallazgo queued 2026-10-23 (exit 7) - TASK-11.12 chain fully specified; 12.7 held until 12.3; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.18"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 12.7 lifted 2026-10-23, 12.18 (confirm W1) / 12.19 (idea_scan W1) held until 12.7 merges; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
 metadata:
   node_type: memory
   type: project
@@ -240,3 +240,13 @@ refusal = HallazgoRefusedError -> EXIT_HALLAZGO 7 (5 is MEMORY). Prototype: rese
 operator hold (all parts 11.35/36/39/40/41 written). Nothing else spec-able: confirm.py / idea_scan W1 follow-ups wait
 12.3 + 12.7; contexto-del-dia (TASK-13.*) drafts wait operator decisions; 4.4 tolerances / C6 / pliegues still OPEN.
 Next free ids: 3.147, 4.20, 9.12, 11.42, 12.18.
+
+2026-10-23 (spec writer, 10:30 UTC refill): 12.3 + 12.17 merged -> lifted 12.7's hold after re-verifying (main changes since
+6ab580a = exactly those two). CAUGHT: tests/hallazgos/test_hz_scan_helpers.py test_line_caps pins scan.py <= 880 (main 873,
+12.7 adds ~14) -> 12.7 now owns that file for 880 -> 950. Wrote 12.18 (confirm._symbol_work W1 twin: weekly_bars of the
+confirmation D1 before _check_lock; measured on test_hz_confirm market: 27 W1 decisions, fixed_h n 21 / brk_2R n 20, p 1.0;
+test flips reportable on its copy of cells.parquet) and 12.19 (idea_scan: STATE-only W1 ideas scanned, REASON_W1 text ->
+"marco W1: solo primitivas de estado"; owns test_hz_idea_scan.py for 4 literals). Both HELD "lift after TASK-12.7 merges"
+(review asked). Prototype = /tmp/proto1218 (main + 12.7 scan change + both changes; git init'ed). GOTCHA: the merge gate
+RESETS modified tracked files in the main tree - a tasks/*.yaml edit left uncommitted while MERGING.json exists is lost;
+keep a /tmp backup and restore before committing. Next free ids: 3.147, 4.20, 9.12, 11.42, 12.20.
