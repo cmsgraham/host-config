@@ -1,0 +1,11 @@
+[Unit]
+Description=Commodity tick backfill into ~/fxdata-cmd (one writer, 1 req/s; yields to fxplat-update)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecCondition=/bin/sh -c '! systemctl --user is-active --quiet fxplat-update.service'
+ExecStart=/home/cmadrigal/fxdata-cmd/run-sequential.sh
+Nice=10
+StandardOutput=append:/home/cmadrigal/fxdata-cmd/sequential.log
+StandardError=append:/home/cmadrigal/fxdata-cmd/sequential.log

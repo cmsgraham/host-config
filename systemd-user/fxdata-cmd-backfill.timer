@@ -1,0 +1,9 @@
+[Unit]
+Description=Resume the commodity backfill when the FX update is idle
+
+[Timer]
+OnCalendar=*:00/15
+Persistent=false
+
+[Install]
+WantedBy=timers.target

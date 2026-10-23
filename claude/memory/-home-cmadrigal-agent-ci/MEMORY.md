@@ -106,3 +106,5 @@
 - [docker1 Binance node](docker1-binance-node.md) — home BRIX 192.168.1.43 reinstalled 2026-10-22: Ubuntu 24.04 unencrypted, Docker, hardened; Binance recorder goes here
 - [observation-days DB](fxplat-observation-days-db.md) — experiments/observations/observations.sqlite: tagged market days (calendar + Haiku + web), sets to cross-match findings; first set = 113 turbulent-USD days
 - [fxplat Contexto del día](fxplat-contexto-del-dia.md) — 2026-10-22 day diagnosis + score as one factor + hot-days calendar; design 55abb10, 16 drafts unqueued, D1-D10 pending
+- [fxplat Participantes design](fxplat-participantes-design.md) — 2026-10-23 who trades (COT/FFAJ/MoF/Binance) + commodities; design ecfa843, 16 drafts unqueued, capture-now 14.1/14.4-14.6; Dukascopy ToS flag
+- [handoff 2026-10-23](handoff-2026-10-23.md) — session closed at 250 MB (chat freeze): roadmap + markets-cmd worktrees stopped on denied prompts, 14.2 CFTC check to redo, commodity downloads slow
