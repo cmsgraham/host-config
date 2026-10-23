@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.145 merged_facts queued 2026-10-23, 3.146 re-run CLI drafted (waits 3.145); next free 3.147 / 4.20 / 9.12 / 11.37"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 3.146 re-run CLI queued 2026-10-23 (chain complete); 11.12 part 3 blocked by research_run 996 lines; next free 3.147 / 4.20 / 9.12 / 11.37"
 metadata:
   node_type: memory
   type: project
@@ -188,3 +188,9 @@ rerun_run, merged_facts, write_rerun_report, exit 3 on refusals, no registry row
 synthetic run under load: c15 126 s, c17 540 s, c9_matrix 196 s, loyo 7-14 s; 'decay' FAILS on synthetic datasets
 (inp.X missing 'b27_vol_regime') - tests run loyo only. spec-review can exceed the 600 s Bash background limit: run
 it with run_in_background + explicit long timeout. Next free ids: 3.147, 4.20, 9.12, 11.37.
+
+2026-10-23 (spec writer, 02:00 UTC refill): waited for the 3.145 merge gate (3569b27), re-verified merged_facts on main,
+lifted 3.146's hold and committed (e55b16d) - the re-run chain 3.134-3.146 is now fully specified. No other spec-able
+work found: 4.4 (tolerance values), 5.1-8.4 (wait on 4.4), 11.12 part 3 (research_run 996/1000 lines - needs a split
+design), C6 / §10.14 pliegues all operator-blocked. Untracked tasks/TASK-11.35.yaml in the main tree is not the spec
+writer's - left alone. Next free ids: 3.147, 4.20, 9.12, 11.37.
