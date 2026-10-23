@@ -10,3 +10,4 @@ Findings: no names, only groups. Free + backtestable: CFTC COT (FX TFF/Legacy 20
 Capture-now (no tries): 14.1 COT snapshots, 14.4 Binance positioning container on docker1, 14.5 archive backfill, 14.6 FFAJ/MoF/TFX raw copies.
 FLAG raised: Dukascopy website ToS bans building "a database of any kind" — check what licence covers fxplat's tick downloads.
 Related: [[fxplat-contexto-del-dia]], [[fxplat-stock-indexes-exploration]], [[fxplat-hallazgos-caleidoscopio]].
+Operator 2026-10-23 19:10Z: the panel's pending sections (COT, commodities, crypto, Japanese retail) are NOT priority - let the pipeline follow its plan. So: TASK-14.2 stays HELD (CFTC date check not done; COT/commodity chain 14.2->14.3->14.15 waits), 14.8 FFAJ parser stays an unqueued draft. Don't push these unless asked.
