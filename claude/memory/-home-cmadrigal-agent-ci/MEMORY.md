@@ -109,3 +109,5 @@
 - [fxplat Participantes design](fxplat-participantes-design.md) — 2026-10-23 who trades (COT/FFAJ/MoF/Binance) + commodities; design ecfa843, 16 drafts unqueued, capture-now 14.1/14.4-14.6; Dukascopy ToS flag
 - [handoff 2026-10-23](handoff-2026-10-23.md) — session closed at 250 MB (chat freeze): roadmap + markets-cmd worktrees stopped on denied prompts, 14.2 CFTC check to redo, commodity downloads slow
 - [SWFX sentiment capture](swfx-sentiment-capture.md) — 2026-10-23: LIVE via official embed + headless Chromium every 10 min (swfx-sentiment.timer); consent email pending; commodity backfill now 1 writer yielding to fxplat-update
+- [merge gate stashes registry](merge-gate-stashes-registry.md) — 2026-10-23: a registro.csv row written mid-merge is autostashed then popped; check stash before re-running; commit with pathspec after
+- [synthetic known-answer bench](fxplat-synthetic-known-answer.md) — 2026-10-23: planted edges in calibrated fake markets before G3; all 3 parts; design + TASK-15.x drafts in progress

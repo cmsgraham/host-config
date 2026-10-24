@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 12.7 merged, 12.18 / 12.19 lifted 2026-10-24; queue sources exhausted except operator-blocked items; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 13.7 lifted + 13.8 fixed 2026-10-24 03Z; contexto 13.10-13.16 proposals need operator OK; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
 metadata:
   node_type: memory
   type: project
@@ -266,3 +266,9 @@ committed HELD "lift at the next refill" (three-task cap) - next writer: just de
 (logs/spec-review-TASK-13.8-1325c743.md, 2 high) - untouched. Recurring fixes: deploy/ui scripts already fail E501 ->
 `ruff check --extend-ignore E501 <file>` + "don't reflow"; append raw files with open('ab') (append_lines_atomic rewrites);
 cap test needs >= 2 lines at 0.0001 MB; ib_async empties ticker.tickByTicks per packet (use updateEvent handler).
+
+2026-10-24 (spec writer, 03:10 UTC refill; runnable 13.6/13.9/14.6): lifted 13.7 (no overlap with 13.5 merge) and fixed 13.8
+BLOCK -> OK (feedcheck: real mirror paths brokers/{ctrader,binance}/status.json, pairs/last_tick vs symbols/last_update,
+weekend Fri 21Z..Sun 22Z skips staleness except binance, headline ledger 72 h (capture appends only on new items),
+last_full_day = latest Mon-Fri D with D+1d+6h <= now, plan None -> "hotplan: missing or stale", WAL sidecars ignored in the
+no-write test). No third: state/proposals/contexto/TASK-13.10..13.16 exist but carry "move only after the operator's OK".
