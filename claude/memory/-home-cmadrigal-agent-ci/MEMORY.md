@@ -114,3 +114,4 @@
 - [Valentini video review](valentini-video-review.md) — 2026-10-24: captions via yt-dlp (works; same as Binary Teach); promotional interview, no harvest; confirms COT extremes, stop slippage (P6), vol-regime conditioning
 - [scan-only ≠ NO_EDGE](scan-only-not-no-edge.md) — discovery-scan-only or underpowered ideas are INCONCLUSIVE; NO_EDGE removes seeds, so reserve it for registered studies or clearly negative estimates
 - [fxplat multi-account](fxplat-multi-account.md) — 2026-10-24: real accounts per owner + fun simulated risk profiles; owner can adjust risk/disable switches (audited); design -> challenge -> build, nothing queued yet
+- [R910 bench node](r910-bench-node.md) — home R910 (40c/80t, 128 GB, no AVX) for synthetic bench S2+; OFF until S1 done; then Ubuntu + SSH + 15-min compat/timing test
