@@ -47,3 +47,7 @@ out-of-pipeline full suites in /tmp/claude-1000/costv4-* (another session), ~7 c
 
 The same run's `workspace-containment` failure was a false attribution: an interactive session was
 editing `ui/` in the main tree while the builder ran (ui/ is hand-built, see config.yaml merge_gate_ignore).
+
+2026-10-24 (TASK-15.3 escalation): the full suite took ~33 min (exit 0), the last ~20 min on one xdist worker with numba
+loaded at ~24k minflt/s. Host: PSI memory full ~42%, swap 7/8 GB; the big consumers were an ollama llama-server (7.4 GB RSS)
+and a defunct python at 105% CPU (3.5 h). Same environmental pattern: wait it out (background, timeout 7200000), don't change code.
