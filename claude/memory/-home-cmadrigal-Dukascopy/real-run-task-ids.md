@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.15; 15.4 split into 15.13/15.14 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.17; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -292,3 +292,12 @@ lands one point low), 15.4 world.py rewritten (d294b4d; deps 15.3/15.13/15.14; r
 corr ~10 % -> test on jump-free hours; spread vol_ratio must be exp(h - h_bar) only (GARCH median < 1 biases -6 %); forced
 stress days must not feed the chain; kurtosis dropped as a target (not invertible) -> jump-share checks. Next free ids: 3.147,
 4.20, 9.12, 11.42, 12.20, 15.15.
+
+2026-10-24 (spec writer, 14:32 UTC refill; runnable 15.5 in merge gate): 15.6 operator-queued, "spec held by review" (no triage
+agent on it). Split + rewrote: 15.6 plant.py (9876eec; EdgeSpec, amplitude shapes, EVENT_COLUMNS, planted_events, plant(weeks,..)
+carried log drift with exact tests - no 3-SE stats; first minute of every week is one-tick so mid_o'==mid' there), 15.15
+plant_mask.event_mask (593c28f; == scan._condition_trades decisions EXACTLY via fake outcome table t_entry_ms=repeat(dec,6);
+26-week world write_world 12-28 s; vol_regime/turbulence empty <250 D1 bars), 15.16 store.write_world(transform=) (e66c891;
+write_world had no hook for planted weeks). Prototypes /tmp/proto156. 15.7's comment still cites "TASK-15.6 event_mask" -
+it now lives in 15.15 (15.7 needs deps 15.15/15.16; its review will flag it). Next free 15.17.
+
