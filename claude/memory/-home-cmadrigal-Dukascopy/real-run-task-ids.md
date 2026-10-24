@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-22T23:11:24.383Z
+  modified: 2026-10-24T18:49:33.064Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -300,4 +300,11 @@ plant_mask.event_mask (593c28f; == scan._condition_trades decisions EXACTLY via 
 26-week world write_world 12-28 s; vol_regime/turbulence empty <250 D1 bars), 15.16 store.write_world(transform=) (e66c891;
 write_world had no hook for planted weeks). Prototypes /tmp/proto156. 15.7's comment still cites "TASK-15.6 event_mask" -
 it now lives in 15.15 (15.7 needs deps 15.15/15.16; its review will flag it). Next free 15.17.
+
+2026-10-24 (spec writer, 18:44 UTC refill; runnable 16.21-16.24, escalation engineer already on 16.21): ops had 16.20 + 15.6
+"spec held by review" (15.6's 9876eec had been committed on a BLOCK hash - ops key = current spec hash). Fixed both, review OK:
+16.20 (31ed12e; exact per-scenario file sets - late_instant has NO decisions file, k11 has STOP; config_sha256 = experiment.yaml
+hash, once in decisions + paper_manifest -> projected to 64 '0'; __main__ --write installs the synthetic snapshot itself and
+mkdirs golden/), 15.6 (0885df1; ask = (bid_pts + k) * point in integer points, never bid + k*point). Scratch replay
+/tmp/proto1620. No third (no new RESOLVED; stubs wait on deps). Next free ids unchanged.
 
