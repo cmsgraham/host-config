@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.13"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.15; 15.4 split into 15.13/15.14 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -282,3 +282,13 @@ log-RV (raw -> LinAlgError), correlations/kurtosis about zero, GARCH mean='Zero'
 (calib.py/gen.py). Weekend-gap t-scale recovery is +-25 % even at 312 weekends -> test the extraction exactly, not the
 population. Nothing else spec-able (no new RESOLVED decisions; 15.4+ wait 15.3; 15.12 operator draft). Next free ids:
 3.147, 4.20, 9.12, 11.42, 12.20, 15.13.
+
+2026-10-24 (spec writer, 08:41 UTC refill; runnable 15.2): 15.4 was operator-queued but "spec held by review" (BLOCK: false
+holidays given-claim, design §5 not in repo, usd_stress ungrounded, untestable tolerances). Split + rewrote: 15.13 world_clock
+(2ec17cb; deterministic minute grid via sources._week_minutes, HOLIDAYS 12-25/1-1, THIN 12-24/12-31, econ_events NFP/CPI/FOMC in
+VALUE_COLUMNS; 521 weeks, 319 events), 15.14 world_quotes (429bbf8; spread from S6/S8, INTEGER HALF-POINTS - floor(1.0/1e-5)
+lands one point low), 15.4 world.py rewritten (d294b4d; deps 15.3/15.13/15.14; route strong ~750 lines). Prototype
+/tmp/proto154 (world.py, ctest.py, mw*.py). Lessons: fidelity needs 260-week worlds (52 too noisy); idiosyncratic jumps cut H1
+corr ~10 % -> test on jump-free hours; spread vol_ratio must be exp(h - h_bar) only (GARCH median < 1 biases -6 %); forced
+stress days must not feed the chain; kurtosis dropped as a target (not invertible) -> jump-share checks. Next free ids: 3.147,
+4.20, 9.12, 11.42, 12.20, 15.15.
