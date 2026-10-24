@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 12.7 lifted 2026-10-23, 12.18 (confirm W1) / 12.19 (idea_scan W1) held until 12.7 merges; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 12.7 merged, 12.18 / 12.19 lifted 2026-10-24; queue sources exhausted except operator-blocked items; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
 metadata:
   node_type: memory
   type: project
@@ -250,3 +250,11 @@ test flips reportable on its copy of cells.parquet) and 12.19 (idea_scan: STATE-
 (review asked). Prototype = /tmp/proto1218 (main + 12.7 scan change + both changes; git init'ed). GOTCHA: the merge gate
 RESETS modified tracked files in the main tree - a tasks/*.yaml edit left uncommitted while MERGING.json exists is lost;
 keep a /tmp backup and restore before committing. Next free ids: 3.147, 4.20, 9.12, 11.42, 12.20.
+
+2026-10-24 (spec writer, 00:05 UTC refill): 12.7 merged (1b7b72a) -> lifted 12.18 (0a52b2b) and 12.19 (072f5ca) after re-verifying
+on main 1a62c4e. 12.7 as merged moved the non-STATE W1 refusal into scan._refuse_w1 (called first in run_scan, not per cell);
+behaviour unchanged. Re-measured 12.18 on /tmp/p1218m (git-archive of main + confirm change; run with PYTHONPATH=src or the
+editable install imports MAIN's src): every number held (n 21/20, excluded W1 censored 25 / no_entry 6, 27 decisions, truncation
+13 decisions / 53 rows). No third task: resume_gate decision = 8.9 (passed); UI-A1..A10, PHASE3 map, R rows all covered;
+remaining = operator-blocked (4.4 tolerances, C6, pliegues, D1/fixed_h/W1 promotion via promote.RULE_FRAMES, 12.6/12.16
+signatures, 14.2 CFTC dates, 14.7-14.14 outside the operator's 'capture + panel' scope). Next free ids unchanged.
