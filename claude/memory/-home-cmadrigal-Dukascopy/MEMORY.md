@@ -25,3 +25,4 @@
 - [experiment.yaml string guard](experiment-yaml-string-guard.md) — any src module (not config.py) containing the text "experiment.yaml", even in a docstring, fails suite-green
 - [Preflight ignores `cd ui`](preflight-ignores-cd-ui.md) — UI acceptance test paths must be repo-root relative (vitest --root ui) or preflight stops the task
 - [scan.py positional callers](scan-internals-positional-callers.md) — confirm/promote build scan._Job/_FrameCtx/_stamp positionally; new fields LAST with defaults; scan.py 930/1000 lines
+- [experiments/observations not ruff-clean](experiments-observations-not-ruff-clean.md) — vocab.py has 26 E501 on main; a lint acceptance on it makes builders reformat/alter tag text; restore + file-level `# ruff: noqa: E501` (13.9)

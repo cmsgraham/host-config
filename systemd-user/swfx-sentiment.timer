@@ -1,8 +1,8 @@
 [Unit]
-Description=SWFX sentiment snapshot every 10 minutes
+Description=SWFX sentiment snapshot every 10 minutes, offset 5 min from the docker1 capture (shared IP)
 
 [Timer]
-OnCalendar=*:00/10
+OnCalendar=*:05/10
 AccuracySec=30s
 Persistent=false
 
