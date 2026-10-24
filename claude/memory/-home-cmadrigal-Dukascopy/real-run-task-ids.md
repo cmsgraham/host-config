@@ -308,3 +308,15 @@ hash, once in decisions + paper_manifest -> projected to 64 '0'; __main__ --writ
 mkdirs golden/), 15.6 (0885df1; ask = (bid_pts + k) * point in integer points, never bid + k*point). Scratch replay
 /tmp/proto1620. No third (no new RESOLVED; stubs wait on deps). Next free ids unchanged.
 
+
+2026-10-24 (spec writer, 23:11 UTC refill; runnable 15.15/15.18/16.24/16.29): ops had 15.19, 15.7, 16.23 "spec held by review", no
+triage agent. Fixed + committed 16.23 (3c26f57; check_ruin stop_out BEFORE equity_zero - influencer level 0.0; prudente 25-pip stop
+= atr 0.00125 -> 1,000 units; loco atr 0.02 -> 5k/20k/40k units risk 200/800/1600, clamp atr 0.000625 -> 45,000, 56.25; IB costs
+both orders priced at ENTRY, odd lot on raw entry = sim_book._forced_exit; open PositionState has exit_px None) and 15.19 (abce886;
+policy snapshot monkeypatch, assemble_events emission filters -> FOMC 14:00 gives 15:00 NY only, census_subjects(spec) on the null
+path, default_oracle() hook). KEY MEASUREMENT: calibrate on the FIXED null-path subject set - re-evaluated subjects make TRAP gross
+non-monotone in mu (unbracketable). 2-month oracle 2013-01..02 seed 20261099: 113 subjects, NULL net +0.35 (noise; longer worlds
+-0.05..-0.10); EDGE target 1.0 -> mu 2.5e-6 net 1.045; TRAP -0.15 -> mu 1.875e-6 gross -0.133. Prototype /tmp/proto1519. NOT done:
+15.7 (still ops-blocked, logs/spec-review-TASK-15.7-5d959816.md; 15.15 merged 2c67157 at 23:3x so it is now unblocked - next writer:
+deps 15.6/15.15/15.16, oracle 2009-2018 max via world_clock bounds + oracle_spec override, in-memory bars, fixed event set as in
+15.19, annotate_planted before write_world). Lesson: every OK round surfaces new lows; commit at the OK hash, don't loop.
