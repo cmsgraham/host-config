@@ -258,3 +258,11 @@ editable install imports MAIN's src): every number held (n 21/20, excluded W1 ce
 13 decisions / 53 rows). No third task: resume_gate decision = 8.9 (passed); UI-A1..A10, PHASE3 map, R rows all covered;
 remaining = operator-blocked (4.4 tolerances, C6, pliegues, D1/fixed_h/W1 promotion via promote.RULE_FRAMES, 12.6/12.16
 signatures, 14.2 CFTC dates, 14.7-14.14 outside the operator's 'capture + panel' scope). Next free ids unchanged.
+
+2026-10-24 (spec writer, 01:34 UTC refill): NEW SOURCE - operator-queued specs with NO hold line but BLOCKED by the
+pipeline's own spec-review gate (`agent-ci ops` -> "spec held by review"; supervisor counts them as not runnable even though
+`tasks` says ELIGIBLE). Fixed + committed 13.5 (76c9b12), 13.6 (5e61f5d), 14.6 (f13f213); 13.7 (b4e04b4) review OK but
+committed HELD "lift at the next refill" (three-task cap) - next writer: just delete the hold line. 13.8 still BLOCK
+(logs/spec-review-TASK-13.8-1325c743.md, 2 high) - untouched. Recurring fixes: deploy/ui scripts already fail E501 ->
+`ruff check --extend-ignore E501 <file>` + "don't reflow"; append raw files with open('ab') (append_lines_atomic rewrites);
+cap test needs >= 2 lines at 0.0001 MB; ib_async empties ticker.tickByTicks per packet (use updateEvent handler).
