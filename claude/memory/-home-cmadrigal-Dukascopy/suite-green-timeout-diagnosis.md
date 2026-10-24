@@ -51,3 +51,9 @@ editing `ui/` in the main tree while the builder ran (ui/ is hand-built, see con
 2026-10-24 (TASK-15.3 escalation): the full suite took ~33 min (exit 0), the last ~20 min on one xdist worker with numba
 loaded at ~24k minflt/s. Host: PSI memory full ~42%, swap 7/8 GB; the big consumers were an ollama llama-server (7.4 GB RSS)
 and a defunct python at 105% CPU (3.5 h). Same environmental pattern: wait it out (background, timeout 7200000), don't change code.
+
+2026-10-24 (triage, TASK-15.14 merge_refused): the post-merge full suite timed out at 3600 s. Gate suite-green had passed in 530 s
+just before. The stall was on one xdist worker in the motif tests (motif0 05:20, then nothing until 05:59). PSI full ~47%, swap 7/8.
+Find the worker's progress through the gate's TMPDIR (`tr '\0' '\n' < /proc/<pytest pid>/environ | grep TMPDIR`), then
+`$TMPDIR/pytest-of-*/pytest-N/popen-gwK/`, where the dir mtimes are per-test timestamps. py-spy needs sudo, so it doesn't work.
+The timed-out pytest tree was left running as an orphan after the timeout (reported NEEDS YOU, because only the operator may kill it).
