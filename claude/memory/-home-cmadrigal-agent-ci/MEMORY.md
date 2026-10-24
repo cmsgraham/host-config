@@ -112,3 +112,5 @@
 - [merge gate stashes registry](merge-gate-stashes-registry.md) — 2026-10-23: a registro.csv row written mid-merge is autostashed then popped; check stash before re-running; commit with pathspec after
 - [synthetic known-answer bench](fxplat-synthetic-known-answer.md) — 2026-10-23: planted edges in calibrated fake markets before G3; all 3 parts; design + TASK-15.x drafts in progress
 - [Valentini video review](valentini-video-review.md) — 2026-10-24: captions via yt-dlp (works; same as Binary Teach); promotional interview, no harvest; confirms COT extremes, stop slippage (P6), vol-regime conditioning
+- [scan-only ≠ NO_EDGE](scan-only-not-no-edge.md) — discovery-scan-only or underpowered ideas are INCONCLUSIVE; NO_EDGE removes seeds, so reserve it for registered studies or clearly negative estimates
+- [fxplat multi-account](fxplat-multi-account.md) — 2026-10-24: real accounts per owner + fun simulated risk profiles; owner can adjust risk/disable switches (audited); design -> challenge -> build, nothing queued yet
