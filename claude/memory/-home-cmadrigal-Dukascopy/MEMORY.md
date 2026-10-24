@@ -1,5 +1,5 @@
 - [Leakage fixture D1 warm-up limit](leakage-fixture-d1-warmup-limit.md) — tests/leakage market has 330 D1 bars; longer warm-ups fail the vacuous check
-- [REAL_RUN task ids](real-run-task-ids.md) — R-row → TASK id map + spec-writer log; review-BLOCKED operator specs are a refill source (`agent-ci ops`); 13.7 lifted, 13.8 fixed (2026-10-24); proposals/contexto 13.10-13.16 wait operator OK; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20
+- [REAL_RUN task ids](real-run-task-ids.md) — R-row → TASK id map + spec-writer log; ops spec-blocked cases may already have a triage agent on them (check ps/ListAgents first); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.13
 - [Strong-direct escalations](strong-direct-escalations.md) — "NOT BUILT YET" HUMAN_REQUIRED = no failure to diagnose; build from spec (also builder-timeout with missing test file)
 - [suite-green timeout diagnosis](suite-green-timeout-diagnosis.md) — full validator logs in logs/<run>-a1/; stdout mtime = last test; motif planted0 fixture stalls intermittently under load (3.78, 3.79)
 - [Full suite runtime / xdist](full-suite-runtime-over-10-min.md) — `pytest tests -q` = 6 xdist workers (~10 min); --deselect/-k → serial (35+ min) + 6 false tests/pipeline failures (test_rerun_facts MonkeyPatch leak); use 7200000 ms, check exit code

@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; 13.7 lifted + 13.8 fixed 2026-10-24 03Z; contexto 13.10-13.16 proposals need operator OK; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.13"
 metadata:
   node_type: memory
   type: project
@@ -272,3 +272,13 @@ BLOCK -> OK (feedcheck: real mirror paths brokers/{ctrader,binance}/status.json,
 weekend Fri 21Z..Sun 22Z skips staleness except binance, headline ledger 72 h (capture appends only on new items),
 last_full_day = latest Mon-Fri D with D+1d+6h <= now, plan None -> "hotplan: missing or stale", WAL sidecars ignored in the
 no-write test). No third: state/proposals/contexto/TASK-13.10..13.16 exist but carry "move only after the operator's OK".
+
+2026-10-24 (spec writer, 07:01 UTC refill; runnable 0): `agent-ci ops` showed 15.2 + 15.3 "spec held by review". OVERLAP: the
+supervisor ALSO launched a triage agent (TRIAGE.md, kind spec_blocked) on the same two cases at 07:11 - check `ps aux | grep
+TRIAGE` / ListAgents before touching an ops-blocked spec. Triage fixed + committed 15.2 (bdc22db); I rewrote 15.3 (cf58fc5,
+review OK): S1-S8 registered inline (design lives only in agent-ci docs/research/2026-10-23-synthetic-known-answer-bench.md),
+real BAR_SCHEMA columns, load [2010-01-01, end-1ms] (read_bars keeps ts_close <= end), MarkovRegression must run on z-scored
+log-RV (raw -> LinAlgError), correlations/kurtosis about zero, GARCH mean='Zero', t.fit floc=0. Prototype /tmp/proto153
+(calib.py/gen.py). Weekend-gap t-scale recovery is +-25 % even at 312 weekends -> test the extraction exactly, not the
+population. Nothing else spec-able (no new RESOLVED decisions; 15.4+ wait 15.3; 15.12 operator draft). Next free ids:
+3.147, 4.20, 9.12, 11.42, 12.20, 15.13.
