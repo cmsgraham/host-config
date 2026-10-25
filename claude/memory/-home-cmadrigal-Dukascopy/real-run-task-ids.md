@@ -328,3 +328,13 @@ dict entry; update() skips (not rejects) future-dated releases; multiset accepte
 null-path cell events, planted m1 built in memory from minute_ticks (== store_bars m1 exactly), outcomes direction = td (NOT the
 catalogue label: C-LDN-OPEN 'long' on EURUSD is td -1), spillover = planted-minus-null EV delta (absolute null EVs are +-0.3 R noise).
 Test world spec_for_weeks('oracle-test', 20261157, 52): P cell 256 events / 255 executable, net 0.30 -> mu 2.03e-6. No third task.
+
+2026-10-25 (spec writer, 02:3x UTC refill; runnable 15.9/15.10/15.18/15.20/16.29): ops had 15.8 + 16.25 "spec held by review"
+(16.29 = max_attempts, not mine), no triage agent. 16.25 (871f0b8): influencer stop_out_level 0.0 -> a gradual ramp ends
+'below_min' first; test = one gap poll at T+600 s bid 1.0930 (equity -216); loco 45k units stops out at its FIRST mark (990.6 vs
+used 994.56) by design; prudente size_zero needs atr_h > 0.00125 (test monkeypatches stub_signal.stub_candidates atr 0.0015);
+loss_state at the poll's now (at T it is 'no_mark'). Proto /tmp/proto1625. 15.8 (fa7719b): real columns interesting/rw_reject/
+sigma_R; batch must be interesting AND reportable (run_confirm refuses non-reportable); SYNTHETIC.json lacks start/end/stress ->
+run_world takes world_spec; spillover = oracle.prepare_oracle(oracle_spec(ws), w/oracle_hz) + spillover_deltas on interesting
+H1/D1 non-true cells only; power rank-1 BY bars (z_disc(2532) = 4.4308 = design 4.43; z_conf(10) = 2.93 vs design "about 2.5").
+15.9 has the same vague "oracle_ev on those event ids" - its review may flag it. No third task (no new RESOLVED decisions).

@@ -26,3 +26,7 @@ mid-gate and was reverted). Same pattern as 2026-10-11 (70% then back): return t
 says otherwise - tell him when doing it.
 
 **2026-10-20 06:40:** back to 0.5 after the reset (9e64d4f); told Cristian.
+
+**2026-10-24 20:55 CST:** raised to 80% again ("extend the top to 80%", weekly 47%). Done with the
+override keys this time (claude_usage_override_max 0.8, _until 2026-10-27T03:00-06:00, commit 1210d23),
+so it lapses back to 0.5 at the reset by itself - no manual revert needed.
