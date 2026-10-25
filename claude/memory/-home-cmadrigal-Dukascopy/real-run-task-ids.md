@@ -397,3 +397,8 @@ two K6 latch mismatches (USDJPY 1392058800000, USDCHF 1392062400000), K16 not_re
 brk_2R, S1 already exact -> 15.28 held "needs operator decision" (decisions-pending 2026-10-25: (a) population EV, (b) paired null twin,
 (c) retire S2 - rec (c)). 15.11 does not list 15.28 in depends_on (reads s2 None as PENDING). Remaining proposal sets (contexto
 13.10-16, multi-account 16.1-19, participantes 14.7-14) are operator-subset choices - not queued.
+
+2026-10-25 (spec writer, 18:3x UTC refill; runnable 14.8/15.11/15.12/15.21/16.28): NOTHING QUEUED. No drafts; stubs 4.4 (tolerance
+values OPEN 2026-10-15), 5.1-8.4 (deps unmet), 14.17 (operator: spec after 14.8 + 14.15 MERGE; 14.8 building now) all blocked;
+no new RESOLVED/phone marks (K6 runner + 15.28 S2 still OPEN); R8/R9/UI-C operator-built; PHASE3 §6 done; proposal sets =
+operator subsets. Next real work: 14.17 once 14.8 + 14.15 merge.
