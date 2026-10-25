@@ -374,3 +374,10 @@ sim_book.mark_positions on the full world tape gives delta_r == 0.0 EXACTLY (7/7
 GOTCHA: StoreTicks raises when end <= start (position submitted after the last mark -> pass empty arrays). Stubs 15.26 (S3 switch
 recompute, bench_sim_switches.py) + 15.27 (S2 planted-vs-realised + result_sim.json, extends bench_sim_score). Proto /tmp/proto1524
 (score.py, m5.py = cheap real run). A 300-ms step typo made a 288k-cycle run - check now_list units.
+
+2026-10-25 (spec writer, 11:3x UTC refill; runnable 15.24; triage agent on 15.20/16.28): wrote 15.26 (99da284, review OK, route strong)
+REPLACING its stub, deps [15.10, 15.25] only (not 15.24): bench_sim_switches.switch_agreement (files-only recompute of K1/K2/K3/K17,
+K5, K6, K13; K4/K7-K12/K14-K16 run counts only) + s3_summary; proto /tmp/proto1526 (sw.py, ctl.py; run /tmp/p1526-24-300000). FOUND A
+RUNNER DEFECT: a bracket exit in (T, now] of the deciding cycle latches K6 forever (step 2 marks at now + writes the close, step 3
+marks the book at T) - 15.26's test pins it as LIMITATION; question in decisions-pending 2026-10-25 (rec: fix + re-pin golden).
+15.27 still a stub (needs 15.24 + 15.26 merged). Portfolio K14-K16 recompute unwritten (needs decision-envelope D1 closes).
