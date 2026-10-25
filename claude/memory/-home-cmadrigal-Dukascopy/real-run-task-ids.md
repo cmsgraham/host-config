@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.26; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.28; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -365,3 +365,12 @@ WorldSpec('replay-test', 20261523, 2014-01-05..2014-03-14)): 10,831 instants per
 ~50 ms/cycle (3,000 = 158 s); 300 real cycles ~14 s, decisions 2, byte-equal to a direct run_schedule. GOTCHAS: bench_root /
 out_dir inside the repo is refused by load_paper_config AFTER mkdir; high_events returns np.int64 (replay_instants refuses).
 15.24 NOT written: its givens (kill_switches.evaluate, decision records) change when 15.18 merges - write it after 15.18 + 15.23.
+
+2026-10-25 (spec writer, 10:0x UTC refill; runnable 15.20/15.23/16.27/16.28; ops 0 cases): 15.24 stub SPLIT. 15.24 now = S1 only
+(bench_sim_score.trade_deltas / s1_summary / book_inputs; deps [15.10, 15.25], NOT 15.23 - test drives run_schedule directly at a
+5-min cadence: range(1391983200000, +24 h, 300_000) = 289 cycles ~24 s on WorldSpec('replay-test', 20261523, 2014-01-05..03-14),
+2 closes AUDUSD stop / USDCHF target). KEY FACT: world_feed envelope quotes ARE the world ticks, so re-labelling a sim trade with
+sim_book.mark_positions on the full world tape gives delta_r == 0.0 EXACTLY (7/7 closes incl. 3 flattens on a 15-s replay).
+GOTCHA: StoreTicks raises when end <= start (position submitted after the last mark -> pass empty arrays). Stubs 15.26 (S3 switch
+recompute, bench_sim_switches.py) + 15.27 (S2 planted-vs-realised + result_sim.json, extends bench_sim_score). Proto /tmp/proto1524
+(score.py, m5.py = cheap real run). A 300-ms step typo made a 288k-cycle run - check now_list units.
