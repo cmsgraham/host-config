@@ -26,3 +26,4 @@
 - [Preflight ignores `cd ui`](preflight-ignores-cd-ui.md) — UI acceptance test paths must be repo-root relative (vitest --root ui) or preflight stops the task
 - [scan.py positional callers](scan-internals-positional-callers.md) — confirm/promote build scan._Job/_FrameCtx/_stamp positionally; new fields LAST with defaults; scan.py 930/1000 lines
 - [experiments/observations not ruff-clean](experiments-observations-not-ruff-clean.md) — vocab.py has 26 E501 on main; a lint acceptance on it makes builders reformat/alter tag text; restore + file-level `# ruff: noqa: E501` (13.9)
+- [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min

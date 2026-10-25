@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 19a1e6f3-2795-4853-afd3-c980688cbfdd
-  modified: 2026-10-17T02:54:18.945Z
+  modified: 2026-10-25T12:32:54.477Z
 ---
 
 Full validator output is NOT in `logs/<run_id>/` but in `logs/<run_id>-a<N>/<check_id>.stdout.log`
@@ -57,3 +57,8 @@ just before. The stall was on one xdist worker in the motif tests (motif0 05:20,
 Find the worker's progress through the gate's TMPDIR (`tr '\0' '\n' < /proc/<pytest pid>/environ | grep TMPDIR`), then
 `$TMPDIR/pytest-of-*/pytest-N/popen-gwK/`, where the dir mtimes are per-test timestamps. py-spy needs sudo, so it doesn't work.
 The timed-out pytest tree was left running as an orphan after the timeout (reported NEEDS YOU, because only the operator may kill it).
+
+2026-10-25 (TASK-15.24 escalation): a1 suite-green TIMEOUT at 3600 s, at 99% + 37 dots. Host swap 8/8, PSI mem avg300 ~10%,
+plus rsync backup, ollama and a concurrent escalation. The rerun on the unchanged tree passed in ~11 min (exit 0). The "99% + 37 dots" tail
+is just where the last xdist workers (motif, storm_day, build_is_deterministic) finish, NOT a deterministic hang — it shows on green runs too.
+No code change was needed.
