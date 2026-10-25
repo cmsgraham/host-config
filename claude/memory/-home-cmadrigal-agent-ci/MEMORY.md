@@ -25,7 +25,7 @@
 - [gateway LAN access on NAT](gateway-lan-access-nat.md) — portproxy + iphlpsvc restart; mirrored mode is broken on this box; self-heals via logon task
 - [reporting style: decisions first](reporting-style-decisions-first.md) — lead with what needs the operator, 2-3 line status, detail on request; use the question prompt for decisions
 - [branch drift guard trap](branch-drift-guard-trap.md) — a hand-merged agent branch is parked by the drift guard every time master moves; re-merge until it lands
-- [snoopyfrog Linode deploy](snoopyfrog-linode-deploy.md) — v3 live at https://snoopyfrog.com (Linode 172.238.203.34); TLS, Google, AI (OpenAI) on; worker exits via the user's PC (relay + Connector)
+- [snoopyfrog Linode deploy](snoopyfrog-linode-deploy.md) — OFFLINE since 2026-10-24 (app stopped, data kept); its nginx STILL serves fxplat.trade TLS - never stop snoopyfrog-nginx-1
 - [snapshot filemode trap](snapshot-filemode-trap.md) — empty-index snapshots dropped +x under fileMode=false; every task failed protected-paths; fixed in write_tree
 - [ENOMEM classifier trap](enomem-classifier-trap.md) — host out of memory surfaced as "ImportError while loading conftest"; filed as a code defect until d56fcf5; read raw stderr first
 - [docker pool + slot leak](docker-pool-slot-leak.md) — per-task compose stacks never torn down: port squat cost an attempt, exhausted pools refused a merge; teardown_cmd fixes it

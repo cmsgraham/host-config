@@ -133,3 +133,5 @@ embedded, published via `deploy.sh connector`; NOT yet run on a real Windows
 PC), worker `init: true`. The never-connected prune deleted 5 accounts on its
 first tick incl. Rodrigo's li_04999bcdf9d7 (he must add his account again).
 Only li_deb95335c1c1 (cristian's, connected) remains.
+
+**OFFLINE since 2026-10-24 (owner: "nobody is using it").** App containers stopped (api, linkedin-worker, scheduler, relay, redis, postgres; restart policy unless-stopped -> stay stopped after reboots); volumes snoopyfrog_pgdata + snoopyfrog_linkedin_sessions KEPT. snoopyfrog-nginx-1 STAYS UP: it terminates TLS for fxplat.trade (conf.d/fxplat.conf + certbot fxplat.trade cert; snoopyfrog-certbot.timer renews both). conf.d/default.conf rewritten to an offline 503 page (no api dependency); original at /opt/snoopyfrog/nginx/default.conf.bak-*. Verified: fxplat.trade 200, nginx survives restart without the app. Revive: restore the .bak default.conf + `docker compose -f docker-compose.server.yml up -d` in /opt/snoopyfrog. No home-side connector/chisel found running (WSL or Windows).

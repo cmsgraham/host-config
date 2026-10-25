@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-24T18:49:33.064Z
+  modified: 2026-10-25T00:58:41.505Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -320,3 +320,11 @@ non-monotone in mu (unbracketable). 2-month oracle 2013-01..02 seed 20261099: 11
 15.7 (still ops-blocked, logs/spec-review-TASK-15.7-5d959816.md; 15.15 merged 2c67157 at 23:3x so it is now unblocked - next writer:
 deps 15.6/15.15/15.16, oracle 2009-2018 max via world_clock bounds + oracle_spec override, in-memory bars, fixed event set as in
 15.19, annotate_planted before write_world). Lesson: every OK round surfaces new lows; commit at the OK hash, don't loop.
+
+2026-10-25 (spec writer, 00:4x UTC refill; runnable 16.23/16.25-16.28, escalation engineer on 16.23): ops had 15.7 + 16.29 "spec held
+by review", no triage agent. 16.29 (9367c14): test_paper_store.py:135 pins PaperConfig._field_defaults -> owned for exactly that one
+dict entry; update() skips (not rejects) future-dated releases; multiset accepted releases. 15.7 REWRITTEN (bc88872), proto
+/tmp/proto157/oracle.py: oracle_spec = 2009-2018 (generator max), prepare_oracle writes the NULL world once (52 wk ~35 s), FIXED
+null-path cell events, planted m1 built in memory from minute_ticks (== store_bars m1 exactly), outcomes direction = td (NOT the
+catalogue label: C-LDN-OPEN 'long' on EURUSD is td -1), spillover = planted-minus-null EV delta (absolute null EVs are +-0.3 R noise).
+Test world spec_for_weeks('oracle-test', 20261157, 52): P cell 256 events / 255 executable, net 0.30 -> mu 2.03e-6. No third task.

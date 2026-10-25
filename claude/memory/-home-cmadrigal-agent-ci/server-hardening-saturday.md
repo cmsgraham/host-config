@@ -15,3 +15,4 @@ cTrader recorder, publisher, snoopyfrog containers. Also: fxplat on its own Lino
 Binance blocks this US server for account APIs (HTTP 451) and Canada (exited 2023); Cristian declined VPN routing via home (account risk); DECISION 2026-10-21: a home mini PC in Costa Rica becomes the Binance node (backlog binance-home-node); public market data can also come from data-api.binance.vision on the server.
 
 **Windows PC 2026-10-21:** TightVNC Server (tvnserver, was listening on 0.0.0.0:5900/5800) stopped + disabled and its HKLM Run tray entry (tvncontrol) removed at Cristian's request; remote access is RDP/WireGuard.
+DONE 2026-10-24 ~18:10 CST by operator: harden-update.sh ran; kernel 6.8.0-147, PermitRootLogin no (verified), 1 package left upgradable, all fxplat containers back, fxplat.trade 200.
