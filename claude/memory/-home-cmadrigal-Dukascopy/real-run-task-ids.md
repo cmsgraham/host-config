@@ -381,3 +381,9 @@ K5, K6, K13; K4/K7-K12/K14-K16 run counts only) + s3_summary; proto /tmp/proto15
 RUNNER DEFECT: a bracket exit in (T, now] of the deciding cycle latches K6 forever (step 2 marks at now + writes the close, step 3
 marks the book at T) - 15.26's test pins it as LIMITATION; question in decisions-pending 2026-10-25 (rec: fix + re-pin golden).
 15.27 still a stub (needs 15.24 + 15.26 merged). Portfolio K14-K16 recompute unwritten (needs decision-envelope D1 closes).
+
+2026-10-25 (spec writer, 13:4x UTC refill; runnable 15.20/15.26/16.28; ops: 15.20 strong_direct (not mine), 14.2 "spec held by review"):
+fixed 14.2 (ef95fbe, OK hash 2nd round): operator's e1272a9 added the 2025 shutdown window, which swallowed the Thanksgiving test
+(as_of 2025-11-25 -> window_bound 2025-12-29); moved it to 2024-11-26 -> 2024-12-02 rule. pandas 3: import
+pandas.tseries.holiday explicitly. Left 3 lows (kind in a window's last week, tmp_path CSV, as_of datetime64 -> .date()) as-is.
+15.27 still waits 15.26 (in review); S2 needs an E-A world prototype (planted.json oracle per event) - budget a full session.
