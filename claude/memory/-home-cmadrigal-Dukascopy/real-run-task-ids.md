@@ -357,3 +357,11 @@ and closed_h1 drops the decision bar -> stub 0 candidates at h, 77 at h+15 s (IB
 the 15-s grid incl. :00:00). D1 store bars span the weekend (Mon bar opens Fri 22:00Z), session_date = trade date. Left:
 15.23 = replay + CLI (after 15.10 merges; world_feed gives envelopes, replay adds news_ms from ground_truth/econ + thin_dates);
 15.24 after 15.23.
+
+2026-10-25 (spec writer, 08:4x UTC refill; runnable 15.18/16.27/16.28; ops: only 15.18 "merge refused"): wrote 15.23 (1fdc522,
+review OK) replacing its stub: bench_sim.week_bounds / plan_replay / replay(max_cycles=) / main; owns NEW
+tests/synthetic/test_bench_sim_replay.py (test_bench_sim.py is 15.18's). MEASURED (proto /tmp/proto1523, world
+WorldSpec('replay-test', 20261523, 2014-01-05..2014-03-14)): 10,831 instants per market week (13 weeks ~141k cycles ~2 h);
+~50 ms/cycle (3,000 = 158 s); 300 real cycles ~14 s, decisions 2, byte-equal to a direct run_schedule. GOTCHAS: bench_root /
+out_dir inside the repo is refused by load_paper_config AFTER mkdir; high_events returns np.int64 (replay_instants refuses).
+15.24 NOT written: its givens (kill_switches.evaluate, decision records) change when 15.18 merges - write it after 15.18 + 15.23.
