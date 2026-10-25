@@ -402,3 +402,7 @@ brk_2R, S1 already exact -> 15.28 held "needs operator decision" (decisions-pend
 values OPEN 2026-10-15), 5.1-8.4 (deps unmet), 14.17 (operator: spec after 14.8 + 14.15 MERGE; 14.8 building now) all blocked;
 no new RESOLVED/phone marks (K6 runner + 15.28 S2 still OPEN); R8/R9/UI-C operator-built; PHASE3 §6 done; proposal sets =
 operator subsets. Next real work: 14.17 once 14.8 + 14.15 merge.
+
+2026-10-25 (spec writer, 22:2x UTC refill; runnable 14.15/15.11/15.12/15.21): NOTHING QUEUED. Since 18:3x only 14.8 + 16.28 merged
+and operator commit 5721f78 (14.15/15.11 BLOCK fixes; 14.15 back in spec review 22:27Z). 14.17 still waits 14.15 MERGE; 4.4 tolerance
+OPEN; 5.1-8.4 deps unmet; no new RESOLVED/phone marks.

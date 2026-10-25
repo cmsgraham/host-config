@@ -29,3 +29,4 @@
 - [vitest blanks css ?raw](vitest-css-raw-blank.md) — ui vitest turns every .css import (?raw too) into ""; read css via computed node:fs import in the test (16.28)
 - [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — 16.x tree-drift: gate's /ui/** in shared .git/info/exclude drops new ui files from snapshot (16.28); retry after MERGING clears
 - [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min
+- [YAML 1.1 key gotchas](yaml11-key-gotchas.md) — bare NULL/null/on keys parse as None/True (canonical_hash TypeError); quote; also diff tasks/<id>.yaml vs main before finishing (15.11 S2 RETIRED mid-run)
