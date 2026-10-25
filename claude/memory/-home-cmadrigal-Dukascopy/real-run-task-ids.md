@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.17; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.25; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -338,3 +338,12 @@ sigma_R; batch must be interesting AND reportable (run_confirm refuses non-repor
 run_world takes world_spec; spillover = oracle.prepare_oracle(oracle_spec(ws), w/oracle_hz) + spillover_deltas on interesting
 H1/D1 non-true cells only; power rank-1 BY bars (z_disc(2532) = 4.4308 = design 4.43; z_conf(10) = 2.93 vs design "about 2.5").
 15.9 has the same vague "oracle_ev on those event ids" - its review may flag it. No third task (no new RESOLVED decisions).
+
+2026-10-25 (spec writer, 04:0x UTC refill; runnable 15.8/16.25-16.28): ops had 15.9, 15.10, 15.18 "spec held by review", no
+triage agent -> two forks (15.9, 15.18) + me on 15.10, all three committed: 15.9 (598bb8a; explicit --kind, oracle EV read
+from planted.json n_population-weighted, C1 numbers parsed from the decimal-comma summary string), 15.18 (ef31d9f), 15.10
+REWRITTEN + SPLIT (bf1d38b): bench_sim = run_schedule driver + pure replay_instants only; world_envelopes/replay CLI ->
+stub 15.23, scoring -> stub 15.24 (929812d; 15.20 / 15.11 deps updated). Proto /tmp/proto1510: storm day via run_schedule
+115 s under load (1,827 cycles, ~63 ms/cycle), entries/trades reproduced; a 137-instant slice byte-equal to a hand loop
+(MODE.json differs unless load_state uses the slice's first instant). tests/ has no __init__.py -> copy helpers, never
+import test_storm_day. 13-week replay_instants = 196,561 instants. Next free 15.25.
