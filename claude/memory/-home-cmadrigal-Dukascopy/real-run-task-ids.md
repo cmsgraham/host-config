@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.28; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.29 (15.28 = S2 stub held for operator, 2026-10-25); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -387,3 +387,13 @@ fixed 14.2 (ef95fbe, OK hash 2nd round): operator's e1272a9 added the 2025 shutd
 (as_of 2025-11-25 -> window_bound 2025-12-29); moved it to 2024-11-26 -> 2024-12-02 rule. pandas 3: import
 pandas.tseries.holiday explicitly. Left 3 lows (kind in a window's last week, tmp_path CSV, as_of datetime64 -> .date()) as-is.
 15.27 still waits 15.26 (in review); S2 needs an E-A world prototype (planted.json oracle per event) - budget a full session.
+
+2026-10-25 (spec writer, 15:1x UTC refill; runnable 14.15/14.2/14.3/15.26/16.28; 15.26 merged c9936bc mid-session): 15.27 stub
+REPLACED (review OK, 1 low applied): bench_sim_score.score_run(world_root, *, bench_root) -> result_sim.json kind bench-sim/1 {kind,
+world_id, replay, partial, run, s1, s2: None, s3}; new test file tests/synthetic/test_bench_sim_result.py. Proto /tmp/proto1527
+(sr.py, run1-4.py). HAND bench = 15.24's 289-cycle 5-min run + hand sim_replay.json: s1 exact 0.0 (2 closes), s3 13 decisions with the
+two K6 latch mismatches (USDJPY 1392058800000, USDCHF 1392062400000), K16 not_recomputed 7. Real replay(start 2014-03-02, max_cycles
+300) ~15 s: 10831 planned, 2 decisions, 0 closes. S2 NOT specifiable: planted.json has no per-event table, stub uses V1 barriers not
+brk_2R, S1 already exact -> 15.28 held "needs operator decision" (decisions-pending 2026-10-25: (a) population EV, (b) paired null twin,
+(c) retire S2 - rec (c)). 15.11 does not list 15.28 in depends_on (reads s2 None as PENDING). Remaining proposal sets (contexto
+13.10-16, multi-account 16.1-19, participantes 14.7-14) are operator-subset choices - not queued.
