@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.25; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.26; 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -347,3 +347,13 @@ stub 15.23, scoring -> stub 15.24 (929812d; 15.20 / 15.11 deps updated). Proto /
 115 s under load (1,827 cycles, ~63 ms/cycle), entries/trades reproduced; a 137-instant slice byte-equal to a hand loop
 (MODE.json differs unless load_state uses the slice's first instant). tests/ has no __init__.py -> copy helpers, never
 import test_storm_day. 13-week replay_instants = 196,561 instants. Next free 15.25.
+
+2026-10-25 (spec writer, 05:3x UTC refill; runnable 15.9/15.10/15.18/16.27/16.28; ops 0 cases; escalation engineer on 15.18):
+queued 15.25 (9154e1d) fxplat.synthetic.world_feed.world_envelopes(world_root, start_ms, end_ms, *, warmup_weeks=26) ->
+WorldFeed - split OUT of the 15.23 stub so it needs no 15.10 (6b6c5e4 repointed 15.23 deps [15.10, 15.25] and 15.20's given).
+MEASURED (proto /tmp/proto1525, world WorldSpec('feed-test', 20261525, 2014-01-05..2014-03-14), write 10.7 s): stored H1 mid
+o/h/l/c == tick (bid+ask)/2 aggregation EXACTLY; world ticks start at :00:01 so at an exact H1 close there is NO forming row
+and closed_h1 drops the decision bar -> stub 0 candidates at h, 77 at h+15 s (IB-like; storm day differs, its ticks sit on
+the 15-s grid incl. :00:00). D1 store bars span the weekend (Mon bar opens Fri 22:00Z), session_date = trade date. Left:
+15.23 = replay + CLI (after 15.10 merges; world_feed gives envelopes, replay adds news_ms from ground_truth/econ + thin_dates);
+15.24 after 15.23.
