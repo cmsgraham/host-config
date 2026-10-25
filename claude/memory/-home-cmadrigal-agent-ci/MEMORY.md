@@ -115,3 +115,4 @@
 - [scan-only ≠ NO_EDGE](scan-only-not-no-edge.md) — discovery-scan-only or underpowered ideas are INCONCLUSIVE; NO_EDGE removes seeds, so reserve it for registered studies or clearly negative estimates
 - [fxplat multi-account](fxplat-multi-account.md) — 2026-10-24: real accounts per owner + fun simulated risk profiles; owner can adjust risk/disable switches (audited); design -> challenge -> build, nothing queued yet
 - [R910 bench node](r910-bench-node.md) — home R910 (40c/80t, 128 GB, no AVX) for synthetic bench S2+; OFF until S1 done; then Ubuntu + SSH + 15-min compat/timing test
+- [phone approvals (asks)](phone-approvals-asks.md) — 2026-10-25: pipeline-stopping decisions go to the phone as buttons; `agent-ci ask`; server deploy is the operator's

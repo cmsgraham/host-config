@@ -1,0 +1,7 @@
+[Unit]
+Description=agent-ci phone approvals for %i: apply answers and deadlines (2026-10-25)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/%i
+ExecStart=%h/agent-ci/.venv/bin/python -m agent_ci.cli --config %h/%i/config.yaml asks --poll

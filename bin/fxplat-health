@@ -34,16 +34,23 @@ fi
 for u in $ibunits fxplat-publish fxplat-replay; do
   systemctl --user is-active --quiet "$u" || problems+=("$u|$u is not running")
 done
-for u in ollama ollama-gateway; do
-  systemctl is-active --quiet "$u" || problems+=("$u|$u (system) is not running")
-done
+# ollama-gateway is not checked here: the agent-ci watchdog pages gateway_down (high) every 15 min,
+# and both paged for the same outage (sweep 2026-10-25)
+systemctl is-active --quiet ollama || problems+=("ollama|ollama (system) is not running")
 
-# 4. IB live quotes fresh (market-live.json written every 15 s; alert past 10 min on weekdays)
-dow=$(date -u +%u)
+# FX market hours: Sunday 17:00 to Friday 17:00 New York. Quote and sentiment checks are skipped while it is
+# closed (neither alert nor resolve): they paged every Friday evening and flapped all weekend (sweep 2026-10-25).
+market_open=$(python3 -c "
+import datetime as d, zoneinfo as z
+n = d.datetime.now(z.ZoneInfo('America/New_York')); w, h = n.weekday(), n.hour
+print(0 if (w == 4 and h >= 17) or w == 5 or (w == 6 and h < 17) else 1)")
+closed_keys="marketlive swfxempty swfxfail"
+
+# 4. IB live quotes fresh (market-live.json written every 15 s; alert past 10 min while the market is open)
 # Age from the feed's own generated_at, not the file mtime: the home mirror rewrites the file on every copy
 # even when the server feed is frozen (stale 03:58-16:50 UTC 2026-10-19 without an alert).
 gen=$(python3 -c "import json,sys,datetime as d;g=json.load(open(sys.argv[1]))['generated_at'];print(int(d.datetime.fromisoformat(g.replace('Z','+00:00')).timestamp()))" "$ml" 2>/dev/null || stat -c %Y "$ml")
-if [ "$dow" -le 5 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; then
+if [ "$market_open" = 1 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; then
   problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json)")
 fi
 
@@ -102,8 +109,13 @@ pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null &
 
 # alert once per new problem; clear the marker when it is gone
 now_keys=()
+if [ "$market_open" = 0 ]; then
+  for k in $closed_keys; do now_keys+=("$k"); done       # keep their markers: no alert, no resolve
+fi
 for p in "${problems[@]}"; do
-  k=${p%%|*}; msg=${p#*|}; now_keys+=("$k")
+  k=${p%%|*}; msg=${p#*|}
+  [ "$market_open" = 0 ] && [[ " $closed_keys " == *" $k "* ]] && continue
+  now_keys+=("$k")
   if [ ! -f "$STATE/$k.alerted" ]; then
     $NOTIFY --priority 4 "fxplat health: $k" "$msg" >/dev/null 2>&1 && touch "$STATE/$k.alerted"
   fi

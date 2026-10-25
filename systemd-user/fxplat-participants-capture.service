@@ -1,0 +1,6 @@
+[Unit]
+Description=fxplat Participantes capture: FFAJ/MoF/TFX vintages and Binance metrics daily, CFTC COT snapshot on Saturdays (2026-10-25)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/fxplat-participants-capture

@@ -27,4 +27,5 @@
 - [scan.py positional callers](scan-internals-positional-callers.md) — confirm/promote build scan._Job/_FrameCtx/_stamp positionally; new fields LAST with defaults; scan.py 930/1000 lines
 - [experiments/observations not ruff-clean](experiments-observations-not-ruff-clean.md) — vocab.py has 26 E501 on main; a lint acceptance on it makes builders reformat/alter tag text; restore + file-level `# ruff: noqa: E501` (13.9)
 - [vitest blanks css ?raw](vitest-css-raw-blank.md) — ui vitest turns every .css import (?raw too) into ""; read css via computed node:fs import in the test (16.28)
+- [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — 16.x tree-drift: gate's /ui/** in shared .git/info/exclude drops new ui files from snapshot (16.28); retry after MERGING clears
 - [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min

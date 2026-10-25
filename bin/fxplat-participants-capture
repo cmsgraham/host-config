@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# fxplat-participants-capture (2026-10-25): keeps the Participantes stores current. The capture code (TASK-14.1,
+# 14.5, 14.6) passed on 10-23/24 but nothing ever ran it, so ~/fxdata-part did not exist and the panels could
+# never fill. Daily: FFAJ / MoF / TFX public vintages and yesterday's Binance metrics zips; Saturdays: the weekly
+# CFTC COT snapshot (Friday 15:30 New York release, so Saturday morning covers holiday shifts).
+# One phone alert per failed step through agent-ci notify.
+set -u
+cd "$HOME/Dukascopy" || exit 1
+PY=.venv/bin/python
+NOTIFY="$HOME/agent-ci/.venv/bin/agent-ci --config $HOME/Dukascopy/config.yaml notify"
+fail=()
+nice -n 19 $PY -m fxplat.participants.public_capture capture || fail+=("public_capture")
+y=$(date -u -d yesterday +%F)
+for s in BTCUSDT ETHUSDT; do
+  nice -n 19 $PY -m fxplat.participants.binance_archive backfill "$s" --start "$y" --end "$y" || fail+=("binance $s")
+done
+if [ "$(date +%u)" = 6 ]; then
+  nice -n 19 $PY -m fxplat.participants.cot snapshot || fail+=("cot snapshot")
+fi
+if [ ${#fail[@]} -gt 0 ]; then
+  $NOTIFY --priority 4 "participantes capture failed" "$(IFS=', '; echo "${fail[*]}") - journalctl --user -u fxplat-participants-capture" >/dev/null 2>&1
+  exit 1
+fi
+echo "participantes capture OK $(date '+%F %R')"
