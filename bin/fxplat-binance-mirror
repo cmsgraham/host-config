@@ -3,6 +3,9 @@
 # its public output home for the Brókers view and fxplat-health:
 #   recorder  /opt/fxplat-crypto/binance-data/{hourly,trades,fees,status.json} -> ~/.cache/fxplat/brokers/binance/
 #   trader    /opt/fxplat-crypto/trader-data/{status.json,smoke}              -> ~/.cache/fxplat/brokers/binance-trader/
+#   positioning /opt/fxplat-crypto/positioning-data/{positioning,status.json} -> ~/.cache/fxplat/brokers/binance-positioning/
+#             (READ-ONLY public USD-M positioning, TASK-14.4; read by crypto_positioning.load_live for the Participantes
+#             Cripto block - added 2026-10-25: without it the block only had the day-old Binance archive)
 #   simulator /opt/fxplat-crypto/sim-data/{status.json, MODE.json, book.json, market.json, *.jsonl} -> ~/.cache/fxplat/paper-crypto/
 #             (SIMULATED crypto paper runner, 2026-10-22; read by ui/scripts/export_forward_crypto.py and
 #             export_crypto_market.py - market.json since 2026-10-22, absent until the runner is redeployed)
@@ -37,6 +40,7 @@ pull() {  # $1 remote dir, $2 local dir, $3 entries
 while true; do
   pull /opt/fxplat-crypto/binance-data "$OUT/binance" "hourly trades fees status.json"
   pull /opt/fxplat-crypto/trader-data "$OUT/binance-trader" "smoke status.json"
+  pull /opt/fxplat-crypto/positioning-data "$OUT/binance-positioning" "positioning status.json"
   pull /opt/fxplat-crypto/sim-data "$SIM_OUT" "MODE.json book.json market.json decisions-SIMULATED.jsonl positions.jsonl closes-SIMULATED.jsonl marks.jsonl bars-h1.jsonl status.json"
   sleep 300
 done
