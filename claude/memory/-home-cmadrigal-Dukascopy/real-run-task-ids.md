@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.30 / 16.32 (2026-10-26); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.44 / 12.20 / 15.31 / 16.32 (2026-10-26 06Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -429,3 +429,13 @@ end reasons + phase chain, fondeo 4 exporter fields. 14.17 (c938b94) replaced it
 read_workbook), known_at filter, causal_pctile(60); tests fake ffaj._xlrd_sheet_reader (xlwt not installed). Proto /tmp/proto1417,
 /tmp/proto1631. 15.12 ops BLOCK: fork fixed it to OK hash 4e7ffe10 but stopped without committing; I committed it (c5081a9) at that hash with its medium unapplied (test must mkdir bench-a before score(), else FileNotFoundError; new EXPORTERS entry must not sit between forward and fun-profiles). GOTCHA: during a merge gate .git/info/exclude has /tasks/** (new task files look
 ignored) - wait for MERGING.json to clear. Next free 15.30 (driver 2/3, 15.29 merged 51256ca), 16.32.
+
+2026-10-26 (spec writer, 06:1x UTC refill; runnable 14.9/15.12/15.30/16.31; 15.12 merge gate running): an earlier ~04:50Z writer
+committed 15.30 + 14.9 and left 14.10 (commodity masks) untracked with hold "draft, under review" at review OK, lows applied ->
+numbers re-verified (/tmp/sw1410/chk.py), hold dropped, committed. NEW from RESOLVED 2026-10-25 "trader concepts" family 1:
+11.42 prim_levels ref_level (pd/pw high-low-close, week/month open, floor pivots; levels from the decision frame's OWN bars via
+session_date day/week(Monday)/month keys) and 11.43 prim_swing (strict k-bar fractal confirmed at i+k; swing_level +
+market_structure HH+HL/LH+LL). Both review OK first round. Proto /tmp/proto_lv. NEXT in family 1: 1c break-of-structure +
+stop-run on swing_points (after 11.43 merges), then the grammar task (new catalogue version, m, power cost - grid of k /
+near_atr likely an operator question). 14.11 grammar / 14.12 wiring wait 14.9 + 14.10. Fondeo 2+ still needs web (FTMO pages).
+
