@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# fxplat-fun-mirror (2026-10-24, PROPOSAL - NOT installed; nothing here runs on the server): the SIMULATED fun
+# ladder runs on fxplat-server (redeploy-fun.sh); copy its record home every 60 s into ~/.cache/fxplat/fun/
+# (fun.json, data/fun-vN/ with one <account_id>/run-<n>/ tree per rung) for the dashboard and research.
+# Read-only on the server; it never names the protocol's record and never touches the paper mirror's stage.
+# The append-only logs (*.jsonl) are copied with --append (only the new tail travels, no full-file checksum on the
+# shared box); the atomically replaced files (status.json, marks) whole.
+# INSTALL (OPERATOR step, not done by this task):
+#   1. cp this file to ~/.local/bin/fxplat-fun-mirror && chmod +x ~/.local/bin/fxplat-fun-mirror
+#   2. cp deploy/server/paper-runner/home/fxplat-paper-mirror.service to ~/.config/systemd/user/fxplat-fun-mirror.service
+#      with the two names changed (fxplat-paper-mirror -> fxplat-fun-mirror in Description and ExecStart);
+#      this task adds no unit file of its own.
+#   3. systemctl --user daemon-reload && systemctl --user enable --now fxplat-fun-mirror
+set -u
+OUT=~/.cache/fxplat/fun; mkdir -p "$OUT"
+SRC=fxplat-server:/opt/fxplat/fun/
+RSH="ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=auto -o ControlPath=$HOME/.ssh/cm-fxplat-%C -o ControlPersist=10m"
+# the server side runs at the lowest CPU / IO priority: it shares the box with snoopyfrog production
+RP="nice -n 19 ionice -c3 rsync"
+while true; do
+  # 1. append-only logs: only the bytes past what we already have
+  rsync -rt --append --rsh="$RSH" --rsync-path="$RP" --timeout=60 \
+    --include='*/' --include='*.jsonl' --exclude='*' "$SRC" "$OUT/" 2>/dev/null
+  # 2. everything else, whole (temp files of atomic writes excluded); STOP is copied so home sees a stop,
+  #    and removed here when it is removed there (the only --delete, and only for STOP)
+  rsync -rt --rsh="$RSH" --rsync-path="$RP" --timeout=60 \
+    --exclude='.*' --exclude='*.jsonl' --exclude='*.bak-*' --exclude='fun.json.next' "$SRC" "$OUT/" 2>/dev/null
+  for d in "$OUT"/data/fun-*/; do
+    [ -e "$d/STOP" ] && ! $RSH fxplat-server "test -e /opt/fxplat/fun/data/$(basename "$d")/STOP" 2>/dev/null && rm -f "$d/STOP"
+    for a in "$d"*/; do
+      [ -e "$a/STOP" ] && ! $RSH fxplat-server "test -e /opt/fxplat/fun/data/$(basename "$d")/$(basename "$a")/STOP" 2>/dev/null && rm -f "$a/STOP"
+    done
+  done
+  sleep 60
+done

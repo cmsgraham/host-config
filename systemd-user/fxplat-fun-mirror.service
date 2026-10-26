@@ -1,0 +1,12 @@
+# PROPOSAL (2026-10-19), not installed: copy to ~/.config/systemd/user/ with fxplat-fun-mirror in ~/.local/bin/
+[Unit]
+Description=Mirror the server's SIMULATED fun ladder (PERFIL DE JUEGO) record home every 60 s (2026-10-25)
+
+[Service]
+ExecStart=%h/.local/bin/fxplat-fun-mirror
+Restart=always
+RestartSec=10
+Nice=10
+
+[Install]
+WantedBy=default.target
