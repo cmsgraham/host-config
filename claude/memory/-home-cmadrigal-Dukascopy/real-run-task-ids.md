@@ -448,3 +448,12 @@ close_minute, no_entry_before_close_ms, max_usd_same_direction) + next_close_ms 
 (inclusive) / usd_side / entry_block appended to fun_challenge.py; total-risk cap + risk/trade already = FunProfile.max_open_risk_pct /
 risk_pct (config task sets them). Proto /tmp/proto_fe. Fri 17:00 NY closes: 2026-10-23 1792789200000, 10-30 1793394000000 (21Z),
 11-06 1794002400000 (22Z). Fondeo 2 config still needs min trading days + commission from FTMO pages (web denied).
+
+2026-10-26 (spec writer, 10:1x UTC refill; runnable 14.9/15.30/16.32): finished the untracked 3.147 draft (feature group I v2; review OK
+twice, lows applied: _reindex only CHECKS order; dataset_cache key changes once since CODE_FILES has phase2.py; AnnAssign guard) -> 72d0bf7.
+Queued 11.44 (a606330) = trader concepts 1c prim_struct: break_of_structure (first CLOSE beyond the latest confirmed swing, once per
+pivot) + stop_run {k, side, n} (first WICK beyond = probe bar 1 of n, first close back inside, within the pivot's active window
+[i+k, next pivot's i+k)); proto /tmp/proto_struct (vectorised == bar-by-bar brute force). 11.45 = family 4a prim_candle (inside_bar,
+body engulfing, pin_bar shadow >= wick*range); proto /tmp/proto_candle. Family 3 USD index is ALREADY the catalogue primitive
+dollar_trend (252-row); rest of family 3 needs operator inputs. Family 1 grammar (k / n / near_atr grid) = operator question, not asked.
+Next free ids: 3.148, 4.20, 9.12, 11.46, 12.20, 15.31, 16.33.
