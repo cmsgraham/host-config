@@ -117,3 +117,4 @@
 - [R910 bench node](r910-bench-node.md) — home R910 (40c/80t, 128 GB, no AVX) for synthetic bench S2+; OFF until S1 done; then Ubuntu + SSH + 15-min compat/timing test
 - [phone approvals (asks)](phone-approvals-asks.md) — 2026-10-25: pipeline-stopping decisions go to the phone as buttons; `agent-ci ask`; server deploy is the operator's
 - [fxplat fondeo / prop challenge](fxplat-fondeo-prop-challenge.md) — 2026-10-25: simulated FTMO 2-step profile first, free trial on cTrader, maybe buy smallest challenge later; a lab, not income
+- [root edits quarantined](root-edits-quarantined.md) — containment moves root edits made during builder attempts to logs/run-*/escaped-files; do session work in ~/Dukascopy-claude

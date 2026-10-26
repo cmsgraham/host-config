@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.29 (15.28 = S2 stub held for operator, 2026-10-25); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.42 / 12.20 / 15.30 / 16.32 (2026-10-26); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -418,3 +418,14 @@ MEASURED on proto /tmp/proto_k6: 16.20 golden BYTE-IDENTICAL (no re-pin), only 5
 bench_hz.main spec_for_weeks, relax_worlds, oracle_spec) to load_calibration after 15.29 merges; 15.31 = driver 3/3
 `python -m fxplat.synthetic.driver --stage S1..S5` (lock, MERGE_HEAD wait, resumable, delete world store after scoring,
 FXPLAT_SYNTHETIC_BENCH=1 + approvals/SYNTHETIC_BENCH.txt). Next free ids: 3.147, 4.20, 9.12, 11.42, 12.20, 15.30, 16.31.
+
+2026-10-26 (spec writer, 01:28 UTC refill; runnable 14.15/15.29/16.30): 16.31 (1842faf) = fondeo 1 from RESOLVED 2026-10-25 'fondeo':
+pure fxplat.execution.fun_challenge evaluator, EVERY number a parameter (ChallengeRules incl. daily_reference balance/equity/max -
+FTMO's choice unverified), fails on integer cents, failed_max > failed_daily > pass, trading day = Prague date with a fill. WebFetch /
+WebSearch are DENIED in the non-interactive spec-writer session -> the FTMO-grounded config piece (version ftmo-2step-<date>, min days,
+commission, day reference) cannot be written by a refill; noted in decisions-pending under the fondeo decision. Then fondeo 3 fun_sim
+end reasons + phase chain, fondeo 4 exporter fields. 14.17 (c938b94) replaced its stub (14.15 merged a3dc58e): retail_jp from the newest
+<part>/public/ffaj/<stamp>/ with MANIFEST holding ????-??_trading_vol_and_position.xls (open_position_with_mc is refused by
+read_workbook), known_at filter, causal_pctile(60); tests fake ffaj._xlrd_sheet_reader (xlwt not installed). Proto /tmp/proto1417,
+/tmp/proto1631. 15.12 ops BLOCK: fork fixed it to OK hash 4e7ffe10 but stopped without committing; I committed it (c5081a9) at that hash with its medium unapplied (test must mkdir bench-a before score(), else FileNotFoundError; new EXPORTERS entry must not sit between forward and fun-profiles). GOTCHA: during a merge gate .git/info/exclude has /tasks/** (new task files look
+ignored) - wait for MERGING.json to clear. Next free 15.30 (driver 2/3, 15.29 merged 51256ca), 16.32.

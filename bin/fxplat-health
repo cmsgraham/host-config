@@ -44,14 +44,29 @@ market_open=$(python3 -c "
 import datetime as d, zoneinfo as z
 n = d.datetime.now(z.ZoneInfo('America/New_York')); w, h = n.weekday(), n.hour
 print(0 if (w == 4 and h >= 17) or w == 5 or (w == 6 and h < 17) else 1)")
-closed_keys="marketlive swfxempty swfxfail"
+closed_keys="marketlive swfxempty swfxfail ibwatchdog ibwatchdogdown"
 
 # 4. IB live quotes fresh (market-live.json written every 15 s; alert past 10 min while the market is open)
 # Age from the feed's own generated_at, not the file mtime: the home mirror rewrites the file on every copy
 # even when the server feed is frozen (stale 03:58-16:50 UTC 2026-10-19 without an alert).
 gen=$(python3 -c "import json,sys,datetime as d;g=json.load(open(sys.argv[1]))['generated_at'];print(int(d.datetime.fromisoformat(g.replace('Z','+00:00')).timestamp()))" "$ml" 2>/dev/null || stat -c %Y "$ml")
+# 4a. the server's IB watchdog (2026-10-25): it re-logs the gateway by itself; its status says why quotes stopped
+wd=$(timeout 25 ssh -o BatchMode=yes -o ConnectTimeout=10 fxplat-server 'cat /opt/fxplat/ib-watchdog/status.json' 2>/dev/null \
+     | python3 -c 'import json,sys,time,datetime as d
+try:
+  s=json.load(sys.stdin); age=time.time()-d.datetime.fromisoformat(s["checked_at"]).timestamp()
+  print(s.get("state",""), int(age), s.get("actions_last_hour",0), s.get("reason_text","") or "-", sep="|")
+except Exception: print("missing|0|0|-")' 2>/dev/null)
+IFS='|' read -r wd_state wd_age wd_acts wd_reason <<< "${wd:-missing|0|0|-}"
 if [ "$market_open" = 1 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; then
-  problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json)")
+  problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json); server watchdog: ${wd_state}, ${wd_acts} re-login(s) in the last hour; ${wd_reason}")
+fi
+if [ "$market_open" = 1 ]; then
+  [ "$wd_state" = gave_up ] && problems+=("ibwatchdog|IB watchdog GAVE UP after ${wd_acts} gateway re-logins this hour: ${wd_reason}")
+  if [ "$wd_state" = missing ] || [ "${wd_age:-0}" -gt 600 ]; then
+    [ "$wd_state" = missing ] && why="no status file" || why="last check ${wd_age}s ago"
+    problems+=("ibwatchdogdown|IB watchdog on fxplat-server not reporting (${why}): run deploy/server/redeploy-ib-watchdog.sh")
+  fi
 fi
 
 # 4b. SIMULATED paper runner on fxplat-server (2026-10-19), via the home mirror fxplat-paper-mirror:
@@ -100,6 +115,14 @@ if systemctl --user is-enabled --quiet fxplat-swfx-mirror 2>/dev/null; then
   fi
 fi
 
+# 4e. the publisher loads its EXPORTERS list once at start: a merge that adds an exporter is invisible until it
+# restarts (2026-10-25: fun-profiles.json never published for a day). Restart it when publish.py is newer.
+pub_start=$(date -d "$(systemctl --user show fxplat-publish -p ActiveEnterTimestamp --value)" +%s 2>/dev/null || echo 0)
+pub_code=$(stat -c %Y "$HOME/Dukascopy/ui/scripts/publish.py" 2>/dev/null || echo 0)
+if systemctl --user is-active --quiet fxplat-publish && [ "$pub_code" -gt "$pub_start" ]; then
+  systemctl --user restart fxplat-publish && echo "RESTARTED fxplat-publish (publish.py newer than the running service)"
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
@@ -110,7 +133,9 @@ pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null &
 # alert once per new problem; clear the marker when it is gone
 now_keys=()
 if [ "$market_open" = 0 ]; then
-  for k in $closed_keys; do now_keys+=("$k"); done       # keep their markers: no alert, no resolve
+  # closed: forget these markers silently (no "OK" push), so a feed still stale after the reopen alerts as NEW -
+  # 2026-10-25 a Friday marker survived the weekend and the 5-hour Sunday outage never reached the phone
+  for k in $closed_keys; do rm -f "$STATE/$k.alerted"; done
 fi
 for p in "${problems[@]}"; do
   k=${p%%|*}; msg=${p#*|}
