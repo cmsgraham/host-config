@@ -123,6 +123,13 @@ if systemctl --user is-active --quiet fxplat-publish && [ "$pub_code" -gt "$pub_
   systemctl --user restart fxplat-publish && echo "RESTARTED fxplat-publish (publish.py newer than the running service)"
 fi
 
+# 4f. the operator's own Binance snapshot (Mi cuenta, 2026-10-26): refreshed every 5 min; holdings changes alert from
+# fxplat-binance-account itself, this only catches the reader stopping (>20 min)
+ba=~/.cache/fxplat/private/binance-account.json
+if [ -f "$ba" ] && [ $(( $(date +%s) - $(stat -c %Y "$ba") )) -gt 1200 ]; then
+  problems+=("binanceacct|Mi cuenta Binance snapshot older than 20 min (fxplat-binance-account timer)")
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"

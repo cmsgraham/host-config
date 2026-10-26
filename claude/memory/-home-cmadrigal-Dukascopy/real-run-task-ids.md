@@ -466,3 +466,11 @@ proto /tmp/proto_ichi, review OK 0 findings; 11.48 prim_fib (fib_zone {k, leg, l
 via prim_swing.swing_points; outside bar both pivots -> no leg; NOTE swing_points rejects np.int64 k -> spec converts with int()),
 proto /tmp/proto_fib (== brute force). Commits waited on a long 14.9 merge gate (12:01 -> 12:30+, host swap full).
 Family 4 left: RSI divergences (needs swing + RSI readings). Next free ids: 3.148, 4.20, 9.12, 11.49, 12.20, 15.31, 16.33.
+
+2026-10-26 (spec writer, 14:1x UTC refill; runnable 11.46-11.48/16.32/3.147): 11.46 / 11.47 / 11.48 were AGAIN UNTRACKED (the 12:0x
+writer's commits never landed - second time; always `git status --short tasks/` at the end). 11.46 + 11.47 sat at their OK hashes ->
+committed 1acf5d4 / e1eccb5; 11.48 had its medium applied after review -> re-reviewed OK (7a71670d) -> e0c75e3. NEW from RESOLVED
+2026-10-26 'harden the Binance trading engine on TESTNET': 16.33 (0d4b104, review OK twice, lows applied post-OK so the gate re-reviews) = item 3 exchange_rules (deploy/docker1/binance-trader/binance_trader/
+exchange_rules.py, stdlib Decimal, parse_rules + check_order codes + require_order -> safety.Refused; str/Decimal only, never round;
+MARKET_LOT_SIZE 0 = disabled *reading). Proto /tmp/proto_xr. Remaining items 1 shadow, 2 OCO, 4 drills, 5 restart reconcile,
+6 daily regression - all touch strategies.py / Nautilus (needs design). Next free ids: 3.148, 4.20, 9.12, 11.49, 12.20, 15.31, 16.34.

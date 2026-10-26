@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""fxplat-binance-account (2026-10-26): the operator's own Binance balances, READ-ONLY, for the "Mi cuenta" panel
+that only his login can open on fxplat.trade.
+
+Every run (a 5-min user timer): reads spot balances and Simple Earn flexible positions with the [binance] key of
+~/.config/fxplat-brokers.ini (verified 2026-10-26: enableReading only - no trading, no withdrawals, IP-restricted),
+prices each asset in USDT, appends the total to a local history, and pushes one JSON to fxplat-server
+/opt/fxplat/requests/private/binance-account.json (mode 600, the request service's user). The request service serves
+it at /app/api/me/binance to APPROVER_EMAILS only; it is never part of the shared web bundle.
+Signed calls use Binance's server time (the WSL clock runs ~2 s off). Key values are never printed or sent anywhere
+but Binance. Standard library only.
+"""
+import configparser
+import hashlib
+import hmac
+import json
+import os
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+API = "https://api.binance.com"
+INI = Path(os.path.expanduser("~/.config/fxplat-brokers.ini"))
+LOCAL = Path(os.path.expanduser("~/.cache/fxplat/private"))
+HISTORY = LOCAL / "binance-account-history.jsonl"
+REMOTE = "/opt/fxplat/requests/private/binance-account.json"
+SSH = ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "fxplat-server"]
+KEEP_DAYS = 90
+LAST = LOCAL / "binance-account-last.json"      # quantities of the previous snapshot, for the watch
+NOTIFY = [os.path.expanduser("~/agent-ci/.venv/bin/agent-ci"), "--config",
+          os.path.expanduser("~/Dukascopy/config.yaml"), "notify", "--priority", "4"]
+# Earn accrues interest daily (well under 0.01 % a day); anything bigger is a real change in holdings
+QTY_TOL = 0.001
+
+
+def watch(prev: dict, assets: list) -> list[str]:
+    """Holdings changes the operator should know about (2026-10-26: 'keep your eye on it'): an asset whose
+    quantity moved by more than QTY_TOL (relative), a new asset, or an asset gone. Prices never alert."""
+    now = {a["asset"]: a["total"] for a in assets}
+    out = []
+    for a, q in now.items():
+        p = prev.get(a)
+        if p is None:
+            out.append(f"new asset {a}: {q:g}")
+        elif abs(q - p) > max(1e-8, QTY_TOL * abs(p)):
+            out.append(f"{a} {p:g} -> {q:g}")
+    out += [f"{a} gone (was {q:g})" for a, q in prev.items() if a not in now]
+    return out
+
+
+def get(path: str, **q) -> object:
+    url = f"{API}{path}" + (f"?{urllib.parse.urlencode(q)}" if q else "")
+    with urllib.request.urlopen(url, timeout=15) as r:
+        return json.loads(r.read())
+
+
+class Signed:
+    def __init__(self, key: str, secret: str):
+        self.key, self.secret = key, secret
+        self.offset = int(get("/api/v3/time")["serverTime"]) - int(time.time() * 1000)
+
+    def __call__(self, path: str, **q) -> object:
+        q.update(timestamp=int(time.time() * 1000) + self.offset, recvWindow=10000)
+        qs = urllib.parse.urlencode(q)
+        sig = hmac.new(self.secret.encode(), qs.encode(), hashlib.sha256).hexdigest()
+        req = urllib.request.Request(f"{API}{path}?{qs}&signature={sig}", headers={"X-MBX-APIKEY": self.key})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read())
+
+
+def snapshot(call: Signed) -> dict:
+    spot = {}
+    for b in call("/api/v3/account", omitZeroBalances="true")["balances"]:
+        amt = float(b["free"]) + float(b["locked"])
+        # LD<asset> are Simple Earn receipt tokens: the Earn call below already counts those assets
+        if amt > 0 and not b["asset"].startswith("LD"):
+            spot[b["asset"]] = amt
+    earn = {}
+    rows = call("/sapi/v1/simple-earn/flexible/position", size=100).get("rows", [])
+    for r in rows:
+        earn[r["asset"]] = earn.get(r["asset"], 0.0) + float(r["totalAmount"])
+    prices = {p["symbol"]: float(p["price"]) for p in get("/api/v3/ticker/price")}
+    assets = []
+    for a in sorted(set(spot) | set(earn)):
+        px = 1.0 if a in ("USDT", "USDC", "FDUSD") else prices.get(f"{a}USDT")
+        total = spot.get(a, 0.0) + earn.get(a, 0.0)
+        assets.append({"asset": a, "spot": spot.get(a, 0.0), "earn": earn.get(a, 0.0), "total": total,
+                       "price_usdt": px, "value_usdt": None if px is None else round(total * px, 2)})
+    assets.sort(key=lambda x: -(x["value_usdt"] or 0))
+    return {"assets": assets, "total_usdt": round(sum(x["value_usdt"] or 0 for x in assets), 2),
+            "btc_usdt": prices.get("BTCUSDT")}
+
+
+def main() -> int:
+    cp = configparser.ConfigParser(interpolation=None)
+    cp.read(INI, encoding="utf-8")
+    s = cp["binance"] if cp.has_section("binance") else {}
+    if not s.get("api_key") or not s.get("api_secret"):
+        print("no [binance] api_key/api_secret in the ini", file=sys.stderr)
+        return 1
+    now = time.time()
+    try:
+        snap = snapshot(Signed(s["api_key"], s["api_secret"]))
+    except (urllib.error.URLError, OSError, ValueError, KeyError) as e:
+        print(f"binance read failed: {type(e).__name__}: {str(e)[:200]}", file=sys.stderr)
+        return 1
+    LOCAL.mkdir(parents=True, exist_ok=True)
+    os.chmod(LOCAL, 0o700)
+    try:
+        prev = json.loads(LAST.read_text())
+    except (OSError, ValueError):
+        prev = None
+    if prev is not None:
+        changes = watch(prev, snap["assets"])
+        if changes:
+            subprocess.run(NOTIFY + ["Binance: holdings changed", "; ".join(changes)[:500]
+                                     + ". If you did not do this, check the account now."],
+                           capture_output=True, timeout=30, check=False)
+    LAST.write_text(json.dumps({a["asset"]: a["total"] for a in snap["assets"]}))
+    with open(HISTORY, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"ts": int(now), "total_usdt": snap["total_usdt"], "btc_usdt": snap["btc_usdt"]}) + "\n")
+    rows = [json.loads(x) for x in HISTORY.read_text().splitlines() if x.strip()]
+    rows = [r for r in rows if now - r["ts"] <= KEEP_DAYS * 86400]
+    HISTORY.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    hourly, seen = [], set()           # one point per hour for the chart
+    for r in rows:
+        h = r["ts"] // 3600
+        if h not in seen:
+            seen.add(h)
+            hourly.append([r["ts"] * 1000, r["total_usdt"]])
+
+    def ago(sec: int):
+        old = [r for r in rows if now - r["ts"] >= sec]
+        return old[-1]["total_usdt"] if old else None
+
+    doc = {"schema": "binance-account/1", "source": "Binance API, read-only key", "as_of_ms": int(now * 1000),
+           **snap, "total_24h_ago": ago(86400), "total_7d_ago": ago(7 * 86400), "history": hourly}
+    body = json.dumps(doc, separators=(",", ":"))
+    (LOCAL / "binance-account.json").write_text(body)
+    r = subprocess.run(SSH + [f"sudo tee {REMOTE}.tmp >/dev/null && sudo chown 65534:65534 {REMOTE}.tmp && "
+                              f"sudo chmod 600 {REMOTE}.tmp && sudo mv {REMOTE}.tmp {REMOTE}"],
+                       input=body, text=True, capture_output=True, timeout=60, check=False)
+    if r.returncode != 0:
+        print(f"push failed: {r.stderr.strip()[:200]}", file=sys.stderr)
+        return 1
+    print(f"binance account {snap['total_usdt']} USDT, {len(snap['assets'])} asset(s) pushed")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,6 @@
+[Unit]
+Description=fxplat Mi cuenta: the operator's Binance balances, read-only, pushed to the operator-only endpoint (2026-10-26)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/fxplat-binance-account
