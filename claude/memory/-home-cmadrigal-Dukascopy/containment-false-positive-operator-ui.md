@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 86c0aa9a-0e27-4105-baf3-9a42f44a8bf7
-  modified: 2026-10-23T13:38:23.684Z
+  modified: 2026-10-26T03:13:43.449Z
 ---
 
 On 2026-10-12, TASK-3.78 failed workspace-containment because of ui/ files that came from the operator's own commit 7baad2d, made in the root while the run was going. The builder did not write them.
@@ -15,6 +15,8 @@ It happened again on 2026-10-14 with TASK-9.10. The flagged `config/variants.yam
 It happened a third time on 2026-10-22 with TASK-12.14. The flagged path was `experiments/observations/`, the operator's observation-days DB work from another session (committed later in root `2a309fb`). The supervisor moved those files to `logs/<run>/escaped-files/`, but the operator's commit still holds them. The reviewer findings on that run (missing `turnover`/`name`/`q`) were also wrong: they were stale or did not match the spec.
 
 It happened a fourth time on 2026-10-23 with TASK-13.1. The flagged path was `experiments/hallazgos/ideas.jsonl` (untracked), which the operator's live hallazgos ideate batches append to (commits 470c4b8/b36abea fall in the run window). The builder never mentioned it. Nothing was lost: every escaped line was still in the root file, which kept growing.
+
+A fifth case came on 2026-10-25 with TASK-16.30. The flagged paths were deploy/server/compose.fun.yml, deploy/server/ib-watchdog/, redeploy-ib-watchdog.sh and tests/deploy/test_{fun_deploy,ib_watchdog}.py, all from the operator's ops commit 572d47d (IB watchdog plus fun-sim GPG_KEY fix), merged in b506a62. The builder's diff was already complete and correct: all acceptance checks and strict-lint-new passed with no edits.
 
 **Why:** the supervisor treats any root change made during a run as the builder's. It also says it "removes" those files, which could throw away the operator's uncommitted edits.
 **How to apply:** when triaging a containment failure, compare the flagged paths with `git log` commits made during the run window before you blame the builder. If they match, the failure is environmental, so retry. Related: [[suite-green-timeout-diagnosis]].
