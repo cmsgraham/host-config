@@ -406,3 +406,15 @@ operator subsets. Next real work: 14.17 once 14.8 + 14.15 merge.
 2026-10-25 (spec writer, 22:2x UTC refill; runnable 14.15/15.11/15.12/15.21): NOTHING QUEUED. Since 18:3x only 14.8 + 16.28 merged
 and operator commit 5721f78 (14.15/15.11 BLOCK fixes; 14.15 back in spec review 22:27Z). 14.17 still waits 14.15 MERGE; 4.4 tolerance
 OPEN; 5.1-8.4 deps unmet; no new RESOLVED/phone marks.
+
+2026-10-26 (spec writer, 00:0x UTC refill; runnable 15.12/15.21): THREE committed. 14.15 (c2c28e7, ops "spec held by review"; OK
+after 3 rounds): EXPORTERS one glob per line 8-space indent keeps '], 300),' at char 334 < test's 400 window; crypto row = last
+features row whose ts has merged open_interest (crypto_positioning reindexes metrics by EXACT ts; premiumIndex rows stamped at
+fetch time); COT synthetic as_of = Tuesdays + history MANIFEST. 15.29 (c9af969) = driver 1/3 from RESOLVED 2026-10-25 "driver +
+calibration": bench.yaml calibration {path, sha256 of FILE BYTES}, bench_calibration.load_calibration / calibrated_spec; owns
+test_score.py REGISTERED (one entry). 16.30 (09a57fe) = K6 fix RESOLVED 2026-10-25 (b): paper_runner.log_closes_at(t_exit <= T);
+MEASURED on proto /tmp/proto_k6: 16.20 golden BYTE-IDENTICAL (no re-pin), only 5 tests in test_bench_sim_switches/_result change
+(last record USDCHF 1392062400000 -> enter, s3 all_agree, 0 mismatches). NEXT: 15.30 = driver 2/3 wire the bench CLIs (store.main,
+bench_hz.main spec_for_weeks, relax_worlds, oracle_spec) to load_calibration after 15.29 merges; 15.31 = driver 3/3
+`python -m fxplat.synthetic.driver --stage S1..S5` (lock, MERGE_HEAD wait, resumable, delete world store after scoring,
+FXPLAT_SYNTHETIC_BENCH=1 + approvals/SYNTHETIC_BENCH.txt). Next free ids: 3.147, 4.20, 9.12, 11.42, 12.20, 15.30, 16.31.
