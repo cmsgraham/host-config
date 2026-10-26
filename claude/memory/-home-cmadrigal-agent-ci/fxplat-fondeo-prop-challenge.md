@@ -19,3 +19,8 @@ Topstep 2025: 16.8 % pass, 33.3 % of funded paid, 0.71 % to live. Our fit = FTMO
 block); fixes: no entries 2 h before Friday close (gap rule), cap same-direction USD positions (overexposure), keep open
 risk well under the 5 % equity daily limit (reset 00:00 CE(S)T = 17:00 CR winter / 16:00 summer). Withdraw each cycle
 (static floor). $400k cap per trader OR strategy. Never log in / VPS from the US. Fondeo spec amended to Swing.
+
+2026-10-26: operator wants the fondeo modelling "killing precise". Approved + queued (decisions-pending): minute-equity
+5 %/10 % rules with Prague-midnight/DST reset, FTMO real-cost profile from the recorder (>= 5 days), Monte Carlo
+pass-probability report, known-answer rules tests. Always remind: precision protects an edge, it does not create one
+(no strategy has passed G3).

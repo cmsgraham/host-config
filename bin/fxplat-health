@@ -130,6 +130,12 @@ if [ -f "$ba" ] && [ $(( $(date +%s) - $(stat -c %Y "$ba") )) -gt 1200 ]; then
   problems+=("binanceacct|Mi cuenta Binance snapshot older than 20 min (fxplat-binance-account timer)")
 fi
 
+# 4g. the WSL disk (2026-10-26): disk-guard stops Ollama at 850 GiB used; warn at 750 so a person can clean first
+used_g=$(df -BG --output=used / | tail -1 | tr -dc '0-9')
+if [ "${used_g:-0}" -ge 750 ]; then
+  problems+=("diskhigh|WSL disk ${used_g} GiB used (Ollama stops at 850): check /tmp/agent-ci, ~/.ollama, ~/Dukascopy/.agent-worktrees")
+fi
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"

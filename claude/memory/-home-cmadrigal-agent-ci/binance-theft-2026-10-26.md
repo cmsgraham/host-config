@@ -16,3 +16,9 @@ Open: account-activity screenshot 08:21-08:24 decides whether his PC is compromi
 rotate every secret on this PC); Defender Offline scan; OIJ report; SAFU compensation asked; new read-only key;
 address watcher (scratchpad watch-theft-addr.sh, dies on reboot). Never put secrets on a command line.
 Related: [[binance-live-prep]].
+
+Binance case ID 172523460; IC3 submission ID ac86d798bbfd46ed950a740ed996c0b4 (added to the Binance case).
+Binance's finding (chat 10:45 CR): actions completed FROM HIS OWN recognised device, withdrawal confirmed with his 2FA
++ face; "device or session may have been compromised; the action you approved may have been presented differently".
+=> treat the Windows PC / its Edge session as compromised until proven otherwise (he told support the opposite).
+He said "most" device-list sessions are from the home IP - ask which are not. Chainabuse report suggested.
