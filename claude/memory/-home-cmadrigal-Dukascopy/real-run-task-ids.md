@@ -439,3 +439,12 @@ market_structure HH+HL/LH+LL). Both review OK first round. Proto /tmp/proto_lv. 
 stop-run on swing_points (after 11.43 merges), then the grammar task (new catalogue version, m, power cost - grid of k /
 near_atr likely an operator question). 14.11 grammar / 14.12 wiring wait 14.9 + 14.10. Fondeo 2+ still needs web (FTMO pages).
 
+
+2026-10-26 (spec writer, 07:4x UTC refill; runnable 11.43/14.10/14.9/15.30): FOUND 11.42 / 11.43 / 14.10 UNTRACKED in the main tree
+(the 06:1x writer's commits never landed - likely the merge-gate /tasks/** exclude; 11.42 was even built + merged from the untracked
+file). Committed them (1e63c55, 6c7e770, f64ed7d). ALWAYS run `git status --short tasks/` at the end and after every commit.
+Queued 16.32 (b35dde0) = fondeo 1b amendment from RESOLVED 2026-10-25 'FTMO 2-Step SWING': EntryRules(close_tz, close_weekday,
+close_minute, no_entry_before_close_ms, max_usd_same_direction) + next_close_ms (first close STRICTLY after ts) / in_gap_window
+(inclusive) / usd_side / entry_block appended to fun_challenge.py; total-risk cap + risk/trade already = FunProfile.max_open_risk_pct /
+risk_pct (config task sets them). Proto /tmp/proto_fe. Fri 17:00 NY closes: 2026-10-23 1792789200000, 10-30 1793394000000 (21Z),
+11-06 1794002400000 (22Z). Fondeo 2 config still needs min trading days + commission from FTMO pages (web denied).
