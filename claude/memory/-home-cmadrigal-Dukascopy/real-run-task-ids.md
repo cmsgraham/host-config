@@ -457,3 +457,12 @@ pivot) + stop_run {k, side, n} (first WICK beyond = probe bar 1 of n, first clos
 body engulfing, pin_bar shadow >= wick*range); proto /tmp/proto_candle. Family 3 USD index is ALREADY the catalogue primitive
 dollar_trend (252-row); rest of family 3 needs operator inputs. Family 1 grammar (k / n / near_atr grid) = operator question, not asked.
 Next free ids: 3.148, 4.20, 9.12, 11.46, 12.20, 15.31, 16.33.
+
+2026-10-26 (spec writer, 12:0x UTC refill; runnable 11.44/11.45/14.9/16.32/3.147): family 4 rule-out primitives, all depends_on []:
+11.46 prim_osc (Lane FAST stochastic: stoch_level cross-multiplied 100*num >= level*den, stoch_cross K vs SMA3; MACD 12/26/9
+SMA-seeded EMA with leading-NaN skip; macd_cross / macd_zero), proto /tmp/proto_osc; 11.47 prim_ichimoku (9/26/52, cloud = spans
+computed 26 bars earlier, above/below strict, inside inclusive; TK cross, tie = "before" state), integer walk -> exact quarters,
+proto /tmp/proto_ichi, review OK 0 findings; 11.48 prim_fib (fib_zone {k, leg, lo, hi} on the latest confirmed swing high/low
+via prim_swing.swing_points; outside bar both pivots -> no leg; NOTE swing_points rejects np.int64 k -> spec converts with int()),
+proto /tmp/proto_fib (== brute force). Commits waited on a long 14.9 merge gate (12:01 -> 12:30+, host swap full).
+Family 4 left: RSI divergences (needs swing + RSI readings). Next free ids: 3.148, 4.20, 9.12, 11.49, 12.20, 15.31, 16.33.
