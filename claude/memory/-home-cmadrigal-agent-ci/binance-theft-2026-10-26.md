@@ -22,3 +22,11 @@ Binance's finding (chat 10:45 CR): actions completed FROM HIS OWN recognised dev
 + face; "device or session may have been compromised; the action you approved may have been presented differently".
 => treat the Windows PC / its Edge session as compromised until proven otherwise (he told support the opposite).
 He said "most" device-list sessions are from the home IP - ask which are not. Chainabuse report suggested.
+
+ROOT CAUSE FOUND 2026-10-26 ~13:15 CR: malicious unpacked Edge extension "Save to Google Drive" id
+odlgnanjghijpjnmccjpnhleifjkdkob at C:\Users\crist\AppData\Local\KFWZRVJCqhsoNO (since 2025-07-14; all URLs, cookies,
+webRequest, strips CSP/XFO, BTC-explorer C2 dead-drop bc1q9w9c3n4rrpmj2ufdgdw6m8f233phajsnyjv7sq, targets Gmail/Outlook).
+My first browser audit MISSED it: it listed only the Extensions dir - unpacked extensions live elsewhere; always read
+Secure Preferences extensions.settings (location 4/8). Quarantined (moved, not deleted - operator wants forensics) to
+C:\Users\crist\QUARANTINE-2026-10-26; evidence + README on Desktop\EVIDENCE-edge-extension-2026-10-26. Dropper not yet
+found (Secure Preferences MAC forgery implies native code). Operator: "do not delete anything, run the forensic".

@@ -474,3 +474,12 @@ committed 1acf5d4 / e1eccb5; 11.48 had its medium applied after review -> re-rev
 exchange_rules.py, stdlib Decimal, parse_rules + check_order codes + require_order -> safety.Refused; str/Decimal only, never round;
 MARKET_LOT_SIZE 0 = disabled *reading). Proto /tmp/proto_xr. Remaining items 1 shadow, 2 OCO, 4 drills, 5 restart reconcile,
 6 daily regression - all touch strategies.py / Nautilus (needs design). Next free ids: 3.148, 4.20, 9.12, 11.49, 12.20, 15.31, 16.34.
+
+2026-10-26 (spec writer, 19:4x UTC refill; runnable 11.47/11.48/15.32/16.33/3.147): found 11.49 (prim_rsidiv) + 14.13 (participants.groups)
+UNTRACKED at review-OK hashes with hold "draft, under review" (third time a writer's commits did not land) -> givens re-verified on main,
+holds dropped, committed 1f80e3a / c6816d0. 15.31 had been BUILT + MERGED from an untracked spec -> committed as-is 04568bb. NEW: fondeo
+precision pack (RESOLVED 2026-10-26, items 4 -> 1 -> 2 -> 3) has no tasks. Item 4 contradicts 16.31 ("exactly on the floor survives",
+pinned by test_fun_challenge.py) -> phone ask decision:fondeo-floor-equality (rec (a) at-floor = breach + Standard break-hold parameter).
+Item 1 (minute equity incl. open positions, Prague day ref, worst intraday point per day) is independent of that - next writer: spec it
+on fun_book's tape (_Tape/_quote_at; marks on the closing side bid/ask). ask --option labels must not contain '='.
+Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.18, 15.33, 16.34.
