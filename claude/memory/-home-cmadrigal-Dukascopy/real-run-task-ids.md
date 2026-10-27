@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-25T00:58:41.505Z
+  modified: 2026-10-27T17:54:16.165Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -544,3 +544,25 @@ no commit window). Backups /tmp/sw1412/. NEXT WRITER FIRST: `cd ~/Dukascopy && t
 (the gate's /tasks/** exclude hides them from `git status` while MERGING.json exists - check `ls tasks/TASK-14.12.yaml`).
 A triage agent (logs/triage-20261027-160048.log) left tasks/TASK-14.21.yaml MODIFIED uncommitted (adds owned
 test_hz_idea_counterparty_group.py) - theirs, not the spec writer's.
+
+2026-10-27 (spec writer, 17:0x-17:5x UTC refill; runnable 14.12/14.21/14.22/16.36/3.147): committed 14.12 (7f13a36) + 14.22
+(c62ee0c) first. Decision 2026-10-27 (phone) 'mi perfil v1 sin dial de stop' -> mi_perfil chain: 16.37 fun_dials (pure:
+RANGES risk 0.0025-0.20 / max_open 1-10 / leverage 10-500 / K1 0.5-10 / K2 1-20 / K3 0.02-0.90 / K17 0.5-10 *reading,
+DEFAULT_DIALS = medio, profile_from via fun_profiles.parse_fun_profiles, describe_es verbatim sentence, journal
+fun-dials-journal/1 reader: last VALID line wins, rejections 'line i: ...'; review OK fab4aecf, 3 lows applied),
+16.38 fun_guard dials_journal key in FunConfig LAST default None + check_paths (review OK, 4 lows applied), 16.39
+fun_pickup (deps 16.37: sixth_rung, run_record/parse_run_record 'dials.json' fun-dials-run/1, pickup(lines,
+running_sha) changed only when running sha known, status_block fun-dials-status/1, END_REASON 'dials_changed').
+Protos /tmp/p1637 (fun_dials_proto.py, fun_pickup_proto.py; run with PYTHONPATH=src:/tmp/p1637, NOT python -I).
+14.12's gate (17:12-17:50Z) was followed within 5 s by 14.21's gate (from 17:51Z) and the gate's tasks/** exclude made
+plain `git add` REFUSE the file ("ignored by .gitignore") -> commits need `git add -f`. The three commits (16.37, 16.38,
+16.39, review OK, holds removed, backups /tmp/sw1637/) are queued in a DETACHED script /tmp/sw1637/commit_all.sh
+(log /tmp/sw1637/commit_all.log): waits for MERGING.json to clear, cp backup, git add -f, commit, in order. NEXT
+WRITER FIRST: `git log --oneline -4 -- tasks/` must show the three; if not, run the script's steps by hand.
+NEXT (mi_perfil 4-6): 16.40 fun_sim wiring (deps 16.38, 16.39: build_context -> sixth_rung when cfg.dials_journal;
+per cycle pickup(read_lines(journal), acct run record sha); at a decision instant changed -> _end_run 'dials_changed'
++ _new_run + write run-<n>/dials.json; Account gains dials sha LAST; status.json 'mi_perfil' block = status_block;
+fun_sim 839 lines -> keep < 950), 16.41 request service write path (deploy/server/requests/replay_requests.py POST
+/app/api/mi-perfil, APPROVER_EMAILS only, appends fun_dials.journal_line to /data/mi-perfil.jsonl; home mirror pulls
+it like whatif-registrations), 16.42 exporter fields + UI dials on Perfiles (juego). Still unasked: family-1 grammar
+grid. Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.40.
