@@ -121,3 +121,4 @@
 - [Binance live prep](binance-live-prep.md) — 2026-10-26: Mi cuenta panel + watch; sub-account fxplat-bot key [binance_sub] unused until testnet hardening + CRYPTO_LIVE approval
 - [Binance theft 2026-10-26](binance-theft-2026-10-26.md) — main account emptied via his own passkey+face prompts; our side cleared; PC-compromise question open; IC3 filed
 - [task tmpdir disk leak](task-tmpdir-disk-leak.md) — 2026-10-26 492 GB of /tmp/agent-ci stopped Ollama via disk-guard; fixed 1fae66a + 750 GiB alert
+- [gateway agentic ctx optimizer](gateway-agentic-ctx-optimizer.md) — num_ctx grows with the conversation, sized from the CALIBRATED (not raw) token count; raw estimate caused refuse->base-fallback loop
