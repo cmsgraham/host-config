@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-27T17:54:16.165Z
+  modified: 2026-10-27T18:18:36.192Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -555,10 +555,9 @@ fun_pickup (deps 16.37: sixth_rung, run_record/parse_run_record 'dials.json' fun
 running_sha) changed only when running sha known, status_block fun-dials-status/1, END_REASON 'dials_changed').
 Protos /tmp/p1637 (fun_dials_proto.py, fun_pickup_proto.py; run with PYTHONPATH=src:/tmp/p1637, NOT python -I).
 14.12's gate (17:12-17:50Z) was followed within 5 s by 14.21's gate (from 17:51Z) and the gate's tasks/** exclude made
-plain `git add` REFUSE the file ("ignored by .gitignore") -> commits need `git add -f`. The three commits (16.37, 16.38,
-16.39, review OK, holds removed, backups /tmp/sw1637/) are queued in a DETACHED script /tmp/sw1637/commit_all.sh
-(log /tmp/sw1637/commit_all.log): waits for MERGING.json to clear, cp backup, git add -f, commit, in order. NEXT
-WRITER FIRST: `git log --oneline -4 -- tasks/` must show the three; if not, run the script's steps by hand.
+plain `git add` REFUSE the file ("ignored by .gitignore") -> commit spec files with `git add -f` after the gate clears
+(a detached setsid script that waits for MERGING.json then force-adds works; /tmp/sw1637/commit_all.sh). LANDED
+18:18Z: 16.37 cf12253, 16.38 89cb6de, 16.39 e161cea. tasks/ clean.
 NEXT (mi_perfil 4-6): 16.40 fun_sim wiring (deps 16.38, 16.39: build_context -> sixth_rung when cfg.dials_journal;
 per cycle pickup(read_lines(journal), acct run record sha); at a decision instant changed -> _end_run 'dials_changed'
 + _new_run + write run-<n>/dials.json; Account gains dials sha LAST; status.json 'mi_perfil' block = status_block;
