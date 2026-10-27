@@ -30,4 +30,5 @@
 - [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — 16.x tree-drift: gate's /ui/** in shared .git/info/exclude drops new ui files from snapshot (16.28); retry after MERGING clears
 - [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min
 - [YAML 1.1 key gotchas](yaml11-key-gotchas.md) — bare NULL/null/on keys parse as None/True (canonical_hash TypeError); quote; also diff tasks/<id>.yaml vs main before finishing (15.11 S2 RETIRED mid-run)
+- [Unfaked wiring → test timeout](unfaked-wiring-test-timeout.md) — 15.32: timed-out builder left owned test_driver.py unamended; old tests hit real build_world (full oracle) → TIMEOUT
 - [relax_score w* boundary](relax-score-w-star-boundary.md) — 15.21 w* in [0, 1): requirement (c) 'never' at delta[EDGE] = 0.05; deliberate, don't widen on review
