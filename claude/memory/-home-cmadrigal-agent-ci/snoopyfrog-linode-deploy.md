@@ -135,3 +135,12 @@ first tick incl. Rodrigo's li_04999bcdf9d7 (he must add his account again).
 Only li_deb95335c1c1 (cristian's, connected) remains.
 
 **OFFLINE since 2026-10-24 (owner: "nobody is using it").** App containers stopped (api, linkedin-worker, scheduler, relay, redis, postgres; restart policy unless-stopped -> stay stopped after reboots); volumes snoopyfrog_pgdata + snoopyfrog_linkedin_sessions KEPT. snoopyfrog-nginx-1 STAYS UP: it terminates TLS for fxplat.trade (conf.d/fxplat.conf + certbot fxplat.trade cert; snoopyfrog-certbot.timer renews both). conf.d/default.conf rewritten to an offline 503 page (no api dependency); original at /opt/snoopyfrog/nginx/default.conf.bak-*. Verified: fxplat.trade 200, nginx survives restart without the app. Revive: restore the .bak default.conf + `docker compose -f docker-compose.server.yml up -d` in /opt/snoopyfrog. No home-side connector/chisel found running (WSL or Windows).
+
+**2026-10-27 BACK ONLINE** (owner reversed the 10-24 parking). Two steps: (1) started the app stack
+`cd /opt/snoopyfrog && sudo docker compose -f docker-compose.server.yml up -d` (api/postgres/redis/relay/
+scheduler/linkedin-worker; data volumes intact); (2) the parking had replaced nginx conf.d/default.conf with a
+hardcoded `return 503` "snoopyfrog is offline" page, so starting containers alone did NOTHING — restored the
+real config from /opt/snoopyfrog/nginx/default.conf.bak-20261025001845, `nginx -t`, then `nginx -s reload`
+(never restart: snoopyfrog-nginx-1 also serves fxplat.trade TLS). snoopyfrog.com + /health = 200, fxplat.trade
+unaffected. The offline page is saved as conf.d/default.conf.offline-20261027195146 (one-line swap to re-park).
+SSH as `fxplat-server` (user cristian + sudo); the `snoopyfrog` root alias is dead (hardening disabled root login).

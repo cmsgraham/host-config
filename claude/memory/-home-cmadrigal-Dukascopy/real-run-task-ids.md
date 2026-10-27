@@ -1,6 +1,6 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.147 / 4.20 / 9.12 / 11.44 / 12.20 / 15.31 / 16.32 (2026-10-26 06Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.43 (2026-10-27 20Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
@@ -565,3 +565,26 @@ fun_sim 839 lines -> keep < 950), 16.41 request service write path (deploy/serve
 /app/api/mi-perfil, APPROVER_EMAILS only, appends fun_dials.journal_line to /data/mi-perfil.jsonl; home mirror pulls
 it like whatif-registrations), 16.42 exporter fields + UI dials on Perfiles (juego). Still unasked: family-1 grammar
 grid. Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.40.
+
+2026-10-27 (spec writer, 19:2x-20:xx UTC refill; runnable 16.36-16.39/3.147; ops 0): mi_perfil 4-6 written. 16.40 (78d6d73, review
+OK, 3 findings applied) = fun_sim wiring: Account gains LAST fields dials (RunRecord) + profile; record run-<n>/dials.json (ONE line)
+written with the run's FIRST mark (run 1 at the first poll's now, _new_run at t) via `out`; at a decision instant (due late/decide)
+a changed pickup -> _end_run(now, 'dials_changed') + _new_run(now, pick) IN THE SAME POLL (*reading: like run 1 starting at its
+first poll; an ENDED run restarts at t as today); journal read once per poll in cycle (OSError -> root error 'dials:<Type>', block
+None); root status gains key 'mi_perfil' (status_block), 'fun-status/1' name kept. MEASURED (proto /tmp/p1640, scratch src copy +
+`ln -s config`; run with PYTHONPATH=/tmp/p1640/src, Fun helper subclass): DEFAULT dials enter 13,000 units == medio; top dials
+(0.2/10/500) 130,000; K3 at 0.02 ends run 1 at T+70_000; test list 8 s; fun_sim 948 lines on the proto (cap < 1000). 16.41 (request
+service POST /app/api/mi-perfil, deps [16.37]; proto /tmp/p1641 replay_requests.py + harness.py = socket-free Handler driving via
+Handler.__new__ + BytesIO) - stdlib dials_sha256 reproduction == fun_dials (asdict form: loss {id: {enabled, threshold|None}},
+floats coerced) verified on 4 dial sets; lines 2+ byte-identical to journal_line; the PROTO's changed_fields(None, d) is unsorted
+while 16.37's spec says sorted -> 16.41 test compares line 0's 'changed' as a SET. 16.42 (deps [16.38, 16.41]) = static deploy
+wiring: compose.fun.yml `./requests/mi-perfil:/journal:ro` (never ./requests - private/ asks/), fun.json dials_journal
+/journal/mi-perfil.jsonl, both redeploy scripts `install -d -o 65534` the dir (Docker would create a root-owned mount source).
+LEFT for mi_perfil: exporter fields (ui/scripts/export_fun_profiles.py reads status['mi_perfil']) + UI dials on Perfiles (juego)
+= operator/UI work; futures extensions (crypto perps, CME) = separate later decisions. Next free ids: 3.148, 4.20, 9.12, 11.50,
+12.20, 14.23, 15.33, 16.43.
+STATUS 19:5xZ: 16.41 (review OK round 3, hash f649ad67 + 3 lows applied) and 16.42 (review OK round 2, 55b922ec + lows
+applied) holds lifted, copies in /tmp/sw1640/; a detached /tmp/sw1640/commit_all.sh (log commit_all.log) waits for the
+16.36 merge gate (MERGING.json since 19:40Z) then `git add -f` + commits both. NEXT WRITER: check `git log --oneline -3`
+and `ls tasks/TASK-16.41.yaml tasks/TASK-16.42.yaml` + commit_all.log; if uncommitted, run the script again.
+
