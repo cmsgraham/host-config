@@ -483,3 +483,13 @@ pinned by test_fun_challenge.py) -> phone ask decision:fondeo-floor-equality (re
 Item 1 (minute equity incl. open positions, Prague day ref, worst intraday point per day) is independent of that - next writer: spec it
 on fun_book's tape (_Tape/_quote_at; marks on the closing side bid/ask). ask --option labels must not contain '='.
 Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.18, 15.33, 16.34.
+
+2026-10-27 (spec writer, 05:4x UTC refill; runnable 11.49/14.13/15.32/16.33/3.147; ops 0 spec cases): fondeo precision pack
+(RESOLVED 2026-10-26) items 1 + 3, all depends_on []: 16.34 (a7441b5) fun_daily.daily_report = one DayRow per Prague day with
+marks (reference/floors exactly challenge_state's, worst mark earliest-tie, first breach max-before-daily, DST 23 h/25 h days);
+16.35 (8080da9) fun_minute.minute_marks = fun_book.equity(cap, fun_book.mark(known positions, tape, m)) per minute (known =
+submit/add ts <= m; mark ~5 ms/call; future flatten_ms has no effect at m, measured); 16.36 (21033cd) fun_passprob (block bootstrap of
+Prague CALENDAR days, lazy circular blocks from seeds.rng('fun_passprob.paths'), closed-trade basis, MIN_TRADES 30 justified by
+the 2026-10-09 n>=30 rule; MIXED seed 7 p_pass1 0.029). Protos /tmp/proto_fd, /tmp/proto_pp. Item 2 (ftmo cost profile) still
+needs web + >= 5 recorder days; item 4 waits floor-equality. mi_perfil stop 1-3 x ATR dial conflicts with fun_profiles._ATR_MULT
+= 2.0 (note in decisions-pending 2026-10-27, not asked). Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.18, 15.33, 16.37.
