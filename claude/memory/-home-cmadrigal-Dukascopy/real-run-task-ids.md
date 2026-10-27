@@ -504,3 +504,17 @@ copy; fixture numbers in spec). Proto /tmp/p1411 (git-init'ed scratch, needs exp
 NEXT: 14.12 scan wiring after 14.11 merges - scan.py is 898 lines vs test_hz_scan_helpers cap 950 -> put loaders in a new
 scan_participants.py helper module. Then the 6 signed P1 conditions = catalogue.yaml version bump (config, operator/Claude).
 Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.19, 15.33, 16.37.
+
+2026-10-27 (spec writer, 12:0x-12:5x UTC refill; runnable 14.14/14.18/16.35/16.36/3.147): participantes 14.12 draft (scan.py + idea_scan.py,
+3 owned, scan.py 898/950 cap) SPLIT: 14.19 (02a7191, deps []) new module hallazgos/scan_participants.py = require_participants
+(PARTICIPANTES_DEV.txt) + participant_users/commodity_users/participant_datasets/commodity_needs + load_participants(conds, dir, *, lock_ms)
+(load_cot -> add_known_at -> drop known_at >= lock BEFORE features; sha = canonical_hash of locked raw int records; tiny-store sha
+2bacb5e9...; as_of 2015-12-29 public Mon 2016-01-04 -> dropped) + load_commodity_context(conds, dir, *, start, end) wrapping
+prim_commodity.load_commodities. ~/fxdata-cmd has NO derived bars yet (ticks only; operator must run derive_bars) and starts 2010.
+Ideas half of old 14.13 draft: 14.20 (1652e2a, deps []) ideas.py optional counterparty_group (schema enum IDEA_GROUP_VALUES, 'none' iff
+no_counterparty, IdeaSpec last field default None, _spec_json only when set); 14.21 (176bcd6, deps 14.20) ideate REQUEST schema requires
+it + prompt bullet + 15-line group block + _idea_doc key. Proto /tmp/p1419, /tmp/p1420 (copy of src/tests/config/experiments; scan /
+confirm / research_cli tests fail there only for lack of git). NEXT: rewrite tasks/TASK-14.12 as scan.py-only wiring (deps 14.19;
+_FrameCtx/_Job fields LAST, dispatch, run_scan participants_dir/commodity_dir, stamps + notes, CLI; stay <= 950 lines), then an
+idea_scan task (scan_batch forwards both dirs only when not None, idea_condition copies counterparty_group, group_measured) deps 14.12+14.21.
+Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.22, 15.33, 16.37.
