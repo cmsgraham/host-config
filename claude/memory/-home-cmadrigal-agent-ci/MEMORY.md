@@ -123,3 +123,4 @@
 - [task tmpdir disk leak](task-tmpdir-disk-leak.md) — 2026-10-26 492 GB of /tmp/agent-ci stopped Ollama via disk-guard; fixed 1fae66a + 750 GiB alert
 - [gateway agentic ctx optimizer](gateway-agentic-ctx-optimizer.md) — num_ctx grows with the conversation, sized from the CALIBRATED (not raw) token count; raw estimate caused refuse->base-fallback loop
 - [malware-lab project](malware-lab-project.md) — 2026-10-27 forensics lab onboarded as agent-ci project at ~/malware-lab; live-malware tasks HELD, only TASK-4.1 eligible; in gateway dashboard on 8768
+- [rejected tool use still ran](rejected-tool-use-still-ran.md) — a "rejected" tool notice can be SPURIOUS (seen with a /model switch); the user did not reject and the command ran; verify state, never attribute an interrupt to the user

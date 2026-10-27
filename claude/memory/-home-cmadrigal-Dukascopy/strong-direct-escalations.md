@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 75f75a96-583c-40ca-8ddb-4b8b24653fad
-  modified: 2026-10-26T16:54:45.947Z
+  modified: 2026-10-27T14:44:35.845Z
 ---
 
 When state/HUMAN_REQUIRED.md says "HANDED TO THE STRONG TIER — NOT BUILT YET" (events.jsonl stage HUMAN_REQUIRED, event `strong_direct`, reason "routed to the strong tier by contour"), the local builder never ran. The run transcript only holds the pre-flight brief. The job is a full build from tasks/TASK-*.yaml, not a stall diagnosis. Seen on TASK-2.18 (2026-10-06). On TASK-15.4 (2026-10-24) the spec writer's prototype was still in /tmp/proto154 (world.py, ctest.py, mw*.py metric scripts). It was a useful reference, and its numbers reproduced: the world takes 1.7 s per 260 weeks and the test file 17 s. Check /tmp/proto<id> before building from scratch.
@@ -21,6 +21,8 @@ When state/HUMAN_REQUIRED.md says "HANDED TO THE STRONG TIER — NOT BUILT YET" 
 TASK-14.9 (2026-10-26) was the same: 1 of 1 attempt, 16 read-only calls (a detour into the sibling TASK-15.30 worktree), nothing written. /tmp/proto149 held a terse prototype and check.py, and every registered mask array reproduced. `lint-and-no-stray` fails on untracked owned files, so `git add` them (stage, don't commit).
 
 TASK-15.25 (2026-10-25) was another missing_owned_test case. The builder spent 36 min reading APIs and wrote nothing. The spec writer's prototype was in /tmp/proto1525: world_feed.py plus verify/counts/probe scripts. I used it as the reference and rewrote it lint-clean, wrote the test file from the (a)-(h) list, and every MEASURED number reproduced (the stub count of 77, 1920 warm-up lines). The module tests take 16 s.
+
+TASK-14.19 (2026-10-27) was another missing_owned_test case: 1 of 1 attempt, 15 min of reads, nothing written. The spec writer's prototype was in **/tmp/p1419** (scan_participants.py, tiny.py, check.py, g.py) plus a reviewer probe in /tmp/rv1419, so also glob `/tmp/p<id>` and `/tmp/rv<id>`, not just `/tmp/proto<id>`. The MEASURED sha 2bacb5e9… reproduced first try; the module tests take ~2 s.
 
 **Transport variant, nothing built (TASK-11.48, 2026-10-26):** the report said "builder_error ... gateway: all models failed, qwen3:8b Connection refused" and module-tests-green exit=4 (file not found). The builder never wrote anything, so I built from spec. /tmp/proto_fib held fib.py with a brute force. That prototype puts the MAIN tree's src first on sys.path, so import the worktree's fxplat before exec'ing it. All 144 configurations (6 seeds × k 1-3 × legs × zones) matched, and every MEASURED number reproduced on the first run.
 
