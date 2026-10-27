@@ -518,3 +518,29 @@ confirm / research_cli tests fail there only for lack of git). NEXT: rewrite tas
 _FrameCtx/_Job fields LAST, dispatch, run_scan participants_dir/commodity_dir, stamps + notes, CLI; stay <= 950 lines), then an
 idea_scan task (scan_batch forwards both dirs only when not None, idea_condition copies counterparty_group, group_measured) deps 14.12+14.21.
 Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.22, 15.33, 16.37.
+
+2026-10-27 (spec writer, 15:3x-16:xx UTC refill; runnable 14.19/14.21/16.35/16.36/3.147; 14.19 in a LONG merge gate from
+15:37Z): wrote tasks/TASK-14.12 (NEW file - the old draft lives only in state/proposals/participantes; deps [14.19]; review
+OK 88e98b4b, 2 lows applied) = scan.py wiring: aliased imports `prim_commodity as hz_commodity` / `prim_participants as
+hz_participants` / `scan_participants as hz_parts` (ruff I001 reflows a combined `from fxplat.hallazgos import ...` line into
+7 lines); _Job / _FrameCtx fields participants, commodities LAST; _predicate_mask branches; _load_participants(conds, pdir,
+cdir, approvals) = gate -> load_participants(lock_ms=LOCK_MS) -> load_commodity_context(start=DISCOVERY[0].date() - the P2
+store begins 2010, a 2009 year raises FileNotFoundError; end=DISCOVERY[1].date()) + drop ts_close >= LOCK_MS (store read is
+inclusive) + _check_lock; stamps participants_sha256 / commodity_sha256; notes order econ < participants < commodity; CLI
+--participants / --commodities. scan.py 898 -> 951 lines, so 14.12 ALSO owns test_hz_scan_helpers.py (950 -> 985; scan.__all__
+pinned there, add nothing). Proto /tmp/p1412 (git init'ed copy of src/tests/config/experiments; run with PYTHONPATH=src);
+test tests/hallazgos/test_hz_scan_wave2.py MEASURED: plain London cell n 216 on either pair (2012 market), COT cell == plain
+when reports usable throughout, 120 with reports to as_of 2012-05-29, cot store sha f827afdb..., 1,564 gold D1 bars 2010-2015;
+date_window CANNOT be used for truncation checks (REGISTERED_WINDOWS only). TASK-14.22 (deps [14.12]) = idea_scan half:
+counterparty_group copied into the condition (never 'none'), group_measured(idea) per entry (True/False/None; pure, every
+idea even unscanned), dirs forwarded to scan_fn ONLY when not None (test_hz_idea_scan FakeScan pins the 10-key set), CLI
+flags; idea_scan 493 -> 529. Phone ask sent 16:1x: decision:mi-perfil-stop-dial (rec (a) v1 without the stop dial; last ask
+fondeo-floor-equality EXPIRED unanswered). Still unasked: family-1 grammar grid (k / n / near_atr). Next free ids: 3.148,
+4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.37.
+END OF THAT REFILL (16:50Z): tasks/TASK-14.12.yaml and tasks/TASK-14.22.yaml are UNCOMMITTED (review OK, lows applied, hold
+lines removed, both validate; 14.19's gate ran 15:37-16:22 and 16.35's gate started 16:23 and was still in verify at 16:50 -
+no commit window). Backups /tmp/sw1412/. NEXT WRITER FIRST: `cd ~/Dukascopy && test ! -e state/MERGING.json && for id in
+14.12 14.22; do git add tasks/TASK-$id.yaml && git commit -m "tasks: $id ... (spec writer)" -- tasks/TASK-$id.yaml; done`
+(the gate's /tasks/** exclude hides them from `git status` while MERGING.json exists - check `ls tasks/TASK-14.12.yaml`).
+A triage agent (logs/triage-20261027-160048.log) left tasks/TASK-14.21.yaml MODIFIED uncommitted (adds owned
+test_hz_idea_counterparty_group.py) - theirs, not the spec writer's.
