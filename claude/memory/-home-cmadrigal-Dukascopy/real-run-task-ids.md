@@ -587,4 +587,4 @@ STATUS 19:5xZ: 16.41 (review OK round 3, hash f649ad67 + 3 lows applied) and 16.
 applied) holds lifted, copies in /tmp/sw1640/; a detached /tmp/sw1640/commit_all.sh (log commit_all.log) waits for the
 16.36 merge gate (MERGING.json since 19:40Z) then `git add -f` + commits both. NEXT WRITER: check `git log --oneline -3`
 and `ls tasks/TASK-16.41.yaml tasks/TASK-16.42.yaml` + commit_all.log; if uncommitted, run the script again.
-
+UPDATE 20:25Z: 16.36 gate landed 7700f88 but a 16.37 gate started 20:21Z before the script could commit; relaunched the script (pid 2289320, `setsid nohup ... < /dev/null &` in a subshell - the first launch died with the session). Verify 16.41/16.42 landed (git log) before anything else.

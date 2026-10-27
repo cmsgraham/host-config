@@ -26,3 +26,14 @@ September's earlier spend shows as a single "before daily detail" amount in the 
 Keep the embedded DASHBOARD_HTML in sync with dashboard.html (see [[gateway-dashboard-live-file]]).
 The gateway repo also carried a large UNCOMMITTED diff (months, reliability, policy) before this;
 nothing was committed.
+
+**2026-10-27 — GPU-lease savings meter (built, DEPLOY PENDING an idle gateway restart).** Extended the
+savings meter so ANYTHING that leases a card is metered, not just LLM tokens (user: "anything the gateway
+connects should have a counter"). telemetry.py `Store.lease_savings()` = GPU-hours per lease client, each lease
+clamped to `GPU_PRICING.cap_hours` (4h) and "gateway restart" closes bounded (an abandoned lease had shown 154h).
+gateway.py `GPU_PRICING={per_gpu_hr:0.50,cap_hours:4}` + `compute_savings()` now returns gpu_saved_usd /
+gpu_by_client / total_avoided_usd (LLM+GPU). ui/app.js Settings > Savings meter shows "cost avoided = LLM + GPU
+leases" + per-client table, degrades gracefully until the backend restarts. All 3 files have .bak-savings-* backups;
+gateway.py/telemetry.py py_compile OK, app.js node --check OK. Validated live: LLM $4,725, GPU-lease $5.15.
+DEPLOY = restart ollama-gateway.service ONLY when in-flight empty (do it in the voice-job-done undo window, before
+resuming the pipeline). LLM ref stays $3/$15 Sonnet-class (editable). Related: [[gateway-usage-card]], [[voicelab-gpu-contention]].
