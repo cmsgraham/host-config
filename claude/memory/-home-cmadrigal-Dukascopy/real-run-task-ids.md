@@ -493,3 +493,14 @@ Prague CALENDAR days, lazy circular blocks from seeds.rng('fun_passprob.paths'),
 the 2026-10-09 n>=30 rule; MIXED seed 7 p_pass1 0.029). Protos /tmp/proto_fd, /tmp/proto_pp. Item 2 (ftmo cost profile) still
 needs web + >= 5 recorder days; item 4 waits floor-equality. mi_perfil stop 1-3 x ATR dial conflicts with fun_profiles._ATR_MULT
 = 2.0 (note in decisions-pending 2026-10-27, not asked). Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.18, 15.33, 16.37.
+
+2026-10-27 (spec writer, 09:4x-10:4x UTC refill; runnable 15.32/16.34-16.36/3.147; ops 0): participantes family 2 resumed (14.9/14.10/14.13
+passed). 14.11 (catalogue grammar: 5 primitives mirrored from prim_participants/prim_commodity - catalogue can't import them, cycle -
++ counterparty_group key hashed only when set; shipped hash d84d0789 / 2532 cells unchanged; owns test_hz_catalogue.py for the
+len==21 pin). SPLIT OUT 14.18 (deps 14.11): MECHANISMS += positioning_crowding/terms_of_trade needs config/hallazgos/anomalies.yaml
+priors 0.03 (library refuses missing families) + re-pins in test_hz_library PRIOR_MEANS, test_hz_remix (2 tuples),
+test_hz_catalogue:63. 14.14 daycontext.positioning_features (decision = ny_close_ms(prev weekday); asof ns bug -> cast as_of to us on a
+copy; fixture numbers in spec). Proto /tmp/p1411 (git-init'ed scratch, needs experiments/ ui/ deploy/ archived in), /tmp/p1414.
+NEXT: 14.12 scan wiring after 14.11 merges - scan.py is 898 lines vs test_hz_scan_helpers cap 950 -> put loaders in a new
+scan_participants.py helper module. Then the 6 signed P1 conditions = catalogue.yaml version bump (config, operator/Claude).
+Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.19, 15.33, 16.37.
