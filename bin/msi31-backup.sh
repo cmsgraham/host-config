@@ -21,7 +21,7 @@ df -h > "$DEST/_meta/df.txt"; date -Is > "$DEST/_meta/started"
 rc=0
 for src in /home/cmadrigal /etc /usr/local /root; do
   nice -n 19 ionice -c3 rsync -aH --numeric-ids --delete --delete-excluded \
-    --exclude='/home/cmadrigal/.cache/' --exclude='.local/share/Trash/' \
+    --exclude='/home/cmadrigal/.cache/' --exclude='/home/cmadrigal/malware-lab/' --exclude='.local/share/Trash/' \
     --exclude='/home/cmadrigal/.vscode-server/data/logs/' --exclude='__pycache__/' \
     --exclude='.pytest_cache/' --exclude='.ruff_cache/' --exclude='.mypy_cache/' \
     --relative "$src" "$DEST/" >> "$LOG" 2>&1
