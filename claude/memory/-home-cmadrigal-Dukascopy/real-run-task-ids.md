@@ -1,11 +1,11 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.43 (2026-10-27 20Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.45 (2026-10-27 23Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-27T18:18:36.192Z
+  modified: 2026-10-27T22:55:41.651Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -588,3 +588,23 @@ applied) holds lifted, copies in /tmp/sw1640/; a detached /tmp/sw1640/commit_all
 16.36 merge gate (MERGING.json since 19:40Z) then `git add -f` + commits both. NEXT WRITER: check `git log --oneline -3`
 and `ls tasks/TASK-16.41.yaml tasks/TASK-16.42.yaml` + commit_all.log; if uncommitted, run the script again.
 UPDATE 20:25Z: 16.36 gate landed 7700f88 but a 16.37 gate started 20:21Z before the script could commit; relaunched the script (pid 2289320, `setsid nohup ... < /dev/null &` in a subshell - the first launch died with the session). Verify 16.41/16.42 landed (git log) before anything else.
+
+2026-10-27 (spec writer, 22:4x-23:1x UTC refill; runnable 16.39-16.42/3.147; 16.41/16.42 had landed; ops 0): fondeo precision
+item 2 (RESOLVED 2026-10-26) split in three. 16.43 fun_ftmo_costs (review OK 47e15143, 2 lows applied: fsum over rows sorted
+by hour; caps 350/420) = pure document from the cTrader recorder files (hourly lines -> one cell per (pair, UTC hour): median
+of hourly medians / tick-weighted mean; symbols doc -> commission = preciseTradingCommissionRate / 1e9 per 100k per side,
+min = preciseMinCommission / 1e8, swaps RAW; MIN_TRADING_DAYS 5 Mon-Fri UTC dates; canonical_hash seal; profile() ->
+broker_costs.Profile kind 'measured' raw {floors_pips {pair: [24]}, commission {pair}, min_commission {pair}, slippage,
+stop_extra, financing none_v1, source_sha256}). 16.44 fun_book (review OK 53408845, 2 lows applied) = mark(...,
+broker_profile=None) LAST keyword; 'measured' branch = floor kind per leg at the leg quote's UTC hour + two sides of
+max(min, rate x units/100k); override appended to the loaded Profiles so _check_slippage still covers brokers.yaml; MEASURED
+on proto /tmp/p1644 (scratch src + `ln -s config`): 20k units floor 0.6 over 0.2 pip -> (1.2, 0, 0.8, 0); straddle base
+T+58m30s -> 0.4 + 0.8; all-0.6 measured == EXNESS_PRO bit for bit; USDJPY 0.5079365; fun_book 597 lines (cap 650). LEFT: 2c
+= fun_sim wiring (document file -> profile() -> mark(broker_profile), status says the cost profile) - fun_sim will be ~948
+lines after 16.40, so 2c needs a helper split first (do NOT touch fun_sim while 16.40 is unbuilt). FTMO recorder files are
+NOT mirrored home yet (only ~/.cache/fxplat/brokers/ctrader = IC Markets; 7 days, no holes) - operator/2c. Real IC data read
+only for a sanity run. Phone asks sent 23:0xZ: decision:fondeo-floor-equality (re-ask, 720 min) and decision:family1-grammar
+(a 21 cond / b 58 cond; z table from bench_hz.rank1_z(scan.BY_Q=0.10, m): 2532 -> 4.431, 4548 -> 4.570, 8100 -> 4.702).
+GOTCHA: `pkill -f commit_when_clear.sh` kills the calling Bash too (exit 144) - use `pkill -f "commit_when_clea[r]"`. Commit
+script /tmp/sw1643/commit_when_clear.sh TASK-16.43 TASK-16.44 waits for the 16.39 gate (MERGING since 22:37Z). Next free
+ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.45.

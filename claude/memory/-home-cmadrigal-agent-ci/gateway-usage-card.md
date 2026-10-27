@@ -37,3 +37,13 @@ leases" + per-client table, degrades gracefully until the backend restarts. All 
 gateway.py/telemetry.py py_compile OK, app.js node --check OK. Validated live: LLM $4,725, GPU-lease $5.15.
 DEPLOY = restart ollama-gateway.service ONLY when in-flight empty (do it in the voice-job-done undo window, before
 resuming the pipeline). LLM ref stays $3/$15 Sonnet-class (editable). Related: [[gateway-usage-card]], [[voicelab-gpu-contention]].
+
+**2026-10-27 — cost module DEPLOYED** (was pending). Gateway restarted cleanly, pipeline unaffected.
+Now: all usage valued per-period (tokens + GPU-lease hours), folded into the main "SAVED VS CLOUD" card —
+each month/all-time shows avoided = LLM + GPU/voice (Oct $1,661.76 = $1,651 LLM + $10.53 GPU). GPU rate raised to
+a realistic $1.00/GPU-hr ("cloud GPU rental"). telemetry.lease_savings now returns by_month/by_day. The pricing
+block in gateway.py is framed as the single-tenant cost module with the escalation path documented in-code:
+map client->tenant, make rates {tenant:rates}, export per-tenant from compute_savings -> that is how it becomes
+per-customer billing when friends/customers use it (user: personal now, escalation-ready). Not built: tenant auth,
+quotas, billing export, and the real blocker for serving customers = reliability/capacity on the home 2x3090 WSL box.
+Voice could later be priced per-char vs a TTS API for a truer number (deferred; user wanted symbolic-realistic).
