@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 1c4d5b2e-1683-4d80-96df-42f632213acd
-  modified: 2026-10-28T13:44:18.555Z
+  modified: 2026-10-28T14:30:47.388Z
 ---
 
 docker2 (home LAN, 192.168.1.14, ssh cmsgraham@) — the i3/8 GB mini PC brought up
@@ -32,6 +32,16 @@ websocket-client`. editMonitor/pauseMonitor/add all work over the socket.
 docker1 / docker2) + the 3 groups + the fxplat-server monitor. `Linode host
 (fxplat-server)` (id 10) was a **ping** monitor showing false-red — the host (172.238.203.34)
 blocks ICMP but is up (443/22/80 open) — so it was changed to **type=port 443**.
+**2026-10-28 "Linode fleet" group (id 34)** added — the operator's other Linode servers, TCP
+port checks (all came up green, 43-48 ms): 35 freeswitch 172.233.187.68:22 (FreeSWITCH SIP/VoIP,
+pairs with meeting-bridge), 36 meeting-bridge 172.233.175.169:22, 37 partitura 172.235.132.222:443
+(web app, unidentified in RAG), 38 valesanchez-freedl-mail 172.233.171.101:443 (mail server), 39
+vpn 172.233.190.28:22 (= the [[wireguard-home-hub]] WG hub), 40 zentra-twitter-brew
+172.235.130.124:443 (Zentra Twitter scraper/automation). `snoopyfrog-v3` = 172.238.203.34 = the
+same box as the existing fxplat-server monitor (id 10), not re-added. Operator wants the SAME ssh
+key to work on all of them; as of 2026-10-28 the shared root key authenticated only on zentra
+(others: no root access — key not deployed or non-root user), a host-side fix the operator must do.
+
 The **21 container push monitors (ids 13-33) are PAUSED** (grey), not fed: they never had a
 heartbeat agent. To actually monitor them, deploy feeders: LAN services (binance-* on
 docker1, swfx-capture) can push straight to :3001; Linode fxplat services (ib-gateway,
