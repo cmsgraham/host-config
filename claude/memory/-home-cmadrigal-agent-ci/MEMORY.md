@@ -126,3 +126,4 @@
 - [rejected tool use still ran](rejected-tool-use-still-ran.md) — a "rejected" tool notice can be SPURIOUS (seen with a /model switch); the user did not reject and the command ran; verify state, never attribute an interrupt to the user
 - [docker2 Kuma node](docker2-kuma-node.md) — home monitoring node 192.168.1.14, Uptime Kuma on :3001; passwordless sudo + key installed 2026-10-27
 - [gateway GPU orchestrator](gateway-orchestrator.md) — named workloads + auto/manual switch + live view on the GPUs page; built 2026-10-27
+- [Binance theft on-chain](binance-theft-onchain.md) — stolen 0.00752778 BTC parked at 1H4hy3p38zJCkhU3ae2cnxTXUgw3FnCBuV; still UNMOVED as of 2026-10-28; the report's 13 reserve addrs are DECOYS not the destination
