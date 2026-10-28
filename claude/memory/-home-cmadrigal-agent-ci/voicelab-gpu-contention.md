@@ -33,3 +33,15 @@ drives the lab over the LAN and polls every 30s for 4h; "enable the voice genera
 UNDO when done (GPU idle, no /vs/tts ~20min): `agent-ci resume` (Dukascopy) + `rm /mnt/c/Users/crist/gpu-pv-reset.dryrun`.
 Diagnose a non-start by the CHAIN: gateway /api/gpu/status (GPU free?) -> voicelab log (Mac hitting /vs/tts? what code?)
 -> POST /vs/tts body (names the missing hop, e.g. "VoiceStudio is not reachable ... start it with vs.sh start").
+
+**2026-10-27 update:** voice loaded while the fxplat pipeline was live. The clean
+load needs the pipeline's models OFF GPU1: `agent-ci stop` (state/STOP), wait for the
+auto loop to idle, then `vs.sh start`. Watch for the orphan-lease retry: vs.sh launches
+`vs_lease.py` with setsid+nohup; if the first grant is refused, vs.sh exits "no lease,
+not starting" but the detached vs_lease keeps retrying and later WINS the lease with no
+container — re-run `vs.sh start` then (it sees the live lease and starts the container).
+VoiceStudio sizes its GPU pool from RAW free VRAM, ignoring its 12 GB lease ("pool sized
+to 4 workers / 22.8 GB free"), so it must have the card to itself. The user approved
+building a gateway **GPU Orchestrator** (view + auto + manual switch) so this becomes a
+one-click Voice/Pipeline mode; until then the pipeline stays STOP-paused while voice runs
+— REMEMBER TO RESUME IT (rm state/STOP + start agent-ci-watchdog@Dukascopy) when done.
