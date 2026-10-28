@@ -1,12 +1,18 @@
 ---
 name: fxplat-synthetic-known-answer
-description: 2026-10-23 operator wants a synthetic known-answer bench (planted edges in calibrated fake markets, turbulent days etc.) BEFORE G3; scope all three parts; design doc being written
+description: "2026-10-23 operator wants a synthetic known-answer bench (planted edges in calibrated fake markets, turbulent days etc.) BEFORE G3; scope all three parts; design doc being written"
 metadata:
+  node_type: memory
   type: project
+  originSessionId: 1c4d5b2e-1683-4d80-96df-42f632213acd
+  modified: 2026-10-28T04:14:45.554Z
 ---
+
 Operator 2026-10-23: G3 NOT yet. First: "create days with synthetic data ... test the methodology can identify opportunities successfully, like the turbulent days ... like using the simulator over synthetic data". Chose: cover ALL THREE (Hallazgos/Caleidoscopio scanner, V1 pipeline walk-forward + C1-C18, simulator + K1-K17) and a CALIBRATED generator (DEV 2010-2015 stats only, no outcomes).
 Design (agent): ~/agent-ci/docs/research/2026-10-23-synthetic-known-answer-bench.md; drafts ~/Dukascopy/state/proposals/synthetic/TASK-15.N.yaml (unqueued until operator OK). Extends §10.13 (random walk / deliberate leak) with realistic planted edges + traps + null worlds; scores recall per size, false-positive rate, EV bias, empirical MDE vs F2 0.0755R. cuenta_para_N = 0.
 Related: [[handoff-2026-10-20]] (G2c done, G3 next), [[fxplat-hallazgos-caleidoscopio]], [[fxplat-turbulence-design]].
 QUEUED 2026-10-23 (7fcaace): TASK-15.1..15.11 in tasks/ + approvals SYNTHETIC_CALIBRATION / SYNTHETIC_BENCH (operator "ok go", P1-P13 accepted as a block; S0 storm day + S1 smoke ONLY; S2-S5 need a new decision with S1's measured times). 15.12 panel = draft. Design committed agent-ci 26821a3. Worlds = 7 majors m1 2009-2018 (~26M minutes, ~2.5 GB, 20-40 min build est.). Operator "I trust your judgement": watch 15.2/15.4 (likely too big -> split/escalate), show storm-day results minute by minute when S0 runs. Code findings to follow up: gap fill at stop without 30-min hole (P6 quantify first), C10 runner not wired (P11), K13 extraordinary input (P7), K8 never fires in sim, switches only on H1 closes, scanner floor ~0.26R, MDE 0.085R at C1 alpha (P8).
 
 2026-10-25: operator wants the "Banco sintético" panel. TASK-15.12 (exporter) queued (e1272a9) behind 15.11; the ResearchView panel itself is MY hand-built change once 15.12 publishes real data.
+
+2026-10-27 FIRST REAL RUN (driver `python -m fxplat.synthetic.driver --stage S1`, bench-root ~/fxsynth/bench, CPU-only, 24-core box, ~1 core used in world-gen + up to hz_workers=4 in scan). Measured: a NULL world builds+scans in **589 s (~10 min)**, sequential (worlds are NOT parallelized; --workers only sets the scan's hz_workers). BUG FOUND: the planted EDGE world h-edge-00 fails to build — `oracle.calibrate_mu` bisection can't bracket its target: at `MU_MAX=2e-5` (oracle.py:57) the drift blows synthetic prices past int64 and plant.py:219 (`np.rint(2*mid/point).astype(int64)`) overflows, so `f(mu_max)=-9.3e19` garbage instead of large-positive → "target 0.2 not bracketed" → ValueError → the WHOLE stage aborts (no skip-and-continue). Same bug will hit every S2 edge+trap and all of S3. DECISION (operator away, back ~6:30am 10-28): do NOT auto-patch the oracle (it sets the planted known-answer; a wrong fix silently corrupts the bench). Scheduled S2 overnight (approvals/SYNTHETIC_BENCH_S2.txt written) — it generates the 40 null worlds (nulls don't plant, build fine; ~6.5 h sequential) then aborts at the first edge world. S3 NOT chained (its V1 worlds are not_buildable + same bug). Fix the edge solver WITH operator: likely MU_MAX too large for the calibration's price scale and/or the 0.2 delta_net target unreachable — needs a design call (lower target, rescale, or cap mu_max) plus an overflow guard at plant.py:219.
