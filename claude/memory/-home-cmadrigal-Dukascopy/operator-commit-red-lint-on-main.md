@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: fc147c98-d508-4486-941c-54473608583c
-  modified: 2026-10-30T16:45:35.611Z
+  modified: 2026-10-30T17:45:42.850Z
 ---
 
 2026-10-22: operator commit e19cd49 (f1costs/observations exporters) put 16 E501 errors in
@@ -32,5 +32,11 @@ B905 in src/fxplat/synthetic/plant.py:275,296 and E501 tests/synthetic/test_plan
 protected in 16.x specs, so the escalation left them alone and reported "needs an operator commit on main". Still red on main 47ae3bb (2026-10-30 16:45Z): TASK-16.42
 burned its 1 local attempt on it (the deploy work itself was complete and green); the escalation wrote a
 verified format-only patch at /tmp/rv1642/lint-fix-main.patch (docstring reflow, zip strict=True, wrapped
-assert; `patch -p1` from the repo root) for the operator to land on main. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
+assert; `patch -p1` from the repo root) for the operator to land on main. Triage 2026-10-30 17:00Z (16.43
+strong_direct): the cell's build was complete, the handoff run run-20261030-162830-babb07 already failed
+on this exact lint, ask ops:main-lint-red (d9e6bc73) was pending -> NEEDS YOU, no retry (a retry just
+reproduces it), no duplicate ask; the patch still `git apply --check`s cleanly on main 65226f4. Triage 2026-10-30
+17:44Z (16.43 human_required max_attempts, watchdog wrote state/STOP at 17:44:06Z): same verdict — NEEDS
+YOU, d9e6bc73 still pending (632 min left); the watchdog keeps re-raising this case until main is fixed,
+so expect repeats for 16.42/16.43 with nothing new to do. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
 [[registry-commit-breaks-main-suite]].
