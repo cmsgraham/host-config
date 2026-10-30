@@ -1,11 +1,11 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.45 (2026-10-27 23Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.48 (2026-10-30 16Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-27T22:55:41.651Z
+  modified: 2026-10-30T16:23:57.910Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -608,3 +608,23 @@ only for a sanity run. Phone asks sent 23:0xZ: decision:fondeo-floor-equality (r
 GOTCHA: `pkill -f commit_when_clear.sh` kills the calling Bash too (exit 144) - use `pkill -f "commit_when_clea[r]"`. Commit
 script /tmp/sw1643/commit_when_clear.sh TASK-16.43 TASK-16.44 waits for the 16.39 gate (MERGING since 22:37Z). Next free
 ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.45.
+
+2026-10-30 (spec writer, 16:0x UTC refill; runnable 16.42/16.43/16.44/3.147; pipeline was under operator STOP 10-28 00:11Z ->
+10-30 ~15:58Z while the S2 synthetic bench ran; `auto` restarted 15:58Z; nothing merged since 10-27): Binance testnet hardening
+(RESOLVED 2026-10-26) pure halves, all depends_on []: 16.45 binance_trader.shadow (sim 'fill' rows + closes-SIMULATED rows ->
+Signals; cid 'SHD-<event id minus SIM-CRYPTO->-<E|X><attempt>' 28 chars; pair -> rows filled/missing/failed/orphan; summary
+nearest-rank p90), 16.46 binance_trader.brackets (OCO = LIMIT_MAKER target + STOP_LOSS_LIMIT stop; prices snapped to the tick
+ONLY toward the entry (LONG stop ceil, target floor), qty never rounded; stop_limit_ticks REQUIRED; codes stop_not_protective /
+target_not_beyond / stop_limit_nonpositive then limit:<code> / stop:<code>; oco_params with Nautilus 1.231
+BinanceSpotOrderOcoHttp.PostParameters names - its exec client does NOT implement OCO, wiring calls the HTTP endpoint), 16.47
+binance_trader.reconcile (ledger last-record-wins; may_submit once-only ids; CODES 5 blocking + stop_without_position /
+venue_order_foreign notes; covered within one dust_qty counts as covered -> a balance exactly at dust is a position with no
+finding). Proto + measured numbers: scratchpad bt/ (shadow.py, brackets.py, reconcile.py, check.py). Remaining items: 1b/2b/5b
+wiring in strategies.py (needs the ledger file + REST OCO submit), 4 drills (network), 6 daily regression line (pure summariser
+of <data>/smoke/*.json is spec-able). Phone asks sent 16:1xZ: decision:feature-set-v2-count (rec a) and decision:positioning-
+asof-ns (rec a); family1-grammar + fondeo-floor-equality EXPIRED unanswered 10-28 (don't re-ask again without a reason).
+LANDED 16:2xZ: 16.45 1b4faba, 16.46 4df8f60, 16.47 47ae3bb (each review OK round 2, lows applied post-OK). MAIN LINT RED:
+`ruff check src tests` fails on main deeeda9 (operator 45323e4: synthetic/plant.py E501 + B905, tests/synthetic/test_plant.py
+E501) -> every spec whose lint step is the full `ruff check src tests` (16.42 / 16.43 / 16.44 / 3.147) fails on a correct build;
+the three new specs lint owned files only; phone ask ops:main-lint-red sent 16:16Z (a = operator fixes main, b = writer narrows
+the four lint steps). Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.48.
