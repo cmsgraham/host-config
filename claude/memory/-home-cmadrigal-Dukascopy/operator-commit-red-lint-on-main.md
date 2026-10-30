@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: fc147c98-d508-4486-941c-54473608583c
-  modified: 2026-10-30T17:45:42.850Z
+  modified: 2026-10-30T19:01:40.266Z
 ---
 
 2026-10-22: operator commit e19cd49 (f1costs/observations exporters) put 16 E501 errors in
@@ -38,5 +38,6 @@ on this exact lint, ask ops:main-lint-red (d9e6bc73) was pending -> NEEDS YOU, n
 reproduces it), no duplicate ask; the patch still `git apply --check`s cleanly on main 65226f4. Triage 2026-10-30
 17:44Z (16.43 human_required max_attempts, watchdog wrote state/STOP at 17:44:06Z): same verdict — NEEDS
 YOU, d9e6bc73 still pending (632 min left); the watchdog keeps re-raising this case until main is fixed,
-so expect repeats for 16.42/16.43 with nothing new to do. 2026-10-30 ~18Z TASK-16.44 (run-20261030-170458-ddf28f) burned its attempt on it too: build complete (module tests, full suite, strict-lint-new green), reviewer F001 'fun_book.py:301 too long' was stale (no line >100); main still 65226f4, patch still applies; same verdict. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
+so expect repeats for 16.42/16.43 with nothing new to do. 2026-10-30 ~18Z TASK-16.44 (run-20261030-170458-ddf28f) burned its attempt on it too: build complete (module tests, full suite, strict-lint-new green), reviewer F001 'fun_book.py:301 too long' was stale (no line >100); main still 65226f4, patch still applies; same verdict.
+RESOLVED AGAIN on main 84d01e7 (2026-10-30, "synthetic bench: clear 3 ruff errors on main"); the 16.43 re-run run-20261030-185854-9c4948 was refreshed onto it and `ruff check src tests` is green — a 16.x reviewer F001 naming plant.py / test_plant.py is now stale. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
 [[registry-commit-breaks-main-suite]].
