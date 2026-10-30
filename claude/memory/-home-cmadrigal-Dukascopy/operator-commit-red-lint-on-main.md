@@ -38,5 +38,5 @@ on this exact lint, ask ops:main-lint-red (d9e6bc73) was pending -> NEEDS YOU, n
 reproduces it), no duplicate ask; the patch still `git apply --check`s cleanly on main 65226f4. Triage 2026-10-30
 17:44Z (16.43 human_required max_attempts, watchdog wrote state/STOP at 17:44:06Z): same verdict — NEEDS
 YOU, d9e6bc73 still pending (632 min left); the watchdog keeps re-raising this case until main is fixed,
-so expect repeats for 16.42/16.43 with nothing new to do. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
+so expect repeats for 16.42/16.43 with nothing new to do. 2026-10-30 ~18Z TASK-16.44 (run-20261030-170458-ddf28f) burned its attempt on it too: build complete (module tests, full suite, strict-lint-new green), reviewer F001 'fun_book.py:301 too long' was stale (no line >100); main still 65226f4, patch still applies; same verdict. Then the 16.x branches just re-run — a refreshed branch's diff vs main no longer shows tests/publish/. Related: [[containment-false-positive-operator-ui]],
 [[registry-commit-breaks-main-suite]].
