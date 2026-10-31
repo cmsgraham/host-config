@@ -1,11 +1,11 @@
 ---
 name: real-run-task-ids
-description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.48 (2026-10-30 16Z); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
+description: "REAL_RUN_PLAN R-row → TASK id map + spec-writer log; review-BLOCKED specs: a triage agent may already own them (check ps/ListAgents); 15.3 rewritten 2026-10-24; next free 3.148 / 4.20 / 9.12 / 11.50 / 12.20 / 14.23 / 15.33 / 16.51 (2026-10-31 18Z; 16.48-16.50 see [[fun-sim-split-and-binance-regression]]); 15.4 split into 15.13/15.14, 15.6 split into 15.6/15.15 (+15.16 planted store) 2026-10-24"
 metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-30T16:23:57.910Z
+  modified: 2026-10-31T18:45:45.359Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
