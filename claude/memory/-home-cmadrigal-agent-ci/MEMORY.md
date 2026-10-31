@@ -111,6 +111,7 @@
 - [SWFX sentiment capture](swfx-sentiment-capture.md) — live every 10 min; consent email pending
 - [merge gate stashes registry](merge-gate-stashes-registry.md) — mid-merge registro.csv rows autostashed; check stash
 - [synthetic known-answer bench](fxplat-synthetic-known-answer.md) — S2 v1 ran 10-31 (scanner sound, gate FAIL = scorer bug); v2 designed, on hold
+- [fxplat sensitivity goal](fxplat-sensitivity-goal.md) — catch quiet edges too; bench is only the ruler, keep it lean
 - [Valentini video review](valentini-video-review.md) — yt-dlp captions; promotional, little to harvest
 - [scan-only ≠ NO_EDGE](scan-only-not-no-edge.md) — underpowered ideas are INCONCLUSIVE, not NO_EDGE
 - [fxplat multi-account](fxplat-multi-account.md) — real accounts per owner + simulated profiles; nothing queued
