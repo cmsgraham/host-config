@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 11c85a33-bbf3-41f0-a93c-1d0fc0f4ef0f
-  modified: 2026-10-31T12:15:55.534Z
+  modified: 2026-10-31T15:15:43.624Z
 ---
 
 Since 2026-10-28 00:11Z the watchdog raises the same `no_progress` case every 15 min because the operator wrote `state/STOP` and no supervisor runs (only the dashboards on 8767/8768). The ask was answered "wait" at 2026-10-28 09:12Z; triages on 2026-10-28, 2026-10-29 and 2026-10-30 all ended NEEDS YOU without re-asking. The stop is because the operator is committing synthetic-bench work directly on main and running the S2 bench driver (`fxplat.synthetic.driver --stage S2`, writes `~/fxsynth/bench-v3`); confirm with `ps aux | grep synthetic.driver` and `git log --since=<stop date>`.
@@ -17,5 +17,7 @@ Since 2026-10-28 00:11Z the watchdog raises the same `no_progress` case every 15
 **Update 2026-10-31 09Z:** same STOP still there, S2 driver at 16 h / 14.6 GB, 3 open asks had expired unanswered; report np:166059 written NEEDS YOU in ~5 min with no ask, no retry (16.43 already in RETRY.json). The S2 log lives in /tmp/claude-1000/-home-cmadrigal-agent-ci/1c4d5b2e-*/scratchpad/s2_v3_rerun.log; its mtime shows the driver is still progressing.
 
 **Update 2026-10-31 12:14Z:** np:166060, same STOP (ts 21:04:12Z), S2 driver pid 1504212 still running, 853 min no merge; the three 04:xxZ asks (main-lint-red, feature-set-v2-count, positioning-asof) all expired on "wait"; main lint already green at 84d01e7. Report written NEEDS YOU, no re-ask, no new retry (16.43 still in RETRY.json). Unchanged pattern.
+
+**Update 2026-10-31 15:14Z:** np:166061, same STOP, S2 driver pid 1504212 at 22 h, 1033 min no merge, status also shows host memory pressure (36 % stalled, swap 3.3/8 GB). Report written NEEDS YOU in ~3 min, no ask, no retry. Fifth identical report in a row.
 
 **How to apply:** check `ls state/STOP` and `ps | grep agent_ci` first; if STOP exists and no supervisor runs, copy the previous report's wording, update the hours, write NEEDS YOU and stop. Do not re-send the ask while the "wait" answer stands. Related: [[real-run-task-ids]].
