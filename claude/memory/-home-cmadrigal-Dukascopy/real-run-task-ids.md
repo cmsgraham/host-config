@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: dde62561-890d-4445-b15e-f7deb60c6a16
-  modified: 2026-10-31T18:45:45.359Z
+  modified: 2026-10-31T20:38:55.377Z
 ---
 
 REAL_RUN_PLAN §3 ids as of 2026-10-11: R1=TASK-3.60, R2=3.61, R3=3.62 (symbol_stage), R0=3.65, R4 driver=3.63
@@ -628,3 +628,10 @@ LANDED 16:2xZ: 16.45 1b4faba, 16.46 4df8f60, 16.47 47ae3bb (each review OK round
 E501) -> every spec whose lint step is the full `ruff check src tests` (16.42 / 16.43 / 16.44 / 3.147) fails on a correct build;
 the three new specs lint owned files only; phone ask ops:main-lint-red sent 16:16Z (a = operator fixes main, b = writer narrows
 the four lint steps). Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.48.
+
+2026-10-31 (spec writer, 20:17Z refill; see [[binance-item6-wiring-refill]]): item 6 wiring halves 16.51 (health lines,
+deps 16.48) / 16.52 (export_brokers regression block, deps 16.48) / 16.53 (docker1 regression-daily.sh + root systemd
+timer, deps []). 16.49 still uncommitted behind the 16.47 gate (20:17Z -> 21:3xZ+). Detached waiter
+scratchpad 5fa440d2.../sw/commit_when_clear.sh (log commit_a.log) commits 16.49 + 16.51 + 16.52 when MERGING.json
+clears; 16.53 gets its own run after review OK. Deps-blocked specs show BLOCKED in `tasks` (not review-blocked).
+Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.54.
