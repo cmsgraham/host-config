@@ -635,3 +635,9 @@ timer, deps []). 16.49 still uncommitted behind the 16.47 gate (20:17Z -> 21:3xZ
 scratchpad 5fa440d2.../sw/commit_when_clear.sh (log commit_a.log) commits 16.49 + 16.51 + 16.52 when MERGING.json
 clears; 16.53 gets its own run after review OK. Deps-blocked specs show BLOCKED in `tasks` (not review-blocked).
 Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.33, 16.54.
+
+2026-11-01 (spec writer, 00:22Z refill; see [[fondeo-rung-chain-refill]]): 16.54 fondeo 2a fun_profiles optional
+challenge block (review OK, waiter commits after the 16.51 gate); 16.55 fondeo 3 fun_sim phase-chain wiring left HELD
+"draft, under review" (review detached); 16.56 = the shipped fondeo_ftmo rung + re-pins, unwritten. The operator's FTMO
+report is readable through the Artifact tool (web stays denied). Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23,
+15.35, 16.56.
