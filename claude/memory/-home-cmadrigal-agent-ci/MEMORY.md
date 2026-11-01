@@ -132,3 +132,4 @@
 - [Binance theft on-chain](binance-theft-onchain.md) — stolen BTC parked, unmoved as of 10-28; reserve addrs are decoys
 - [one suite per task](one-suite-per-task.md) — suite only at gate, timing tests skipped there, idle by STOP, stop reminder ask
 - [escalation pkill killed gate](escalation-pkill-gate.md) — Claude cells denied pkill/killall; whole suite under flock
+- [model independence (foundation)](model-independence-foundation.md) — checkers never share the builder family; Qwen builds, Mistral/Google check
