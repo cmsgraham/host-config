@@ -13,3 +13,5 @@ Task specs sometimes say "import fxplat.pipeline.policy_snapshot as policy_snaps
 **Why:** the requirement is about calling the function through the module attribute, not about the import syntax. strict-lint-new is a hard gate.
 
 **How to apply:** use the from-module import, and mention the deviation in the summary. A related spec trap: "abs 1e-12" on USD notionals like 25000 x 1.1 can't hold in float64, because 27500.000000000004 is D45's own value. Add rel=1e-15 to the tolerance. See [[lint-new-counts-per-file-rule]], [[strong-direct-escalations]].
+
+Reverse trap (TASK-16.60, 2026-11-01): the REVIEWER blocked `from fxplat.execution import fun_guard, fun_passprob, fun_profiles` as "PLR0402", and its "repair" was the same line rewritten. That's false: PLR0402 only fires on `import a.b as b`, and lint-new reported no new violations. Don't apply the repair. Run lint-new to prove it, then look for real requirement misses the reviewer skipped (in 16.60: a 283-line module over a 260-line cap and an unlisted `import math`). See [[stale-reviewer-lint-findings]].
