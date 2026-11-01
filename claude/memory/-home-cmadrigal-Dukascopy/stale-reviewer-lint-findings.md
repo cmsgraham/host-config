@@ -5,12 +5,14 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 0308e2ab-729c-454a-9ed2-432cc7472af9
-  modified: 2026-10-22T01:13:48.435Z
+  modified: 2026-11-01T08:35:05.519Z
 ---
 
 TASK-3.143 (run-20261021-152012-e6423d): attempt 2 had already fixed both strict-lint-new violations from attempt 1 (PLW0108 lambda, PLR0402 `as rr` alias). Validation was green, yet the attempt-2 reviewer re-raised them as F003/F004 by quoting attempt 1's stale strict-lint stdout. Max attempts ran out → HUMAN_REQUIRED with no real defect.
 
 This happened again with TASK-12.10 (run-20261021-232125-e8edb6), this time with a test failure instead of lint output. Attempt 2 had already fixed R4 in xsec/legs.py. The reviewer's F001 quoted the cross-check failure from attempt 1's counterfactual log ({'EURUSD','USDCAD'} vs {'EURUSD'}). Its suggested repair (`s * direction * size_R`) is wrong because it applies the direction twice, and it fails that same cross-check.
+
+Related variant, TASK-11.56 (run-20261101-063914-9aa49c, 2026-11-01): the lint failure was real (PLW1510 `subprocess.run` without `check` in a test), but the reviewer misdiagnosed it as "unused imports" (all were used). Its suggested `check=True` was also wrong because the test asserts on returncode. The fix was `check=False`, a one-line change.
 
 **Why:** the review prompt still carries the earlier attempt's check output, and the certification event marked strict-lint-new "unresolved" even though the check passed.
 

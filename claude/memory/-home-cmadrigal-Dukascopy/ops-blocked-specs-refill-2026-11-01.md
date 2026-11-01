@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 0f36fe5e-8371-4983-9fad-9511318bec2e
-  modified: 2026-11-01T05:17:59.855Z
+  modified: 2026-11-01T08:05:26.666Z
 ---
 
 2026-11-01 05:1xZ (spec writer; runnable 16.55 building / 16.56 / 3.147; main 3bb079d -> 9fa94bc): no drafts, no
@@ -31,6 +31,12 @@ so the pipeline re-reviews them itself).
   agent_ci_home=tmp_path + mem_floor_gib=0.0 and an autouse fixture stubs driver.mem_available_gib; AGENT_CI_HOME via
   os.environ.get(...) or default (empty = unset); Tiers.build_error raises on EVERY planted build (fake must raise on
   the 2nd job only and pre-create _tier_dir).
+- 11.53 (triage 08Z, committed 16d9366): scan registry notes order is PINNED by non-owned wave1/wave2 tests
+  (notes.endswith policy_rates/econ/participants/commodity sha) -> any new notes key goes right after
+  cost_model_sha256; test_hz_scan.py has no load_profiles patch and PROFILES_PATH is a def default -> patch
+  broker_costs.load_profiles with lambda: parse_profiles(raw) (test_hz_broker_costs.py:546-553); by_cumulative raises
+  on NaN p (empty cells need p=1.0); scan.py 960/1000 (scan_helpers.py owned for new helpers); bench_hz SCAN_FIELDS +
+  ui export_hallazgos still hard-code mean_net=IB -> follow-up specs needed after Lever A.
 Workflow that worked: verify every reviewer claim with sed/grep in two batches, edit all five, cp to /tmp/sw1101,
 launch the five `spec-review` detached (`(setsid nohup ... < /dev/null &)`), a background poll script (pgrep -f
 "spec-review TASK-<id>$") instead of Monitor (Monitor needs approval in -p mode), commit script waits for
