@@ -131,3 +131,4 @@
 - [16.43 escalation timeout (corrected)](watchdog-frozen-tasks-kills-escalation.md) — escalation's own 3600 s timeout, not the watchdog; read run state first
 - [Binance theft on-chain](binance-theft-onchain.md) — stolen BTC parked, unmoved as of 10-28; reserve addrs are decoys
 - [one suite per task](one-suite-per-task.md) — suite only at gate, timing tests skipped there, idle by STOP, stop reminder ask
+- [escalation pkill killed gate](escalation-pkill-gate.md) — Claude cells denied pkill/killall; whole suite under flock
