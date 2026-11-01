@@ -1,55 +1,52 @@
 ---
 name: fondeo-rung-chain-refill
-description: "2026-11-01 00:2xZ refill: fondeo 2a = 16.54 fun_profiles optional challenge block (review OK, waiter commits after the 16.51 gate); fondeo 3 = 16.55 fun_sim phase-chain wiring left as a 'draft, under review' with its review running detached; fondeo 2b = the shipped fondeo_ftmo rung + re-pins NOT written (next id 16.56); FTMO numbers + the measured fun_sim scenario numbers are inside the two specs"
+description: "Fondeo chain state (2026-11-01 04Z refill): 16.54 fun_profiles challenge block committed 80c8fb0 and building; 16.55 fun_sim phase-chain wiring committed bc9a9e9 (review OK after 1 BLOCK round; deps 16.54); 16.56 shipped rung fondeo_ftmo + six-rung re-pins drafted (deps 16.55, review launched 04:05Z); still unwritten: fondeo 2c fun_sim cost wiring, fondeo 4 exporter fields; measured scenario numbers live inside the specs"
 metadata:
   node_type: memory
   type: project
-  originSessionId: 9f493da5-2a35-47d0-9725-9b2d34630602
-  modified: 2026-11-01T00:39:30.621Z
+  originSessionId: 1672ea80-bed5-4a35-91f3-5aba823063a2
+  modified: 2026-11-01T03:56:53.623Z
 ---
 
-2026-11-01 (spec writer, 00:22Z refill; runnable 15.34 / 16.51 (merge gate from 00:22Z) / 16.52 / 16.53 / 3.147; main
-df5be54; ops 0 cases; 16.49 / 16.51-16.53 had all landed; no drafts, no new RESOLVED since 10-27):
-- The FTMO grounding is NO LONGER blocked on web: the Artifact tool READS the operator's report
-  https://claude.ai/artifact/3h4CdKki4oQNoJ22FaQsfW (FTMO pages fetched 2026-10-25) - 2-Step Swing: targets 10 % then
-  5 %, daily loss 5 % of initial below the 00:00 CE(S)T balance tested on equity, max loss 10 % static, 4 trading days
-  per phase, no time limit, leverage 1:30, split 80-90 %; FX commission unconfirmed (~$3/lot) -> broker profile / 16.43.
-- tests/execution/test_fun_sim.py and test_fun_sim_dials.py load the SHIPPED config/fun_profiles.yaml and pin the five
-  ids (`ids(fun) == [*PROFILE_IDS, 'mi_perfil']`, `== PROFILE_IDS`), test_fun_profiles pins IDS / capital 1000 on every
-  rung / len(shas) == 5 -> the shipped rung must be its own task owning those pins (fondeo 2b, next free 16.56).
-- 16.54 (fondeo 2a, deps []): fun_profiles optional `challenge:` block -> FunProfile.challenge: ChallengeSpec(rules:
-  fun_challenge.ChallengeRules, entry: EntryRules) LAST field default None; _check_keys gains optional=; validation
-  delegated to check_rules / check_entry_rules (ValueError -> FunProfileError '{where}: challenge[.entry]: msg');
-  hash_document(p) drops 'challenge' when None else {'rules': ._asdict(), 'entry': ._asdict()} (canonical_json turns a
-  NamedTuple into a LIST - measured) -> the five shipped shas stay (9a459bea / 889f0206 / 46796a08 / 58d8e8e2 /
-  77992e55, full values in the spec). Proto scratchpad 9f493da5.../p1654/fp_proto.py (365 lines, all refusals listed
-  in the spec verified). Review OK first round (2 lows applied), hold lifted, ELIGIBLE; waiter
-  scratchpad/sw/commit_when_clear.sh (log sw/commit_1654.log, backup sw/TASK-16.54.yaml) commits after the 16.51 gate.
-- 16.55 (fondeo 3, deps [16.54]) HELD "draft, under review": fun_sim + fun_sim_helpers (Account LAST fields closes /
-  phase / challenge) + new tests/execution/test_fun_sim_fondeo.py; challenge_state every poll after ruin + K3, run ends
-  with the status as end_reason, challenge_phase(prev end reason) phase1 -> phase2 -> funded (any failure -> phase1),
-  _challenge_reason 'challenge:gap_window' / 'challenge:usd_same_direction' after env + book reasons, root status
-  'fondeo' block. MEASURED (scratchpad p1655/test_m1655*.py run with PYTHONPATH=tests/execution, --noconftest): fondeo
-  rung (10k, 1 %, lev 30) enters 65000 units risk 99.559248 notional 71819.8; fill mark T+70s 9988.2; the 2xATR stop
-  fills AT ITS LEVEL on the 1.0930 gap (net -110.059265, mark 9889.940735) so FTMO's 5 % floor is unreachable in a test
-  -> TEST fractions: daily 0.01 -> failed_daily at T+600_000 (to_daily -10.06); HAPPY_PATH win net 195.118465, marks
-  10195.118465 -> phase1 target 0.019 (10190) passes at T+130_000, 0.02 stays active (4.88 short); Prague day start of
-  C1 = 1791928800000; TEST entry rules {'UTC', 2, 840, 7_200_000, 2} put the Wednesday T+60s submit in the gap window.
-  Review launched detached (sw/review-1655.log; logs/spec-review-TASK-16.55-*.md). NEXT WRITER: read the report, apply,
-  re-verify the (d) 'funded' pre-seed case (empty run-3 dir -> _load_account run 3; unverified on a prototype) and the
-  'marks(run 1) == 3 rows' claim in (c) (the run ends at the T+130_000 mark, so T+145_000 writes no run-1 mark - by code
-  reading, not measured), lift the hold, commit with `git add -f` after the gate.
-- NOT written: 16.56 fondeo 2b = the shipped rung fondeo_ftmo in config/fun_profiles.yaml (10000.0, risk_pct 0.01,
-  max_open 4 / 2, max_open_risk_pct 0.03, every K off, leverage_cap 30.0, IB *reading until the measured FTMO document
-  (2c) exists, challenge = the FTMO block version 'ftmo-2step-swing-2026-10-25', entry 17:00 New York Friday = 1020,
-  7_200_000, cap 2, lesson_es) + re-pins in test_fun_profiles (IDS, capital, values), test_fun_sim_dials PROFILE_IDS
-  (2 literals), maybe test_fun_sim PROFILE_IDS; deps [16.55] (the sim must know the rules before the rung goes live;
-  redeploy-fun.sh creates the account at the next redeploy). Then 2c fun_sim cost wiring (cost_document -> profile() ->
-  mark(broker_profile=) for the challenge rung) and fondeo 4 exporter fields.
-Next free ids: 3.148, 4.20, 9.12, 11.50, 12.20, 14.23, 15.35, 16.56.
+2026-11-01 (two spec-writer refills, 00:22Z and 03:39Z; main 0fc6c94 at the second):
+- FTMO grounding: the Artifact tool READS the operator's report https://claude.ai/artifact/3h4CdKki4oQNoJ22FaQsfW
+  (2-Step Swing: +10 % then +5 %, daily 5 % of initial vs the 00:00 CE(S)T balance on equity, max 10 % static, 4 trading
+  days per phase, no time limit, 1:30, smallest account US$10,000). FX commission unconfirmed -> 16.43 measured costs.
+- 16.54 (fondeo 2a, deps []): FunProfile.challenge = ChallengeSpec(rules, entry) LAST field default None;
+  hash_document drops 'challenge' when None -> the five shipped shas stay (9a459bea / 889f0206 / 46796a08 / 58d8e8e2 /
+  77992e55). Committed 80c8fb0; building 2026-11-01 03:40Z.
+- 16.55 (fondeo 3, deps [16.54]) committed bc9a9e9 04:04Z. First review BLOCKED on: (1) tests/execution/
+  test_fun_sim_helpers.py (TASK-16.49, protected) pins Account's source sha, len(_fields) == 16, _fields[-4:] and
+  fun_sim <= 760 lines -> the spec now OWNS that test file with EXACT re-pins (sha recompute command, 19 fields,
+  [-7:], cap 820); (2) the poll that starts run n+1 evaluates nothing in _book_step (early return on acct.end) ->
+  _new_run evaluates challenge_state once on the first mark (phase2 first mark -> active, target 10500); (3) a disabled
+  K switch is `{enabled: false}` with no threshold key. Second review OK (3 lows applied: ended reloaded run shows
+  'no_mark'; pre-seeded runs.jsonl rows need run/start_ms/end_ms/end_reason). Verified today: _load_account on a
+  pre-seeded runs.jsonl + empty run-3 dir -> run 3, runs_ended 2, marks (); read_lines of a missing file is [].
+- 16.56 (fondeo 2b, deps [16.55]) = the shipped rung fondeo_ftmo appended to config/fun_profiles.yaml (10000.0, risk
+  0.01, atr 2.0, 4 / 2 / 0.03, every K {enabled: false}, lev 30.0, stop_out 1.0, ruin 25.0, IB *reading, lesson_es
+  registered verbatim, challenge = FTMO block version 'ftmo-2step-swing-2026-10-25' + entry America/New_York 4 1020
+  7200000 2) + re-pins in test_fun_profiles (IDS, capital 10000 for the rung, values, 16.54's five-sha test -> six, sha
+  by formula), test_fun_sim (PROFILE_IDS, got gains fondeo_ftmo (65_000, 'ok', False), len 6), test_fun_sim_dials
+  (PROFILE_IDS, 6 -> 7, 5 -> 6), test_fun_pickup (strict zip ladder[:5] -> [:6], len 7). MEASURED six-rung ladder on
+  test_fun_sim's market: fondeo 65000 / risk 99.55924820387152 at C1; widened 6000; stale K4; HAPPY net 195.118465.
+  COMPUTED sha with the 16.54 formula 058db423cb3248cdb51d5b17399f3901b419a355d0eae7fc09b09afc10b2c0ee (without the
+  challenge df19bccf...). Review launched 04:05Z (/tmp/sw1656/review1.log); if HELD when you read this: read the
+  report, apply, lift the hold, commit after the gate.
+- NOT written: fondeo 2c = fun_sim cost wiring (FunConfig.cost_document from 16.50 -> fun_ftmo_costs document ->
+  fun_book.mark(broker_profile=) of 16.44 for the challenge rung; the status says which cost profile it used); deps
+  [16.55] (same module). Fondeo 4 = ui/scripts/export_fun_profiles.py gains the status 'fondeo' block per account
+  (phase, distances, days traded) for the Perfiles panel, deps [16.55]; tests/publish/test_export_fun_profiles.py.
+- Other refill sources checked and EMPTY 2026-11-01: Binance items 1-6 pure halves + 6b/6c written (exchange_rules.py
+  exists); trader-concept families 3/4 primitives written (11.45-11.49, prim_commodity, prim_cross); fondeo precision
+  items 1-3 written (16.35 fun_minute, 16.36 fun_passprob, 16.43/16.44); item 4 waits on the exact-floor decision;
+  3.147 wiring waits on the v2 counting decision; UI-A10 part 2 (run events + P&L series exporter) is unwritten and
+  runnable (deps 9.1, 3.60 passed) - the only deps-passed candidate found.
+Next free ids: 3.148, 4.20, 9.12, 11.57, 12.20, 14.23, 15.42, 16.57.
 
-**Why:** the next writer must finish 16.55 from its review instead of re-deriving it, must not re-measure the scenario
-numbers, and must know the shipped rung is a separate task because of the five-id pins.
+**Why:** the next writer must not re-derive or re-measure the fondeo chain, must know why 16.55 owns a 16.49 test file,
+and must know which refill sources are already exhausted.
 
-**How to apply:** `git log --oneline -4 -- tasks/` first (16.54 landed?); `ls logs/spec-review-TASK-16.55-*`; backups in
-scratchpad 9f493da5-2a35-47d0-9725-9b2d34630602/sw/. Related: [[binance-item6-wiring-refill]], [[real-run-task-ids]].
+**How to apply:** `git log --oneline -4 -- tasks/` first (16.56 landed?); `git status --short tasks/` (untracked
+draft?); `ls -t logs/spec-review-TASK-16.56-*`. Related: [[binance-item6-wiring-refill]], [[real-run-task-ids]],
+[[fun-sim-split-and-binance-regression]].
