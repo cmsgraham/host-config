@@ -55,3 +55,5 @@ S2 SCORING: `python -m fxplat.synthetic.score --bench-root ~/fxsynth/bench-v3` -
 BENCH_REPORT.v1.*). H3 PASS (interesante 0/40, raw flag 31/40; RW 0/40; confirmed 0/40); H6 T1 gross >0
 6/6, traps 0 fooled; gate PENDING only for criteria S2 never ran (G1/G2 generator files absent, V-tier,
 H2 below n). Lean v2 next: 15.36 + 15.37 only; Levers A (11.50-54) and B (11.55-56) are what v2 measures.
+
+2026-11-01 (late) S2 v2 REGISTERED: config/synthetic/bench-v2.yaml on ~/Dukascopy-claude branch claude/s2v2-register (0e626e0; merge to main when no merge gate). IC_RAW/IB sigma ratio 1.000-1.002 (scan caches) -> draft ladders confirmed. 40 null (v1 seeds, rescan on IC_RAW) + 16 edge; S1 = pre-flight (h-null-00, h-edge-00); gate [H1, H3]; scorer needs all v1 criteria + S2.trap/S3/S4/S5 keys (zero-world groups). Bench root ~/fxsynth/bench-v4. Approval draft sent to operator (approvals/SYNTHETIC_BENCH_S2_V2.txt) - launch only after their OK. Driver itself only checks SYNTHETIC_BENCH_S2.txt (v1's, exists).
