@@ -32,7 +32,7 @@ walk-forward; trap T5 blocked) and verdict.REQUIRED has C10 at both stages while
   run_measures picks its own ids and verdict_payload tolerates a row without a measure (verified by calling it).
   Hand numbers from tests/publish/test_publish_verdict.py make_rc(): C10 row summary 'failed=();
   not_applicable=(); missing=()' etc. Actuarial lives in fxplat.validation.actuarial (not trade_criteria).
-- Commit path: a 9.16 gate (MERGING.json 16:29Z) was running -> /tmp/p3149/commit_when_clear.sh <ids> re-copies
+- COMMITTED 17:12Z: 3.149 9a70349 / 3.150 83f9685 (via the committer). Commit path: a 9.16 gate (MERGING.json 16:29Z) was running -> /tmp/p3149/commit_when_clear.sh <ids> re-copies
   /tmp/p3149/TASK-<id>.final.yaml and commits with `git add -f` once the gate clears (the gate had staged
   settings.py / test_settings.py in the main index - not ours).
 - Ask sent 16:36Z: decision:c10-externals (a truncation + fit_dates True, rest None / b all six None / wait),
