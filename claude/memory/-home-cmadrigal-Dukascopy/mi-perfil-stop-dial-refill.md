@@ -1,10 +1,10 @@
 ---
 name: mi-perfil-stop-dial-refill
-description: "2026-11-02 05:35Z refill: mi_perfil stop dial chain 16.78 fun_book stop_scale / 16.79 fun_profiles ATR_MULT_RANGE / 16.80 fun_dials optional atr_mult (to_raw + hash omit it at 2.0 so SHA_D0 and the request-service byte-identical lines hold); left = 16.81 request service copy of the rules (deploy/) + UI; Binance and fondeo chains fully specified; perps liquidation/fees still need web; next free 16.81 / 11.58 / 15.43"
+description: "2026-11-02 refills: mi_perfil stop dial chain 16.78 fun_book stop_scale / 16.79 fun_profiles ATR_MULT_RANGE / 16.80 fun_dials optional atr_mult (to_raw + hash omit it at 2.0 so SHA_D0 and the request-service byte-identical lines hold) / 16.81 request service copy (committed 07:18Z) = chain COMPLETE, only the UI control (operator) left; Binance and fondeo chains fully specified; perps liquidation/fees still need web (denied); no other spec-able source; next free 16.82 / 11.58 / 15.43"
 metadata:
   type: project
   originSessionId: refill-20261102-053539
-  modified: 2026-11-02T06:08:50.155Z
+  modified: 2026-11-02T07:19:13.401Z
 ---
 
 2026-11-02 05:35Z refill (runnable 16.73-16.77, low water 6; 16.73 attempt 1 REVIEWING then its gate MERGING at 23:55 local).
@@ -42,6 +42,18 @@ applied; 16.79: fun_book docstring names _ATR_MULT - applied in 16.78; 16.80: te
 each, tree clean. The committer used `git add -f` (the gate's .git/info/exclude ignores /tasks/** while MERGING.json
 exists - plain `git add` fails then). 16.78 ELIGIBLE, 16.79 / 16.80 BLOCKED on their deps as designed.
 Next free ids: 16.81, 11.58, 15.43, 3.148, 4.20, 9.12, 12.20, 14.23.
+
+2026-11-02 07:06Z refill (runnable 16.75/16.77-16.80, low water 6; 16.75 in gate, cleared ~07:1xZ): wrote + committed
+16.81 (ec623df) = the request service copy: MP_RANGES['atr_mult'] (1.0, 3.0), MP_OPTIONAL, MP_ATR_MULT 2.0; parse_dials
+drops atr_mult at 2.0 from the normalised dict (so the line == to_raw) and dials_sha256 adds it iff present -> bytes and shas
+== /tmp/p1680 fun_dials on D0 / 3.0 (6c452bac) / 1 (d575eca4) / D5+1.5 (bf038007...); deps [16.80]; owns replay_requests.py
+(cap 450) + test_replay_requests.py (cap 440 - reviewer round 1 BLOCK: 340 too tight, its draft was 367; round 2 OK asked
+440; fresh() helper must set APPROVER_EMAILS 'Boss@Example.com, ops@example.com', not (h)'s single boss). Prototype
+/tmp/p1681 (replay_requests.py, scen.py, review-*.log). WebFetch is permission-denied in this session (perps liquidation
+tiers / futures fees still blocked; ~/cryptodata/futures has only fundingRate + metrics, spot klines only). STOP DIAL CHAIN
+COMPLETE (16.78-16.81); only the UI control is left (operator). No other spec-able source found: asks fondeo-floor-equality /
+family1-grammar / feature-set-v2-count / positioning-asof-ns all still 'wait'; 4.4/5.1-8.4 stubs operator; proposal sets all
+in tasks/. Next free ids: 16.82, 11.58, 15.43.
 
 **Why:** the next writer must not re-derive the atr-rescaling trick or the omit-at-2.0 compatibility rule, must know
 16.81 (request service) is the only unwritten piece of the stop dial, and must avoid the dangling-depends_on trap.
