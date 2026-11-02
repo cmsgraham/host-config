@@ -110,7 +110,7 @@
 - [handoff 2026-10-23](handoff-2026-10-23.md) — chat freeze at 250 MB; stopped worktrees; 14.2 to redo
 - [SWFX sentiment capture](swfx-sentiment-capture.md) — live every 10 min; consent email pending
 - [merge gate stashes registry](merge-gate-stashes-registry.md) — mid-merge registro.csv rows autostashed; check stash
-- [synthetic known-answer bench](fxplat-synthetic-known-answer.md) — v2 registered + merged; 11-02 pre-flight FAILED (planted sizes off), S2 not run
+- [synthetic known-answer bench](fxplat-synthetic-known-answer.md) — v2: joint per-period planting fix 11-02, S1 rerun on bench-v5, then S2
 - [fxplat sensitivity goal](fxplat-sensitivity-goal.md) — catch quiet edges too; bench is only the ruler, keep it lean
 - [Valentini video review](valentini-video-review.md) — yt-dlp captions; promotional, little to harvest
 - [scan-only ≠ NO_EDGE](scan-only-not-no-edge.md) — underpowered ideas are INCONCLUSIVE, not NO_EDGE

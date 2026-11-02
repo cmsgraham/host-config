@@ -64,3 +64,9 @@ clean on IC_RAW (0 found). h-edge-00 oracle (rebuilt; driver deletes planted.jso
 0.140; E-R 0.20 -> 0.116 / 0.149; E-A 0.20 -> 0.169 / 0.130; E-B 0.60 -> 0.607 / 0.836. mu calibration
 undershoots and disc != conf by 30-90 %: per-period planted size is not controlled. Bench-internal fix
 (planted_world mu calibration per period) needs the operator - not patched unsupervised.
+2026-11-02 (day) operator chose option 1: JOINT PER-PERIOD planting calibration, commit 3fead76 on
+~/Dukascopy-claude claude/joint-period-planting (EdgeSpec.mu_conf, oracle.calibrate_joint, yaml
+planting.calibration: joint in bench-v2). Root cause: a bump reverts just past its trade's exit, so
+overlapping events on a pair cancel (E-A ate E-R/E-S). Verified on h-edge-00: all 8 (edge,period)
+within 0.01 R in 5 rounds (+~10 min/edge world). S1 re-launched on FRESH root ~/fxsynth/bench-v5
+(bench-v4 holds the failed attempt). Merge to main queued behind a gate (TASK-3.148).
