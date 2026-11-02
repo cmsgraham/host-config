@@ -30,3 +30,5 @@ says otherwise - tell him when doing it.
 **2026-10-24 20:55 CST:** raised to 80% again ("extend the top to 80%", weekly 47%). Done with the
 override keys this time (claude_usage_override_max 0.8, _until 2026-10-27T03:00-06:00, commit 1210d23),
 so it lapses back to 0.5 at the reset by itself - no manual revert needed.
+
+**2026-11-01 update:** the limit is now set from the gateway Overview "Claude plan" card slider, which writes `~/Dukascopy/state/usage-limit.json` (overrides `ops.claude_usage_max` while present). Read the current limit from `agent-ci --config ~/Dukascopy/config.yaml usage` (running it from ~/agent-ci shows the template's 0 %).
