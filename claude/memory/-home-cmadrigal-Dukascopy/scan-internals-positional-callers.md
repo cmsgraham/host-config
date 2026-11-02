@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 5c739215-be4f-4c00-9060-2339957e0049
-  modified: 2026-11-01T09:32:55.463Z
+  modified: 2026-11-02T13:20:38.336Z
 ---
 
 `fxplat.hallazgos.confirm` builds `scan._Job` (12 positional args) and `scan._FrameCtx` (5), calls
@@ -26,3 +26,7 @@ must never import scan (cell_stats/outcomes imports fine), the 14 moved helpers 
 must keep `__module__ == fxplat.hallazgos.scan`. scan.py was 960 on 2026-11-01 (25 lines of room). Any scan.py
 spec must cite 985/250 and say "new helper in scan_helpers.py, not in __all__". Also: the shipped brokers.yaml
 already says `judged: IC_RAW`, so any scan test that lists `mean_net_IC_RAW` columns breaks once the scan honours judged.
+
+**2026-11-02 (TASK-11.63 built by escalation):** after 11.61's move (scan.py -> 882) and 11.63's family-3 wiring,
+scan.py is **959** lines against 11.63's own spec cap of 960 (the 985 test cap still applies after). _Job now 17
+fields / _FrameCtx 10 (indices, rates last). Next scan.py spec: budget lines against 985, not 960, and cite it.
