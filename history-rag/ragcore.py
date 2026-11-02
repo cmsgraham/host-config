@@ -175,6 +175,12 @@ def gateway_busy(quiet_minutes=None):
         d = requests.get(f"{OLLAMA}/_dash/data", headers={"User-Agent": USER_AGENT}, timeout=5).json()
         if any("history-rag" not in (r.get("ua") or "") for r in d.get("inflight") or []):
             return True
+        # voice or ComfyUI holding a GPU lease (2026-11-01): their VRAM is reserved but loaded
+        # lazily, so a quiet gateway is NOT a free card - a summary model would take it
+        orch = d.get("orchestrator") or {}
+        if any(w.get("kind") == "lease" and w.get("state") in ("running", "yielding")
+               for w in orch.get("workloads") or []):
+            return True
         rows = requests.get(f"{OLLAMA}/_dash/requests?range=15m&limit=60&kind=smart",
                             headers={"User-Agent": USER_AGENT}, timeout=5).json().get("rows") or []
     except Exception:

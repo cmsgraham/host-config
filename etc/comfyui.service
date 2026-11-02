@@ -9,7 +9,7 @@ User=cmadrigal
 Group=cmadrigal
 WorkingDirectory=/home/cmadrigal/comfyui
 Environment=COMFY_GPUS=0,1
-Environment=COMFY_LEASE_MB=22000
+Environment=COMFY_LEASE_MB=20000
 Environment=COMFY_GATEWAY_URL=http://127.0.0.1:11434
 Environment=COMFY_GATEWAY_TOKEN_FILE=<redacted>
 Environment=CUDA_DEVICE_ORDER=PCI_BUS_ID
