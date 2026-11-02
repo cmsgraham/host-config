@@ -4,7 +4,7 @@ description: "2026-11-02 17:40Z refill: 7.24 fxplat.risk.extraordinary (K13 'eve
 metadata:
   type: project
   originSessionId: refill-20261102-174011
-  modified: 2026-11-02T17:54:21.208Z
+  modified: 2026-11-02T18:50:17.387Z
 ---
 
 2026-11-02 17:40Z refill (runnable 3.149 / 3.150; low water 6). No drafts; all phone asks still 'wait'
@@ -31,6 +31,13 @@ metadata:
 **Why:** the next writer should not re-derive the K13 gap or re-check the attribution wiring, and must
 know the bench P-items are recommendations.
 
-**How to apply:** `git log --oneline -3 -- tasks/TASK-7.24.yaml tasks/TASK-7.25.yaml tasks/TASK-3.151.yaml`;
-review logs in /tmp/p724/review-*.log. Related: [[c10-runner-refill-2026-11-02]], [[real-run-task-ids]],
+COMMIT STATE 18:50Z: all three spec-reviews OK (second round; low findings applied); a 3.149 merge gate
+(MERGING.json 18:38Z) blocked the commit, so the detached committer /tmp/p724/commit2.sh (setsid nohup; log
+/tmp/p724/commit2.log) copies /tmp/p724/TASK-<id>.final.yaml (hold-free) into tasks/, validates and commits
+7.24 -> 7.25 -> 3.151 once the gate clears (`git add -f`: the gate exclude hides tasks/). 7.25 depends_on
+7.24, so the order matters.
+
+**How to apply:** `git log --oneline -3 -- tasks/TASK-7.24.yaml tasks/TASK-7.25.yaml tasks/TASK-3.151.yaml`
+and `cat /tmp/p724/commit2.log`; a missing one is restored from /tmp/p724/TASK-<id>.final.yaml and committed
+with `git add -f` when state/MERGING.json is absent. Review logs: /tmp/p724/review2-*.log. Related: [[c10-runner-refill-2026-11-02]], [[real-run-task-ids]],
 [[merge-gate-wipes-uncommitted-task-edits]].
