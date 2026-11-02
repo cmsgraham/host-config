@@ -4,7 +4,7 @@ description: "2026-11-02 05:35Z refill: mi_perfil stop dial chain 16.78 fun_book
 metadata:
   type: project
   originSessionId: refill-20261102-053539
-  modified: 2026-11-02T05:58:45.539Z
+  modified: 2026-11-02T06:08:50.155Z
 ---
 
 2026-11-02 05:35Z refill (runnable 16.73-16.77, low water 6; 16.73 attempt 1 REVIEWING then its gate MERGING at 23:55 local).
@@ -38,9 +38,9 @@ protocol's walk on atr_h x m / 2. No new first-touch walk needed.
   16.73's MERGING.json existed) - not a stray; commit specs only with `git commit -- tasks/<id>.yaml`.
 Reviews 23:55 local, all three OK in one round (16.78: fun_book cap is 650 not 660 - test_fun_book_measured pins it,
 applied; 16.79: fun_book docstring names _ATR_MULT - applied in 16.78; 16.80: test cap 360 -> 380 + docstring must avoid
-'open(' / 'read_text' - applied). Holds lifted ~00:20 local; finals backed up in /tmp/sw1678/final/. Committer
-`bash /tmp/sw1678/commit_all.sh` (log /tmp/sw1678/commit_all.log) waits for 16.73's MERGING.json and uses `git add -f`
-(the gate's .git/info/exclude ignores /tasks/** - plain `git add` fails while a gate runs).
+'open(' / 'read_text' - applied). COMMITTED 2026-11-02 ~06:3xZ after 16.73's gate cleared: 2a86a4b (16.78) / 7316abe (16.79) / bac5e38 (16.80), one file
+each, tree clean. The committer used `git add -f` (the gate's .git/info/exclude ignores /tasks/** while MERGING.json
+exists - plain `git add` fails then). 16.78 ELIGIBLE, 16.79 / 16.80 BLOCKED on their deps as designed.
 Next free ids: 16.81, 11.58, 15.43, 3.148, 4.20, 9.12, 12.20, 14.23.
 
 **Why:** the next writer must not re-derive the atr-rescaling trick or the omit-at-2.0 compatibility rule, must know
