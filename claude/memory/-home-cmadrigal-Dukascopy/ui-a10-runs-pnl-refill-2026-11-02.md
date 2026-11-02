@@ -24,7 +24,7 @@ decision records + P&L series" was only 1/3 written (TASK-9.11 decisions). So:
   all-None or all-set. Hand values binary fractions in /tmp/p913 (pnl.py + scen.py); empty JSON 594 chars.
 - Ask sent 12:0xZ: decision:family4-grammar (a) 21 cond 2016 cells m 4548 z 4.570 / (b) 46 cond m 6948 z 4.667 /
   wait; section appended to state/decisions-pending.md. z from fxplat.synthetic.bench_hz.rank1_z(0.10, m).
-- Gate for 11.61 then 11.60 running the whole session -> /tmp/p912/commit_when_clear.sh <id> <backup> <msg> (waits
+- COMMITTED 9.12 2793a94 (12:0xZ, after the 11.60 gate) + 9.13 1f86563 (12:05Z, no gate), tree clean. Gate for 11.61 then 11.60 running most of the session -> /tmp/p912/commit_when_clear.sh <id> <backup> <msg> (waits
   for MERGING.json, cp backup over tasks/<id>.yaml, git add -f, commit -- file).
 - Left in UI-A10: nothing pure; the publish command (reading run dirs / labels, copying events, writing the bundle)
   is UI-A2's / operator's. Other unwritten sources still blocked: grammar tasks (3 asks), fsv2 wiring (ask),
