@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 11c85a33-bbf3-41f0-a93c-1d0fc0f4ef0f
-  modified: 2026-10-31T18:16:08.055Z
+  modified: 2026-11-02T03:18:43.843Z
 ---
 
 Since 2026-10-28 00:11Z the watchdog raises the same `no_progress` case every 15 min because the operator wrote `state/STOP` and no supervisor runs (only the dashboards on 8767/8768). The ask was answered "wait" at 2026-10-28 09:12Z; triages on 2026-10-28, 2026-10-29 and 2026-10-30 all ended NEEDS YOU without re-asking. The stop is because the operator is committing synthetic-bench work directly on main and running the S2 bench driver (`fxplat.synthetic.driver --stage S2`, writes `~/fxsynth/bench-v3`); confirm with `ps aux | grep synthetic.driver` and `git log --since=<stop date>`.
@@ -21,5 +21,7 @@ Since 2026-10-28 00:11Z the watchdog raises the same `no_progress` case every 15
 **Update 2026-10-31 15:14Z:** np:166061, same STOP, S2 driver pid 1504212 at 22 h, 1033 min no merge, status also shows host memory pressure (36 % stalled, swap 3.3/8 GB). Report written NEEDS YOU in ~3 min, no ask, no retry. Fifth identical report in a row.
 
 **Update 2026-10-31 18:14Z:** np:166062, same STOP, S2 driver pid 1504217 at 25 h / 14.6 GB, 1213 min no merge, swap 3.6/8 GB. Sixth identical report; the last `acted: true` restart_loop in watchdog.jsonl is 10-30 19:59Z, 65 min before the STOP ts, which confirms the operator wrote it. Report in ~3 min, no ask, no retry.
+
+**Update 2026-11-02 03:15Z:** np:166073, NEW STOP (ts 2026-11-02T00:22:34Z) 7 min after the watchdog's loop_down restart at 00:15Z. Telltale: watchdog STOPs end with ` {STOP_SIGNATURE}` after the timestamp (watchdog.py restart_loop / restart_at_boundary / GPU reset); an operator `agent-ci stop` writes the bare timestamp — read the file content, not just acted:true. Both strong_direct escalations (16.69, 16.70) had finished exit_0 with 2 files in the worktree and were cut in the validating re-run (HUMAN_REQUIRED kind=stopped, rerun_helps yes) → retried both under STOP (RETRY.json), no ask, NEEDS YOU for the restart. Operator was active after the stop (usage-limit.json 0.7 from the dashboard 02:34Z, agent-ci commits 02:26Z/02:33Z).
 
 **How to apply:** check `ls state/STOP` and `ps | grep agent_ci` first; if STOP exists and no supervisor runs, copy the previous report's wording, update the hours, write NEEDS YOU and stop. Do not re-send the ask while the "wait" answer stands. Related: [[real-run-task-ids]].
