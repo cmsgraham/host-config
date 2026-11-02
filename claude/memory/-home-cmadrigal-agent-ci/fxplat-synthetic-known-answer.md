@@ -57,3 +57,10 @@ BENCH_REPORT.v1.*). H3 PASS (interesante 0/40, raw flag 31/40; RW 0/40; confirme
 H2 below n). Lean v2 next: 15.36 + 15.37 only; Levers A (11.50-54) and B (11.55-56) are what v2 measures.
 
 2026-11-01 (late) S2 v2 REGISTERED: config/synthetic/bench-v2.yaml on ~/Dukascopy-claude branch claude/s2v2-register (0e626e0; merge to main when no merge gate). IC_RAW/IB sigma ratio 1.000-1.002 (scan caches) -> draft ladders confirmed. 40 null (v1 seeds, rescan on IC_RAW) + 16 edge; S1 = pre-flight (h-null-00, h-edge-00); gate [H1, H3]; scorer needs all v1 criteria + S2.trap/S3/S4/S5 keys (zero-world groups). Bench root ~/fxsynth/bench-v4. Approval draft sent to operator (approvals/SYNTHETIC_BENCH_S2_V2.txt) - launch only after their OK. Driver itself only checks SYNTHETIC_BENCH_S2.txt (v1's, exists).
+
+2026-11-02 S2 v2 PRE-FLIGHT FAILED (S2 NOT launched; registration merged to main 38d3b45). Null h-null-00
+clean on IC_RAW (0 found). h-edge-00 oracle (rebuilt; driver deletes planted.json - copy kept at
+~/fxsynth/bench-v4/preflight-planted-h-edge-00.json) vs planted delta_net: E-S 0.12 -> disc 0.073 / conf
+0.140; E-R 0.20 -> 0.116 / 0.149; E-A 0.20 -> 0.169 / 0.130; E-B 0.60 -> 0.607 / 0.836. mu calibration
+undershoots and disc != conf by 30-90 %: per-period planted size is not controlled. Bench-internal fix
+(planted_world mu calibration per period) needs the operator - not patched unsupervised.
