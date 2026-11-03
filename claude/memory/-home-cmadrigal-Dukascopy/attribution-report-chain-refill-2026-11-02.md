@@ -4,7 +4,7 @@ description: "2026-11-02 22:12Z refill: 3.153 rerun_attribution (run dir -> Attr
 metadata:
   type: project
   originSessionId: refill-20261102-221222
-  modified: 2026-11-02T22:34:27.997Z
+  modified: 2026-11-03T07:20:56.231Z
 ---
 
 2026-11-02 22:12Z refill (runnable 3.151 / 7.27 / 7.28 / 9.18; low water 6). No drafts, no new RESOLVED decision,
@@ -35,7 +35,18 @@ deferred wiring ("a later task, with the run's c14_subperiods"; 3.152 merged 202
 **Why:** the next writer must not redo the prototyping, must know why the holds exist, and must not fall into the
 missing-context-columns trap or queue the operator's held-back proposals.
 
-**How to apply:** after Tue 03:00 UTC run `spec-review TASK-3.154`, `TASK-3.153`, `TASK-3.155` (in that order),
+**UPDATE 2026-11-03 07:15-07:3xZ (writer refill-20261103):** usage cap raised to 0.8 by the operator; the three
+spec-reviews ran in parallel (detached nohup, ~5 min, route local, OK x3, 8 low/medium findings, all applied):
+3.153 spelled-out fixture (t0 2010-01-01..2013-03-01, run_dir mkdir before writing) + re-verified on 85935b8
+(recheck script /tmp/p3153/recheck.py: payload equal field for field on the old and the reviewer's /tmp/rv3153
+rebuilt run); 3.154 section-5 heading literal 90 chars -> implicit concatenation note, _check_records helper for
+mccabe 15, PROVENANCE_ORDER NOT in __all__; 3.155 refusals (d) call the REAL collaborators (only the RuntimeError
+case patches), --reports-dir a fresh tmp_path subdir (env.reports holds the run's own F3 report), `from __future__
+import annotations` allowed. Holds deleted, all valid (3.153/3.154 ELIGIBLE, 3.155 BLOCKED on them); committed by
+/tmp/p3153/commit_final.sh once the 4.31 merge gate cleared (log /tmp/p3153/commit_final.log). Chain COMPLETE;
+nothing left to write for §10.15 except the research_run wiring the operator keeps.
+
+**How to apply (historical):** after Tue 03:00 UTC run `spec-review TASK-3.154`, `TASK-3.153`, `TASK-3.155`,
 apply findings, delete the hold lines, validate, commit one file at a time (`git add -f`, no MERGING.json).
 Prototypes: /tmp/p3153/proto/{rerun_attribution,attribution_report,attribution_cli}.py, measurement scripts
 proto_run2.py (augmented run) / proto_attr.py / proto_cli.py, run dir /tmp/p3153/work2. Related:
