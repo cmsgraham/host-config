@@ -20,6 +20,7 @@
 - [PLR0402 vs spec module alias](strict-lint-plr0402-module-alias.md) — `import a.b.c as c` fails strict lint; use `from a.b import c`; reviewer falsely flags `from a import b, c` — prove with lint-new
 - [Stale reviewer findings](stale-reviewer-lint-findings.md) — reviewer re-quotes an earlier attempt's lint/test output after the fix; diff the attempt snapshot first, never apply its "repair" blindly
 - [Reviewer blocks on audit 'uncovered' items](reviewer-blocks-on-audit-uncovered-items.md) — findings = test auditor's uncovered_requirements list already satisfied in code; pin them in the owned test with the spec's exact phrases
+- [Reviewer misattributes hunk line count](reviewer-misattributes-hunk-line-count.md) — "script N lines > cap" = the new test file's hunk header; wc -l the named file before trimming
 - [Reviewer PEP 701 f-string false positive](reviewer-pep701-fstring-false-positive.md) — nested-quote f-strings are valid on 3.12; its single-quote repair breaks bash quoting
 - [Reviewer misreads error-path tests](reviewer-misreads-error-path-tests.md) — error-path tests flagged as contradictions; don't apply its repair, split + quote the requirement
 - [Sibling worktree contamination](sibling-worktree-contamination.md) — builder copies a sibling task's untracked files → protected-paths fail; cmp, delete, ff to main
@@ -62,3 +63,4 @@
 - [Control settings wiring + attribution runner refill (2026-11-02 19Z)](control-settings-wiring-and-attribution-runner-refill.md) — 9.17 / 9.18 / 3.152; T5 bench world is operator config
 - [Attribution report chain refill (2026-11-02 22Z)](attribution-report-chain-refill-2026-11-02.md) — 3.153 / 3.154 / 3.155 chain COMPLETE (holds lifted 2026-11-03 07Z); operator proposals 13.10+/16.1-19/14.7/15.22/35/38 are NOT ours to queue; usage cap 0.8
 - [Second ruler exporters refill (2026-11-03 10Z)](second-ruler-exporters-refill-2026-11-03.md) — 4.34 export_pnl / 4.35 export_risk / 4.36 export_forward carry the US$1,000 ruler; traps: E501-only lint, `from __future__` scripts need sys.modules registration before exec_module, FXPLAT_STATE_ROOT=tmp; left: run result tables, IC_RAW-at-US$1k ask, 4.4 replay driver; next free 4.37 / 3.156 / 7.29 / 9.19 / 11.64 / 15.43 / 16.85 / 17.4
+- [Second ruler F3 report refill (2026-11-03 11Z)](second-ruler-f3-report-refill-2026-11-03.md) — 4.37 report_rulers / 4.38 research_run wiring (945/950 lines; e2e 60 s, main guard) / 4.39 export_verdict 'rulers'; left: rerun_report section, IC_RAW ask; next free 4.40
