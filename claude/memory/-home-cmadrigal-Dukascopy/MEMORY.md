@@ -21,6 +21,7 @@
 - [Stale reviewer findings](stale-reviewer-lint-findings.md) — reviewer re-quotes an earlier attempt's lint/test output after the fix; diff the attempt snapshot first, never apply its "repair" blindly
 - [Reviewer blocks on audit 'uncovered' items](reviewer-blocks-on-audit-uncovered-items.md) — findings = test auditor's uncovered_requirements list already satisfied in code; pin them in the owned test with the spec's exact phrases
 - [Reviewer misattributes hunk line count](reviewer-misattributes-hunk-line-count.md) — "script N lines > cap" = the new test file's hunk header; wc -l the named file before trimming
+- [Reviewer misses docstring in reflow hunk](reviewer-misses-docstring-in-reflow-hunk.md) — "paragraph missing" but present: builder re-wrapped old lines; restore verbatim so the hunk is pure addition
 - [Reviewer PEP 701 f-string false positive](reviewer-pep701-fstring-false-positive.md) — nested-quote f-strings are valid on 3.12; its single-quote repair breaks bash quoting
 - [Reviewer misreads error-path tests](reviewer-misreads-error-path-tests.md) — error-path tests flagged as contradictions; don't apply its repair, split + quote the requirement
 - [Sibling worktree contamination](sibling-worktree-contamination.md) — builder copies a sibling task's untracked files → protected-paths fail; cmp, delete, ff to main
