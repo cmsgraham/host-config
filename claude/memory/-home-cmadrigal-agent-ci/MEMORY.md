@@ -134,3 +134,4 @@
 - [escalation pkill killed gate](escalation-pkill-gate.md) — Claude cells denied pkill/killall; whole suite under flock
 - [model independence (foundation)](model-independence-foundation.md) — checkers never share the builder family; Qwen builds, Mistral/Google check
 - [lower Claude dependency](claude-dependency-challenge.md) — top challenge from 11-02; baseline 44 % escalation, levers to study 11-03
+- [lessons scope mismatch](lessons-scope-mismatch.md) — 210/312 lessons unreachable until d360cf4 (11-03); rerun reach replay after changes

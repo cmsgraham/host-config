@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-10-22T07:27:21.276Z
+  modified: 2026-11-03T14:59:28.855Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -17,6 +17,12 @@ estimator that built an (n, T, T) tensor. It never wrote the test file. The revi
 
 **Why:** waves of sibling primitives (11.27–11.34) run back-to-back with near-identical specs,
 so the builder confuses which task it owns.
+
+TASK-4.37 (run-20261103-133228, 2026-11-03): `ui/scripts/export_forward.py` was modified with
+TASK-4.36's second-ruler WIP (a slightly different revision of it), yet builder-actions.jsonl
+shows no action touching it. So contamination can happen without a visible builder edit;
+`git checkout --` the file. Also: Bash `run_in_background` "completed" notices can be spurious
+while a flock suite is still queued; check `/proc/<pid>` and the `exit=` line in the log.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
