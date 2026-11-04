@@ -70,3 +70,8 @@ planting.calibration: joint in bench-v2). Root cause: a bump reverts just past i
 overlapping events on a pair cancel (E-A ate E-R/E-S). Verified on h-edge-00: all 8 (edge,period)
 within 0.01 R in 5 rounds (+~10 min/edge world). S1 re-launched on FRESH root ~/fxsynth/bench-v5
 (bench-v4 holds the failed attempt). Merge to main queued behind a gate (TASK-3.148).
+**S2 v2 result 2026-11-04 14:42 CST (bench-v5, BENCH_REPORT.md): gate FAIL.** H3 PASS (0/40 null worlds
+interesante / RW / confirmed; raw flag 38/40, cell rate 0.2 %). H1 FAIL: recall far below analytic power -
+E-S 6/16 (power 0.52-0.995), E-R 0/16 even at power 0.996 (suspect planting/detection mismatch), E-A 3/256
+(power 0.06-0.15), E-B 9/128 (0.45). Edge worlds took 1.2-4.9 h each sharing CPU with the pipeline/Kronos.
+Next: read-only diagnosis of E-R = 0 and the recall gap before any bench change (operator OK needed).

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: refill-20261104-19
-  modified: 2026-11-04T19:53:20.842Z
+  modified: 2026-11-04T20:40:27.562Z
 ---
 
 Refill 2026-11-04 ~19:30Z (runnable 16.87 / 4.48 / 7.42 / 8.13 / 8.14 < low water 6; no drafts; main a9cece9).
@@ -49,6 +49,12 @@ IC_RAW 1R10 0.1325 (per instant 0.1325/0.1325/0.0265) comm 0.3, 1R5 0.106 / 0.12
 DUK 0.028; IB EURUSD@1.1 spread_pips 0.55 spread_r 0.022 commission_r 0.08 odd_lot 0.0. round(0.1325*10,2)=1.33,
 round(0.1375*10,2)=1.38, round(0.6125*10,2)=6.12; toFixed(3): 0.6125->'0.613', 0.1325->'0.133', 0.1375->'0.138'.
 Scratch: /tmp/sw1104b/hand.py, hand2.py.
+
+LANDED 2026-11-04 ~20:3xZ: all six reviews OK (4.53 BLOCK once: the group line hid the k/n when cost_r_min is
+null; fixed + re-reviewed), --accept-amended on each, committed after the 4.48 gate via two detached scripts
+(/tmp/sw1104b/commit_ok.sh, commit_tail.sh): 4.49 58618db, 4.51 bbdd8d5, 4.52 2dd418a, 4.54 9c1806e, 4.50
+f81139e, 4.53 6992e1c. Reviewer traps this round: nan != nan in dict equality (compare after _json_safe),
+ast.walk vs module.body for "top-level imports" pins, YAML-escaped quotes in JSX examples read as literal.
 
 LEFT: nothing of the second-ruler decision after these six (pnl / risk / forward / verdict rulers are R->US$
 conversions, broker-free by construction: report_rulers' note points to F1 for the real live cost). Still open:
