@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-03T14:59:28.855Z
+  modified: 2026-11-04T14:21:27.472Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -23,6 +23,12 @@ TASK-4.36's second-ruler WIP (a slightly different revision of it), yet builder-
 shows no action touching it. So contamination can happen without a visible builder edit;
 `git checkout --` the file. Also: Bash `run_in_background` "completed" notices can be spurious
 while a flock suite is still queued; check `/proc/<pid>` and the `exit=` line in the log.
+
+TASK-7.37 (run-20261104-121629, 2026-11-04): attempt 2 found its files already done, then spent
+the hour working in TASK-7.39's worktree (edited its test, ran its full suite) → "builder timed
+out after 3600s". The 7.37 worktree itself was clean. The real blocker was attempt 1's valid
+reviewer finding (the spec said "naming the first differing field"). So a builder timeout can
+just mean an idle builder that wandered off: check builder-activity.log for foreign worktree paths.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
