@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: refill-20261104-040150
-  modified: 2026-11-04T04:52:53.134Z
+  modified: 2026-11-04T05:19:34.894Z
 ---
 
 Refill 2026-11-04 04:01Z (runnable 15.46 / 5.4 / 6.1 / 6.2 / 6.5 < low water 6; no drafts, no new RESOLVED decision;
@@ -37,8 +37,8 @@ section '2026-11-04 — NEEDS DECISION IB paper node: install the Nautilus IB ex
 
 LANDED 04:50Z (after the 5.4 gate cleared): 7.29 4339a0f, 7.30 a033b59, 7.31 69cfc46, 7.32 95c42c8, 8.13 abc7046; reviews
 (gemma4 local; 7.33 routed strong): all OK first round except 7.30 (BLOCK: 0.0100000000001 is INSIDE 1e-12 - use
-0.010000001; tmp_path listing vs helper's repo/ dir; needle searched after the path prefix) -> OK on round 2. 7.33 and
-the re-pointed 7.2 stub were committed once the 15.46 gate cleared (check `git log --oneline -3 -- tasks/`). TRAP seen
+0.010000001; tmp_path listing vs helper's repo/ dir; needle searched after the path prefix) -> OK on round 2. 7.33 b029289 and
+the re-pointed 7.2 stub eeca81f were committed at 05:19Z once the 15.46 gate cleared (session total ~78 min). TRAP seen
 again: a tracked tasks/ edit (7.2) made while MERGING.json existed was reverted when the gate landed - keep backups in
 /tmp/sw729/backup and restore+commit in ONE command once the gate is clear; the `until [ ! -e state/MERGING.json ]`
 background wait works. `agent-ci tasks` shows a dependant of an unmerged task as BLOCKED (not INVALID) - expected.
