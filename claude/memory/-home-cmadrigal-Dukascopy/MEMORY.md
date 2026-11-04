@@ -71,3 +71,4 @@
 - [Module fixture MonkeyPatch leak under xdist](module-fixture-monkeypatch-leak-xdist.md) — merge_refused TypeError from another file's spy = bare pytest.MonkeyPatch() never undone in a module fixture; grep MonkeyPatch() vs .undo(); fix via spec (4.41, ccb59cf)
 - [PartitionedStore WAL vs pristine snapshot](partitioned-store-wal-snapshot.md) — close the tmp store (with-block) before byte-snapshotting it, or every test's untouched-store check fails
 - [write_run_dir not re-entrant](write-run-dir-not-reentrant.md) — second write_run_dir on the same dir → OSError Errno 39; TASK-4.46 fixture bug masquerading as assertion_error; check 4.47 fixtures
+- [IB paper node pieces refill (2026-11-04 04Z)](ib-paper-node-pieces-refill-2026-11-04.md) — 7.2 stub split into 7.29-7.33 + 8.13 (Nautilus-light); OTO children not open at entry fill -> apply reanchor on_order_accepted; ibapi NOT installed (ask decision:ib-paper-node-ibapi); 7.33 deps 7.32
