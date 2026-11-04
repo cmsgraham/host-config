@@ -75,3 +75,11 @@ interesante / RW / confirmed; raw flag 38/40, cell rate 0.2 %). H1 FAIL: recall 
 E-S 6/16 (power 0.52-0.995), E-R 0/16 even at power 0.996 (suspect planting/detection mismatch), E-A 3/256
 (power 0.06-0.15), E-B 9/128 (0.45). Edge worlds took 1.2-4.9 h each sharing CPU with the pipeline/Kronos.
 Next: read-only diagnosis of E-R = 0 and the recall gap before any bench change (operator OK needed).
+**Diagnosis 2026-11-04 (read-only, scratch diag_er.py, world ~/fxsynth/diag/er):** the H1 failure is mainly a
+BENCH defect. Events are fixed on the NULL path (oracle.cell_events) but the scan recomputes them on the PLANTED
+path; planting moves prices, so price-dependent conditions lose the planted events. E-R test (156 weeks, 0.27 R):
+oracle +0.275 net on 760 decisions; scan shares only 505; the 256 it LOSES carry the edge (+0.74 R each, clustered
+overlapping bumps), the 265 it gains carry none (-0.05); scan sees +0.03. Bench-wide gap (scan net - d): E-S -0.05
+(time condition, stable events), E-A -0.14, E-B -0.23, E-R -0.31. Recomputing E-S power at its observed 0.104 R gives
+0.38 = observed 6/16. Fix direction (needs operator OK, bench-internal): measure d on the planted path's own events
+and/or plant non-overlapping events + fidelity check (events recomputed on the planted path must match).
