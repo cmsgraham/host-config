@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: refill-20261104-12
-  modified: 2026-11-04T11:55:46.294Z
+  modified: 2026-11-04T12:33:57.901Z
 ---
 
 Refill 2026-11-04 ~11:5xZ (runnable 7.35 / 7.36 / 7.37 / 8.13 / 8.14 < low water 6; no drafts, no new RESOLVED
@@ -38,6 +38,13 @@ instance cannot be monkeypatched (Cython AttributeError) but a Python subclass o
 with hour median None is 'clear' (median_not_evaluable) so short tapes are fine. tests/execution test modules import
 each other absolutely (`from test_paper_step import ...`). Prototypes /tmp/sw739 (node_positions.py, node_quotes.py,
 scen*.py; backup/ holds the six drafts).
+
+LANDED 2026-11-04 ~12:1xZ after the 7.35 / 7.36 gates: 7.39 1beb457, 7.40 374bf5d, 7.41 494999b, 7.42 b0187af,
+7.44 0f9b731, 7.43 92fd0c6, 7.2 stub re-pointed e4d8911. All six reviews OK first round (gemma local, ~$0.60 each);
+findings applied + --accept-amended: 7.41 marks_path clashed with NodeSettings.marks_path (K13 file) -> renamed
+equity_marks_path + clash refusal; 7.39 rec() helper with decision kw, no mutable default (B006); 7.43 status_text
+params open_count / pending_count / closed_count (builtin `open`). Two detached commit scripts (/tmp/sw739/
+commit_when_clear.sh, commit_tail.sh chained on pgrep) worked; session ~2h10m.
 
 LEFT for 7.2 / 8.4: flatten at the broker for K1 / K2 / K11 'cerrar todo' (open design point: a close order needs a
 client id OUR_ID_RE accepts - today only -E/-S/-T - else reconcile sees a foreign fill; nautilus_snapshot is 8.11's),
