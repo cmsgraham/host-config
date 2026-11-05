@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-04T14:21:27.472Z
+  modified: 2026-11-05T10:43:55.058Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -29,6 +29,15 @@ the hour working in TASK-7.39's worktree (edited its test, ran its full suite) â
 out after 3600s". The 7.37 worktree itself was clean. The real blocker was attempt 1's valid
 reviewer finding (the spec said "naming the first differing field"). So a builder timeout can
 just mean an idle builder that wandered off: check builder-activity.log for foreign worktree paths.
+
+TASK-7.53 (run-20261105-085929, 2026-11-05): the builder `cd`ed into TASK-7.50's worktree and
+wrote 7.53's owned node_context.py and its test THERE. Its own worktree had an empty diff, the
+"tests not found" error appeared, and the run timed out. I rebuilt both files from the spec in 7.53.
+The stray untracked copies are still sitting in the 7.50 worktree; the operator must remove them.
+Follow-up: TASK-7.50 (run-20261105-083828) then failed lint-and-no-stray and strict-lint-new (B009 in
+the stray node_context.py), and its reviewer blamed 7.50. I deleted the strays (backed up to /tmp/esc750)
+and fixed the I001 import sort; the owned code was already correct. The strays did not `cmp` equal to
+7.53's rebuilt version, so "not identical" does not mean "ours".
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
