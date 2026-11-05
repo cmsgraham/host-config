@@ -92,3 +92,10 @@ every planted bump must revert, and in a dense cell the reversion lands in the n
 path and/or measure d on the scan's view of the oracle world. Awaiting operator choice.
 
 2026-11-05 FIX 3 VALIDATION FAILED (3c0ecea, branch claude/scan-view-calibration, NOT merged; logs ~/fxsynth/diag/vs3-2026210{1,2202}.log, ~5 h each, ~11-13 GB RSS each -> swapped the host with the pipeline running; pipeline held 10:42 CST for it). E-S/E-R/E-A converge by rounds 5-6 in both seeds. E-B (0.60 R, D1 fixed_h, ~100 trades/pair) cannot reach target without its trades collapsing (confirmation n 13-22 % of start in seed 2101; discovery stuck ~0.30 R at the 40 % floor in 2202). Because the collapse guard disqualifies the WHOLE round, seed 2101 fell back to uncalibrated round 1 (E-R -0.15 R) - the exact outcome fix 3 meant to prevent. Seed 2202 kept r5 but E-B -0.29 and E-A confirmation -0.055 (n 41 %). Next options: per-edge acceptance (collapsed edge excluded from round score, measured size recorded) vs lowering E-B size; operator decision pending.
+
+**2026-11-05 fix 4 -> fix 5 (branch claude/scan-view-calibration).** Fix 4 (ed81584, per-key round
+pick + measured combination) failed on seed 20262101: E-B confirmation collapsed (58 < floor 76)
+even at its round-ONE drift, because a stronger E-B discovery makes the scan pick a sparser config;
+whole round 1 kept again. Fix 5 (00e1618): a key collapsing at its round-one drift is exempt from
+the floor and all rounds are re-scored (its EV still counts). Validation unit fxsynth-val5-20262101
+(log ~/fxsynth/diag/vs5-20262101.log, ~2.5 h). Then seed 20262202, merge, S2 v3.
