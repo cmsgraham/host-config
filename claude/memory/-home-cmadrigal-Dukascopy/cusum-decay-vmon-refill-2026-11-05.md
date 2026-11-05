@@ -29,3 +29,8 @@ the next variants task). Next free ids: 3.164, 7.62, 8.15, 9.20.
 
 **Why:** next writer must not re-measure and must know the chain direction.
 **How to apply:** `git log --oneline -8 -- tasks/`; status of 3.159-3.163. See [[latency-variants-and-node-drift-refill-2026-11-05]].
+
+FINAL ~23:10Z: all three committed hold-free - 3.163 f3b2671, 3.162 f8e3b4f, 3.161 bcec481. 3.161 round 1 BLOCK:
+test_phase2_latency.py:231-236 pins params[-1] == 'latency_s' on sample_events / build_dataset -> new keywords go
+IMMEDIATELY BEFORE latency_s (keep that in mind for any future phase2 keyword); round 2 OK. Lows applied: np.False_ must
+count as False (use bool(), not `is False`); symbol_stage cap 745. Commit script /tmp/sw3161/commit_when_clear.sh.
