@@ -83,3 +83,10 @@ overlapping bumps), the 265 it gains carry none (-0.05); scan sees +0.03. Bench-
 (time condition, stable events), E-A -0.14, E-B -0.23, E-R -0.31. Recomputing E-S power at its observed 0.104 R gives
 0.38 = observed 6/16. Fix direction (needs operator OK, bench-internal): measure d on the planted path's own events
 and/or plant non-overlapping events + fidelity check (events recomputed on the planted path must match).
+**Fix attempt 1 (2026-11-04, branch claude/observable-planting c0ff7f4 in ~/Dukascopy-claude, NOT merged):**
+plant.isolate + planting.isolation_guard_h (bench-v3.yaml). Fixes E-R on a test world (scan +0.252 vs
+oracle +0.271) but FAILS for dense cells: E-S (daily London open, 24 h rev_1R hold) cannot reach 0.16 -
+every planted bump must revert, and in a dense cell the reversion lands in the next unplanted trade
+(planted +0.98, unplanted -0.70, cell -0.03): zero-sum. v2's all-event chained planting works for E-S
+(time condition, decisions don't move). Next options: fixed-point re-detection of events on the planted
+path and/or measure d on the scan's view of the oracle world. Awaiting operator choice.
