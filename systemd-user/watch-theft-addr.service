@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch the address holding the stolen BTC (2026-10-26); phone alert when it is spent
+After=network-online.target
+
+[Service]
+ExecStart=%h/.local/bin/watch-theft-addr.sh
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=default.target

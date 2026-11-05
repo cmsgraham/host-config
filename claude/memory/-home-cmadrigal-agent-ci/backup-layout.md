@@ -23,3 +23,7 @@ Cristian, 2026-10-19: "scared we lose this computer or disk and lose all this pr
   but the REPOS DON'T EXIST until Cristian creates them - the classifier denied creating them via the API with the
   stored git credential (2026-10-19).
 - F: no longer holds the 2026-10-05 WSL vhdx copy (other files there now).
+- 2026-11-05: git-backup "timeout" failures 11-04 06:08 .. 11-05 10:20 were NOT failed pushes (all pushes done,
+  "Everything up-to-date"): a leftover background `gc --auto` on the 9p/SMB NAS repo (pack-refs rename denied) did
+  not exit within TimeoutStopSec 90 s under host memory pressure. Set receive.autogc=false + gc.auto=0 on all four
+  NAS bare repos. fxplat-health now alerts when no clean run in 3 h. GitHub ollama-gateway/host-config still absent.

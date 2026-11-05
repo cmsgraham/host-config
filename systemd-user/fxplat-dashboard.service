@@ -1,0 +1,12 @@
+[Unit]
+Description=agent-ci read-only dashboard API for fxplat (port 8767; the gateway's /_dash/agentci reads it). Hand-run until 2026-11-05
+After=network.target
+
+[Service]
+WorkingDirectory=/home/cmadrigal/Dukascopy
+ExecStart=/home/cmadrigal/agent-ci/.venv/bin/python -m agent_ci.cli --config /home/cmadrigal/Dukascopy/config.yaml dashboard --host 127.0.0.1 --port 8767
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

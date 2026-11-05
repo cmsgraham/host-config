@@ -18,7 +18,29 @@ except Exception as x: print("status feed unreadable")' 2>/dev/null)
 [ -n "$err" ] && problems+=("dashboard|agent-ci dashboard: $err")
 
 # 2. data download (hourly fxplat-update): not failed, and its log moved in the last 3 h
-systemctl --user is-failed --quiet fxplat-update.service && problems+=("update|fxplat-update.service FAILED")
+# The unit's own state is NOT a signal: `ingest update` exits 4 whenever the quality gate rejected any
+# day (holiday sessions, every run since at least 2026-10-07) and the timer restarts it at once, so
+# is-failed was never true. Judge the outcome instead: each configured symbol's newest stored day
+# (2026-11-05 sweep).
+stale=$(python3 - <<'PY' 2>/dev/null
+import datetime as d, glob, json, os
+syms = json.load(open(os.path.expanduser("~/Dukascopy/config.json")))["symbols"]
+ref = d.datetime.now(d.timezone.utc).date() - d.timedelta(days=1)
+while ref.weekday() >= 5:
+    ref -= d.timedelta(days=1)
+lim = ref - d.timedelta(days=1)
+while lim.weekday() >= 5:
+    lim -= d.timedelta(days=1)  # one business day of slack behind the last finished weekday
+out = []
+for s in syms:
+    files = glob.glob(os.path.expanduser(f"~/fxdata/*/ticks/{s}/*/{s}-*.parquet"))
+    last = max((os.path.basename(f)[len(s) + 1:-8] for f in files), default="none")
+    if last == "none" or d.date.fromisoformat(last) < lim:
+        out.append(f"{s} {last}")
+print(", ".join(out))
+PY
+)
+[ -n "$stale" ] && problems+=("datastale|market data behind (newest stored day): $stale")
 log=~/fxdata/update.log
 if [ -f "$log" ] && [ $(( $(date +%s) - $(stat -c %Y "$log") )) -gt 10800 ]; then
   problems+=("updatelog|data download log silent for over 3 h ($log)")
@@ -136,6 +158,31 @@ if [ "${used_g:-0}" -ge 750 ]; then
   problems+=("diskhigh|WSL disk ${used_g} GiB used (Ollama stops at 850): check /tmp/agent-ci, ~/.ollama, ~/Dukascopy/.agent-worktrees")
 fi
 
+# 4h. backups (2026-11-05 sweep: git-backup hit its stop timeout every hour from 11-04 06:08 and nothing
+# said so): alert when no run has finished cleanly for 3 h
+lastbk=$(journalctl --user -u git-backup -o short-unix --no-pager --since -2d 2>/dev/null \
+  | grep -F 'Finished git-backup' | tail -1 | cut -d. -f1)
+if [ -z "$lastbk" ] || [ $(( $(date +%s) - lastbk )) -gt 10800 ]; then
+  when=$([ -n "$lastbk" ] && date -d "@$lastbk" '+%F %R' || echo "none in 2 days")
+  problems+=("backup|no clean git-backup for over 3 h (last: $when; journalctl --user -u git-backup)")
+fi
+
+# 4i. processes outside systemd (2026-11-05 sweep: two 11-13 GB validation jobs swapped the host, a
+# 10-day watcher ran from a dead session's scratchpad, a 17 h orphan waiter from an escalation):
+# anything in the /non-systemd cgroup older than 6 h or above 4 GB, minus the editor, shells, ssh
+# multiplexers and the agent-ci loop itself (the watchdog owns that one)
+unm=$(ps -eo pid=,etimes=,rss=,args= | while read -r pid et rss args; do
+  [ "$(cut -d: -f3 /proc/$pid/cgroup 2>/dev/null)" = "/non-systemd" ] || continue
+  [ "$et" -gt 21600 ] || [ "$rss" -gt 4194304 ] || continue
+  case "$args" in
+    *vscode-server*|*shellIntegration*|"ssh: "*|sleep*|-bash|bash|/bin/bash|*/claude\ *|*native-binary/claude*) continue;;
+    *"agent_ci.cli --config $HOME/Dukascopy/config.yaml auto"*) continue;;
+    /init|*plan9*|*SessionLeader*|*Relay*|*init-watcher*|"(sd-pam)") continue;;
+  esac
+  printf '%s %sh %sGB %s; ' "$pid" $(( et / 3600 )) $(( rss / 1048576 )) "$(printf '%s' "$args" | cut -c1-80)"
+done)
+[ -n "$unm" ] && problems+=("unmanaged|processes outside systemd (>6 h or >4 GB): $unm")
+
 # 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
 pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
   f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
@@ -156,12 +203,18 @@ for p in "${problems[@]}"; do
   now_keys+=("$k")
   if [ ! -f "$STATE/$k.alerted" ]; then
     $NOTIFY --priority 4 "fxplat health: $k" "$msg" >/dev/null 2>&1 && touch "$STATE/$k.alerted"
+  elif [ ! -f "$STATE/$k.ack" ] && [ $(( $(date +%s) - $(stat -c %Y "$STATE/$k.alerted") )) -gt 86400 ]; then
+    # daily reminder (2026-11-05 sweep: the paper runner sat latched 3 days after one push). A person
+    # silences one with `echo why > ~/.cache/fxplat-health/<key>.ack`; the ack goes when the problem does
+    since=$(date -d "@$(stat -c %W "$STATE/$k.alerted" 2>/dev/null || echo 0)" '+%m-%d %R' 2>/dev/null)
+    $NOTIFY --priority 3 "fxplat health: $k still open (since $since)" "$msg" >/dev/null 2>&1 && touch "$STATE/$k.alerted"
   fi
+  [ -f "$STATE/$k.ack" ] && msg="$msg [ack: $(head -c 120 "$STATE/$k.ack")]"
   echo "PROBLEM $k: $msg"
 done
 for f in "$STATE"/*.alerted; do
   [ -e "$f" ] || continue; k=$(basename "$f" .alerted)
-  [[ " ${now_keys[*]} " == *" $k "* ]] || { rm -f "$f"; $NOTIFY --priority 2 "fxplat health: $k OK" "resolved" >/dev/null 2>&1; echo "RESOLVED $k"; }
+  [[ " ${now_keys[*]} " == *" $k "* ]] || { rm -f "$f" "$STATE/$k.ack"; $NOTIFY --priority 2 "fxplat health: $k OK" "resolved" >/dev/null 2>&1; echo "RESOLVED $k"; }
 done
 [ ${#problems[@]} -eq 0 ] && echo "fxplat health OK $(date '+%F %R')"
 exit 0

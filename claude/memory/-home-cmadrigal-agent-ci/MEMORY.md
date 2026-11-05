@@ -76,7 +76,7 @@
 - [Windows Update boot resilience](windows-update-boot-resilience.md) — no-reboot policy + S4U boot task
 - [fxplat replay what-if](fxplat-replay-whatif.md) — trade ledgers + R9 sliders; user runs deploys
 - [fxplat Phase 3 completion 2026-10-14](fxplat-phase3-completion-2026-10-14.md) — Gate 1 list: 2010-2021, cost v4, M2
-- [fxplat health timer](fxplat-health-timer.md) — 30-min phone check of feeds/publisher/loop
+- [fxplat health timer](fxplat-health-timer.md) — 30-min phone check; 11-05: data freshness, backup, unmanaged procs, daily reminders, .ack
 - [fxplat IB connector on server](fxplat-ib-connector-server.md) — IB containers on the Linode; redeploy-ib.sh
 - [spec risk measure (future)](spec-risk-measure-future.md) — measure risky specs, decompose for local; not started
 - [Operator Backlog artifact](operator-backlog-artifact.md) — shared TODO list (db "todos"); add every deferred item

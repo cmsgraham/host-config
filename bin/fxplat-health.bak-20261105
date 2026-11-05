@@ -1,0 +1,167 @@
+#!/usr/bin/env bash
+# fxplat-health (2026-10-14): what the agent-ci watchdog does NOT watch. Every 30 min (user timer
+# fxplat-health.timer); one phone alert per new problem (state in ~/.cache/fxplat-health), cleared when fixed.
+# Checks: the dashboard can load the task files (2026-10-14 it showed 0 tasks for hours after a loader change),
+# the data download, the IB price feed, the website publisher, the replay builder, and the loop being alive.
+set -u
+STATE=~/.cache/fxplat-health; mkdir -p "$STATE"
+NOTIFY="$HOME/agent-ci/.venv/bin/agent-ci --config $HOME/Dukascopy/config.yaml notify"
+problems=()
+
+# 1. dashboard / loader: the gateway's agent-ci feed loads every task file
+st=$(curl -s -m 30 "http://127.0.0.1:11434/_dash/agentci/status?project=fxplat" || true)
+err=$(printf '%s' "$st" | python3 -c 'import json,sys
+try:
+  d=json.load(sys.stdin); n=len(d.get("tasks") or []); e=d.get("tasks_error")
+  print(("tasks_error: "+str(e)[:160]) if e else ("no tasks returned" if n==0 else ""))
+except Exception as x: print("status feed unreadable")' 2>/dev/null)
+[ -n "$err" ] && problems+=("dashboard|agent-ci dashboard: $err")
+
+# 2. data download (hourly fxplat-update): not failed, and its log moved in the last 3 h
+systemctl --user is-failed --quiet fxplat-update.service && problems+=("update|fxplat-update.service FAILED")
+log=~/fxdata/update.log
+if [ -f "$log" ] && [ $(( $(date +%s) - $(stat -c %Y "$log") )) -gt 10800 ]; then
+  problems+=("updatelog|data download log silent for over 3 h ($log)")
+fi
+
+# 3. services that must stay up
+# IB feed: on fxplat-server since the 2026-10-14 cutover (home mirror), else the home gateway units
+if systemctl --user is-enabled --quiet fxplat-live-mirror 2>/dev/null; then
+  ibunits="fxplat-live-mirror"; ml=~/.cache/fxplat/live/market-live.json
+else
+  ibunits="fxplat-xvfb fxplat-ib-gateway fxplat-ib-market"; ml=~/.cache/fxplat/bundle/market-live.json
+fi
+for u in $ibunits fxplat-publish fxplat-replay; do
+  systemctl --user is-active --quiet "$u" || problems+=("$u|$u is not running")
+done
+# ollama-gateway is not checked here: the agent-ci watchdog pages gateway_down (high) every 15 min,
+# and both paged for the same outage (sweep 2026-10-25)
+systemctl is-active --quiet ollama || problems+=("ollama|ollama (system) is not running")
+
+# FX market hours: Sunday 17:00 to Friday 17:00 New York. Quote and sentiment checks are skipped while it is
+# closed (neither alert nor resolve): they paged every Friday evening and flapped all weekend (sweep 2026-10-25).
+market_open=$(python3 -c "
+import datetime as d, zoneinfo as z
+n = d.datetime.now(z.ZoneInfo('America/New_York')); w, h = n.weekday(), n.hour
+print(0 if (w == 4 and h >= 17) or w == 5 or (w == 6 and h < 17) else 1)")
+closed_keys="marketlive swfxempty swfxfail ibwatchdog ibwatchdogdown"
+
+# 4. IB live quotes fresh (market-live.json written every 15 s; alert past 10 min while the market is open)
+# Age from the feed's own generated_at, not the file mtime: the home mirror rewrites the file on every copy
+# even when the server feed is frozen (stale 03:58-16:50 UTC 2026-10-19 without an alert).
+gen=$(python3 -c "import json,sys,datetime as d;g=json.load(open(sys.argv[1]))['generated_at'];print(int(d.datetime.fromisoformat(g.replace('Z','+00:00')).timestamp()))" "$ml" 2>/dev/null || stat -c %Y "$ml")
+# 4a. the server's IB watchdog (2026-10-25): it re-logs the gateway by itself; its status says why quotes stopped
+wd=$(timeout 25 ssh -o BatchMode=yes -o ConnectTimeout=10 fxplat-server 'cat /opt/fxplat/ib-watchdog/status.json' 2>/dev/null \
+     | python3 -c 'import json,sys,time,datetime as d
+try:
+  s=json.load(sys.stdin); age=time.time()-d.datetime.fromisoformat(s["checked_at"]).timestamp()
+  print(s.get("state",""), int(age), s.get("actions_last_hour",0), s.get("reason_text","") or "-", sep="|")
+except Exception: print("missing|0|0|-")' 2>/dev/null)
+IFS='|' read -r wd_state wd_age wd_acts wd_reason <<< "${wd:-missing|0|0|-}"
+if [ "$market_open" = 1 ] && [ -f "$ml" ] && [ $(( $(date +%s) - gen )) -gt 600 ]; then
+  problems+=("marketlive|IB live quotes stale for over 10 min (market-live.json); server watchdog: ${wd_state}, ${wd_acts} re-login(s) in the last hour; ${wd_reason}")
+fi
+if [ "$market_open" = 1 ]; then
+  [ "$wd_state" = gave_up ] && problems+=("ibwatchdog|IB watchdog GAVE UP after ${wd_acts} gateway re-logins this hour: ${wd_reason}")
+  if [ "$wd_state" = missing ] || [ "${wd_age:-0}" -gt 600 ]; then
+    [ "$wd_state" = missing ] && why="no status file" || why="last check ${wd_age}s ago"
+    problems+=("ibwatchdogdown|IB watchdog on fxplat-server not reporting (${why}): run deploy/server/redeploy-ib-watchdog.sh")
+  fi
+fi
+
+# 4b. SIMULATED paper runner on fxplat-server (2026-10-19), via the home mirror fxplat-paper-mirror:
+# its status.json advances every 15 s; alert when it is older than 10 min, carries an error, or a K-switch latched.
+if systemctl --user is-enabled --quiet fxplat-paper-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-paper-mirror || problems+=("papermirror|fxplat-paper-mirror is not running")
+  ps_=$(python3 - "$HOME/.cache/fxplat/paper" <<'PY' 2>/dev/null
+import json, sys, time, glob, os
+root = sys.argv[1]
+try:
+    out = json.load(open(os.path.join(root, "paper.json")))["out_dir"].rstrip("/").split("/")[-1]
+except Exception:
+    out = None
+cands = [os.path.join(root, "data", out, "status.json")] if out else sorted(glob.glob(os.path.join(root, "data", "sim-*", "status.json")))
+f = next((c for c in cands if os.path.exists(c)), None)
+if not f:
+    print("paperstatus|paper runner: no status.json mirrored"); sys.exit()
+s = json.load(open(f))
+age = time.time() - s.get("now_ms", 0) / 1000
+if age > 600:
+    print(f"paperstale|paper runner status {int(age // 60)} min old (container down on fxplat-server?)")
+if s.get("error"):
+    print(f"papererror|paper runner error: {str(s['error'])[:120]}")
+if s.get("latches"):
+    print(f"paperlatch|paper runner latched: {', '.join(map(str, s['latches']))[:120]}")
+PY
+)
+  while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$ps_"
+fi
+
+# 4c. Binance crypto node on docker1 (2026-10-22), via the home mirror fxplat-binance-mirror: recorder streaming and
+# fresh, fee key read-only, trader fresh / connected / not refused / not loss-halted (fxplat-binance-health).
+if systemctl --user is-enabled --quiet fxplat-binance-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-binance-mirror || problems+=("binancemirror|fxplat-binance-mirror is not running")
+  if [ -x ~/.local/bin/fxplat-binance-health ]; then
+    while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$(~/.local/bin/fxplat-binance-health 2>/dev/null)"
+  fi
+fi
+
+# 4d. SWFX sentiment capture on docker1 (2026-10-23), via the home mirror fxplat-swfx-mirror: status fresh (<25 min),
+# fewer than 3 failed snapshots in a row, last snapshot with instruments (fxplat-swfx-health).
+if systemctl --user is-enabled --quiet fxplat-swfx-mirror 2>/dev/null; then
+  systemctl --user is-active --quiet fxplat-swfx-mirror || problems+=("swfxmirror|fxplat-swfx-mirror is not running")
+  if [ -x ~/.local/bin/fxplat-swfx-health ]; then
+    while IFS= read -r l; do [ -n "$l" ] && problems+=("$l"); done <<< "$(~/.local/bin/fxplat-swfx-health 2>/dev/null)"
+  fi
+fi
+
+# 4e. the publisher loads its EXPORTERS list once at start: a merge that adds an exporter is invisible until it
+# restarts (2026-10-25: fun-profiles.json never published for a day). Restart it when publish.py is newer.
+pub_start=$(date -d "$(systemctl --user show fxplat-publish -p ActiveEnterTimestamp --value)" +%s 2>/dev/null || echo 0)
+pub_code=$(stat -c %Y "$HOME/Dukascopy/ui/scripts/publish.py" 2>/dev/null || echo 0)
+if systemctl --user is-active --quiet fxplat-publish && [ "$pub_code" -gt "$pub_start" ]; then
+  systemctl --user restart fxplat-publish && echo "RESTARTED fxplat-publish (publish.py newer than the running service)"
+fi
+
+# 4f. the operator's own Binance snapshot (Mi cuenta, 2026-10-26): refreshed every 5 min; holdings changes alert from
+# fxplat-binance-account itself, this only catches the reader stopping (>20 min)
+ba=~/.cache/fxplat/private/binance-account.json
+if [ -f "$ba" ] && [ $(( $(date +%s) - $(stat -c %Y "$ba") )) -gt 1200 ]; then
+  problems+=("binanceacct|Mi cuenta Binance snapshot older than 20 min (fxplat-binance-account timer)")
+fi
+
+# 4g. the WSL disk (2026-10-26): disk-guard stops Ollama at 850 GiB used; warn at 750 so a person can clean first
+used_g=$(df -BG --output=used / | tail -1 | tr -dc '0-9')
+if [ "${used_g:-0}" -ge 750 ]; then
+  problems+=("diskhigh|WSL disk ${used_g} GiB used (Ollama stops at 850): check /tmp/agent-ci, ~/.ollama, ~/Dukascopy/.agent-worktrees")
+fi
+
+# 5. the build loop alive (the watchdog restarts it; this catches the watchdog itself failing)
+pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null || {
+  f="$STATE/noloop.since"; [ -f "$f" ] || date +%s > "$f"
+  [ $(( $(date +%s) - $(cat "$f") )) -gt 2700 ] && problems+=("noloop|no agent-ci loop running for over 45 min")
+}
+pgrep -f "[a]gent_ci.cli --config $HOME/Dukascopy/config.yaml auto" >/dev/null && rm -f "$STATE/noloop.since"
+
+# alert once per new problem; clear the marker when it is gone
+now_keys=()
+if [ "$market_open" = 0 ]; then
+  # closed: forget these markers silently (no "OK" push), so a feed still stale after the reopen alerts as NEW -
+  # 2026-10-25 a Friday marker survived the weekend and the 5-hour Sunday outage never reached the phone
+  for k in $closed_keys; do rm -f "$STATE/$k.alerted"; done
+fi
+for p in "${problems[@]}"; do
+  k=${p%%|*}; msg=${p#*|}
+  [ "$market_open" = 0 ] && [[ " $closed_keys " == *" $k "* ]] && continue
+  now_keys+=("$k")
+  if [ ! -f "$STATE/$k.alerted" ]; then
+    $NOTIFY --priority 4 "fxplat health: $k" "$msg" >/dev/null 2>&1 && touch "$STATE/$k.alerted"
+  fi
+  echo "PROBLEM $k: $msg"
+done
+for f in "$STATE"/*.alerted; do
+  [ -e "$f" ] || continue; k=$(basename "$f" .alerted)
+  [[ " ${now_keys[*]} " == *" $k "* ]] || { rm -f "$f"; $NOTIFY --priority 2 "fxplat health: $k OK" "resolved" >/dev/null 2>&1; echo "RESOLVED $k"; }
+done
+[ ${#problems[@]} -eq 0 ] && echo "fxplat health OK $(date '+%F %R')"
+exit 0
