@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 19a1e6f3-2795-4853-afd3-c980688cbfdd
-  modified: 2026-10-25T12:32:54.477Z
+  modified: 2026-11-05T12:06:03.491Z
 ---
 
 Full validator output is NOT in `logs/<run_id>/` but in `logs/<run_id>-a<N>/<check_id>.stdout.log`
@@ -62,3 +62,10 @@ The timed-out pytest tree was left running as an orphan after the timeout (repor
 plus rsync backup, ollama and a concurrent escalation. The rerun on the unchanged tree passed in ~11 min (exit 0). The "99% + 37 dots" tail
 is just where the last xdist workers (motif, storm_day, build_is_deterministic) finish, NOT a deterministic hang — it shows on green runs too.
 No code change was needed.
+
+2026-11-05 (triage, TASK-7.50 merge_refused): same stall (gw4 `test_lock_rows_never_change_output[planted0]` from 05:46, other
+five workers idle in futex since 05:14-05:22). PSI full ~25%, swap 5.1/8, load 22 from a sibling builder's 28-file pytest (~7 cores)
+plus two llama-servers. Fastest check: `ls -lat $TMPDIR/pytest-of-*/pytest-current/popen-gw*/ | sed -n 2,4p` per worker + `cat
+/proc/<worker>/wchan` (futex_do_wait = idle, 0 = the one running). The watchdog's frozen_tasks check writes state/STOP when the
+refused task sits 60+ min "with escalation budget left" so a fresh loop retries it - that STOP is not an operator stop; `retry` is
+accepted under it. Retried; orphan gate pytest reported NEEDS YOU (optional).
