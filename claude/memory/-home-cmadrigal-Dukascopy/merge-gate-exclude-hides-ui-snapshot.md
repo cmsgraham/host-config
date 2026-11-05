@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: cd07da22-ad09-4f43-8aed-2862e1d3ad2e
-  modified: 2026-10-25T18:47:03.780Z
+  modified: 2026-11-05T02:03:06.493Z
 ---
 
 TASK-16.28 (run-20261025-154404-3202c3) failed `tree-drift` naming new ui/ files whose mtimes PRE-date the run.
@@ -20,4 +20,7 @@ not a builder late write. Retry after `state/MERGING.json` clears; the real fix 
 Follow-up run-20261025-183521 (strong-direct again): the supervisor had committed the work as a "work in progress
 before refresh" commit (6360bd7), so the files are tracked and exclude can no longer hide them. Nothing to fix;
 all 4 checks re-run green on the unchanged tree. Next time: if HEAD is a WIP commit holding the owned files, just verify.
+Also (TASK-4.54, run-20261105-011713): the exclude hid the builder's NEW ui test file from the diff, so the reviewer
+filed a false "missing required test file" (F002). The real failure was one TS2531 error. Check builder-activity.log
+for a `create` of the file before you rewrite it; then `git add -f <file>` so a gate's exclude can no longer hide it.
 Related: [[containment-false-positive-operator-ui]], [[vitest-css-raw-blank]].

@@ -31,7 +31,7 @@
 - [scan.py positional callers + 985 cap](scan-internals-positional-callers.md) — confirm/promote build scan._Job/_FrameCtx/_stamp positionally; new fields LAST with defaults; scan.py cap 985 (non-owned), scan_helpers 250 + no-cycle pins; scan.py 856 after 11.61
 - [experiments/observations not ruff-clean](experiments-observations-not-ruff-clean.md) — vocab.py has 26 E501 on main; a lint acceptance on it makes builders alter tag text; file-level `# ruff: noqa: E501`
 - [vitest blanks css ?raw](vitest-css-raw-blank.md) — ui vitest turns every .css import (?raw too) into ""; read css via computed node:fs import in the test
-- [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — gate's /ui/** exclude drops new ui files from the tree-drift snapshot; retry after MERGING clears
+- [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — gate's /ui/** exclude drops new ui files from the tree-drift snapshot AND the reviewer diff (false "missing test file", 4.54); git add -f
 - [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min
 - [YAML 1.1 key gotchas](yaml11-key-gotchas.md) — bare NULL/null/on keys parse as None/True; quote; diff tasks/<id>.yaml vs main before finishing
 - [Unfaked wiring → test timeout](unfaked-wiring-test-timeout.md) — timed-out builder left the owned test unamended; old tests hit the real full oracle → TIMEOUT
@@ -78,3 +78,4 @@
 - [Flaky test_ib_is_todays_call second boundary](flaky-test-ib-is-todays-call-second-boundary.md) — merge gate flake: two wall-clock run ids compared for equality; case text quotes the warnings tail, real FAILED is at the log bottom; retry
 - [Second ruler brokers refill (2026-11-04 20Z)](second-ruler-brokers-refill-2026-11-04.md) — 4.49 f1_brokers / 4.50 f1_costs wiring / 4.51 export_f1costs / 4.52 export_brokers / 4.53 F1Costs UI / 4.54 Forward mirrors UI; price_instants ignored the raw per-100k commission (fixed by 4.50); rulers-import + line-cap pins
 - [isort import vs line cap](isort-import-vs-line-cap.md) — an N-name from-import is N+2 lines under ruff I001; packing it fails lint, unpacking busts a 1000 cap (4.50); compact the task's own added lines instead
+- [IB node fourth refill (2026-11-05 01Z)](ib-node-fourth-refill-2026-11-05.md) — 7.45 node_switches / 7.46 node_view / 7.47 node_start / 7.48 node_resume / 7.49 node_decide / 7.50 node_tail; flatten is MANUAL (no -F id); K4 needs all seven majors quoting; left: daily reconcile wiring, status/health writer, Strategy composition, ibapi
