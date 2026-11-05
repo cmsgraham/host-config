@@ -31,7 +31,7 @@
 - [scan.py positional callers + 985 cap](scan-internals-positional-callers.md) — confirm/promote build scan._Job/_FrameCtx/_stamp positionally; new fields LAST with defaults; scan.py cap 985 (non-owned), scan_helpers 250 + no-cycle pins; scan.py 856 after 11.61
 - [experiments/observations not ruff-clean](experiments-observations-not-ruff-clean.md) — vocab.py has 26 E501 on main; a lint acceptance on it makes builders alter tag text; file-level `# ruff: noqa: E501`
 - [vitest blanks css ?raw](vitest-css-raw-blank.md) — ui vitest turns every .css import (?raw too) into ""; read css via computed node:fs import in the test
-- [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — gate's /ui/** exclude drops new ui files from the tree-drift snapshot AND the reviewer diff (false "missing test file", 4.54); git add -f
+- [Merge gate exclude hides ui snapshot](merge-gate-exclude-hides-ui-snapshot.md) — gate's /ui/** exclude drops new ui files from the tree-drift snapshot AND the reviewer diff (false "missing test file", 4.54); snapshot = temp index from HEAD, so `git add -f` does NOT help, only a commit (the loop's WIP-before-refresh) does → triage: retry
 - [Relax bench knock-on + timing](relax-bench-knock-on-and-timing.md) — 15.20: RLX4 knock-on entries make literal (d) false; same-instant entry order ≠ portfolio order; test ~6.3 min
 - [YAML 1.1 key gotchas](yaml11-key-gotchas.md) — bare NULL/null/on keys parse as None/True; quote; diff tasks/<id>.yaml vs main before finishing
 - [Unfaked wiring → test timeout](unfaked-wiring-test-timeout.md) — timed-out builder left the owned test unamended; old tests hit the real full oracle → TIMEOUT
