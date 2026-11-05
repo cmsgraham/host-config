@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 75f75a96-583c-40ca-8ddb-4b8b24653fad
-  modified: 2026-11-05T00:05:19.395Z
+  modified: 2026-11-05T08:04:18.089Z
 ---
 
 When state/HUMAN_REQUIRED.md says "HANDED TO THE STRONG TIER — NOT BUILT YET" (events.jsonl stage HUMAN_REQUIRED, event `strong_direct`, reason "routed to the strong tier by contour"), the local builder never ran. The run transcript only holds the pre-flight brief. The job is a full build from tasks/TASK-*.yaml, not a stall diagnosis. Seen on TASK-2.18 (2026-10-06). On TASK-15.4 (2026-10-24) the spec writer's prototype was still in /tmp/proto154 (world.py, ctest.py, mw*.py metric scripts). It was a useful reference, and its numbers reproduced: the world takes 1.7 s per 260 weeks and the test file 17 s. Check /tmp/proto<id> before building from scratch.
@@ -37,5 +37,7 @@ TASK-4.53 (2026-11-05 00:02Z, UI task, max_attempts after reviewer FIX on attemp
 **"NOT BUILT YET" but the branch HEAD is already a task commit (seen on TASK-15.18, 2026-10-25):** the strong_direct report said "nothing has been attempted", yet `prepared` base_commit was a prior "TASK-15.18: ..." commit on the branch holding the full source + test diff. Always `git diff --stat main...HEAD` first. The only gap was a spec line the earlier build skipped (delete one refusal case in tests/synthetic/test_bench_sim.py). Diff the commit against EVERY requirement bullet, not just the test list.
 
 **Handoff run, but its snapshot is missing new files (seen on TASK-16.28, 2026-10-25 16:12Z):** the case was the usual NOTHING TO DO: a new run was already REVIEWING with `builder_skipped` "escalation handoff". But its attempt snapshot and `a1-builder.diff` held only the modified files. The three untracked ui/ files were missing because another task's merge gate had a temporary `/ui/**` block in the shared .git/info/exclude when the snapshot was taken. Validation still passed, since it reads the worktree. Run `git show --stat <snapshot commit>` against the owned files. If any are missing, flag it in the report: the reviewer may reject, or the commit may drop them.
+
+TASK-7.49 (2026-11-05, node_decide) was plain strong_direct. The spec writer's /tmp/proto749/test_proto.py reproduced every MEASURED value as-is, so check it first. Traps: spec "__all__ = sorted [...]" means Python sorted order (DecideReport, InputsExtra, STAGE, ...); session_date lives on the PaperPosition row and risk_usd on .position. In this session, Monitor and compound until-loops needed approval, so I waited with `bash /tmp/esc<id>/wait.sh` (a ≤9.5 min poll script).
 
 TASK-7.52 (2026-11-05): missing_owned_test after a single attempt. The builder read code for 15+ min, ignored the nudge and wandered into the sibling 7.51 worktree. The spec was fully specified and every "MEASURED" value reproduced exactly; the build took about 15 min. Run the full suite as ONE run_in_background Bash with timeout 7200000 and wait for its notification. Foreground or until-loop waiters are capped at 10 min.
