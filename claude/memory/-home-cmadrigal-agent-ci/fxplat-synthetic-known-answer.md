@@ -117,3 +117,10 @@ E-R disc 0.197, E-S conf 0.114, E-B 0.44/0.53 at n 57. E-A disc was .214 in R3 t
 with EVs -0.22/-0.29 = the cliff signature, which the absolute floor 30 no longer catches for a
 high-count key. So: relative floor too strict for thinning E-B, absolute too loose for E-A.
 Stopped overnight; options for user in the morning (no merge, no S2 v3).
+2026-11-06 CALIBRATION LAB (~/fxsynth/lab, PLAN.md is the log): 6-year worlds (2011-2016; E-B's
+turbulence needs ~3 y warm-up), measurement cache, judge.py. Fixes 7-11 on claude/scan-view-calibration
+(b90e547 measured round only + 2x steps, 086768a collapse caps both drifts, 9ffdd9f score in se units,
+92b99d1 10 rounds, f3873b7 un-park on collapse). Lab: fix6 2/4 -> fix11 2/4 but the 2 left are
+SEMANTIC: (a) misses below the measurement's resolution (E-Sd 0.002 at a step; tolerances < SE),
+(b) E-B confirmation < 30 trades in every calibrated world on seed 2101 because C-TURBULENT-USD is
+computed from all majors, which the other plants move. Loop stopped 17:16, user asked to decide.
