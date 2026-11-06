@@ -99,3 +99,10 @@ even at its round-ONE drift, because a stronger E-B discovery makes the scan pic
 whole round 1 kept again. Fix 5 (00e1618): a key collapsing at its round-one drift is exempt from
 the floor and all rounds are re-scored (its EV still counts). Validation unit fxsynth-val5-20262101
 (log ~/fxsynth/diag/vs5-20262101.log, ~2.5 h). Then seed 20262202, merge, S2 v3.
+Fix 5 failed too (kept round 3, E-R conf 0.74): E-B DISCOVERY also thins (397 -> 127-179) as E-B
+grows. Root flaw = relative floor. Fix 6 (deb363d, user chose 11-05): absolute floor SCAN_MIN_N=30
+(= bench_hz.POWER_MIN_N, test-pinned); scorer's power reads recorded n so a thin edge is honest.
+Validation fxsynth-val6-20262101 started 21:58 CST, ~4 h with the pipeline running (user: keep it).
+Side finding: fxplat-publish export_verdict fails every cycle since 10-21 - latest DEV run in
+registro.csv is the exploratory carry/momentum study with no F3 report; fix = fall back to the
+latest DEV run that has one (not done yet).
