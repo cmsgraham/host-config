@@ -106,3 +106,8 @@ Validation fxsynth-val6-20262101 started 21:58 CST, ~4 h with the pipeline runni
 Side finding: fxplat-publish export_verdict fails every cycle since 10-21 - latest DEV run in
 registro.csv is the exploratory carry/momentum study with no F3 report; fix = fall back to the
 latest DEV run that has one (not done yet).
+Fix-6 validation seed 20262101 (11-06 01:18): kept R6, no collapse (min n 36), not round 1. Disc:
+E-S 0.135 (miss .025), E-R 0.195 (.035), E-A 0.220 (.020); conf all within .05; E-B .515/.726 as
+measured. Near-pass: E-S/E-R miss strict 0.02 disc tol. R5 was better for E-S/E-R/E-A but the
+summed score let E-B's unreachable misses pick R6 -> morning decision: score without keys that
+never reached tolerance? Seed 20262202 running (fxsynth-val6-20262202). No merge / S2 v3 yet.
