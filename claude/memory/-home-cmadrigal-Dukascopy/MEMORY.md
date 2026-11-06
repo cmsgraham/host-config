@@ -90,3 +90,4 @@
 - [M3 / V-AUX / V-FFD refill (2026-11-06 09Z)](m3-vaux-vffd-refill-2026-11-06.md) — 3.174-3.179: regression module, metalabel M3, walkforward split (walkforward_ffd), REGR...
 - [V-FFD / V-AUX runner refill (2026-11-06 13Z)](vffd-vaux-runner-refill-2026-11-06.md) — 7.58/7.60 lifted; 3.180 split-prep / 3.181 variants no_ffd+aux_veto / 3.182 runner / 3.183 yaml flip
 - [Spec "__all__ = sorted" = Python sorted()](spec-all-sorted-means-python-sorted.md) — NodeStrategy < TIMER_NAME; builder kept listed order → reviewer block (7.60); reviewer was right
+- [B1 re-run chain refill (2026-11-06 18Z)](b1-rerun-chain-refill-2026-11-06.md) — 3.184-3.188 baseline_label / rerun_b1 / rerun_b1_stage / rerun_run b1= / rerun_cli --b1; C4 can pass; left B4, B-D1, V5/V6, V7
