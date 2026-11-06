@@ -19,3 +19,5 @@ V-MON is numbered 1/4..3/4. LEFT: V-MON 4/4 + V1-g 4/4 + CUSUM-k/V-TD research_r
 
 **Why:** the next writer must not re-measure, and must respect the phase2 keyword-order pins.
 **How to apply:** `git log --oneline -8 -- tasks/`; status of 3.159-3.168. See [[cusum-decay-vmon-refill-2026-11-05]], [[strict-lint-1000-line-cap]].
+
+**Triage 2026-11-06:** 3.166 merge_refused — symbol_stage has the same trap: test_symbol_stage_cusum_decay pins cusum_k/time_decay as the LAST TWO params of run_symbol_stage, so new symbol_stage kwargs also go BEFORE cusum_k (spec fixed 05f35d3). The case reason quoted research_run_variant only from the warnings tail; the real FAILED line is at the log bottom.
