@@ -82,6 +82,7 @@
 - [IB node fourth refill (2026-11-05 01Z)](ib-node-fourth-refill-2026-11-05.md) — 7.45 node_switches / 7.46 node_view / 7.47 node_start / 7.48 node_resume / 7.49 node_de...
 - [IB node fifth refill (2026-11-05 05Z)](ib-node-fifth-refill-2026-11-05.md) — 7.49/7.50 lifted
 - [Latency variants + node_drift refill (2026-11-05 09Z)](latency-variants-and-node-drift-refill-2026-11-05.md) — 7.59 lifted
+- [merge_refused spec fix needs retry](merge-refused-spec-fix-needs-retry.md) — spec edit alone leaves a merge-refused task parked → case re-raised; also `retry`; branch older than the fix = just retry
 - [spec_blocked case = diagnosis hold](spec-blocked-case-is-diagnosis-hold.md) — review OK but DIAGNOSIS-<id>.md exists → retry won't lift it; edit the spec (3.158 a0e4191)
 - [IB node sixth refill (2026-11-05 07Z)](ib-node-sixth-refill-2026-11-05.md) — 7.55 node_poll / 7.56 node_lifecycle / 7.57 node_review / 7.58 node_cli / 7.59 node_hos...
 - [CUSUM-k / V-TD / V-MON refill (2026-11-05 23Z)](cusum-decay-vmon-refill-2026-11-05.md) — 3.161 phase2 cusum_k/time_decay / 3.162 symbol_stage / 3.163 metalabel monotone=
