@@ -111,3 +111,9 @@ E-S 0.135 (miss .025), E-R 0.195 (.035), E-A 0.220 (.020); conf all within .05; 
 measured. Near-pass: E-S/E-R miss strict 0.02 disc tol. R5 was better for E-S/E-R/E-A but the
 summed score let E-B's unreachable misses pick R6 -> morning decision: score without keys that
 never reached tolerance? Seed 20262202 running (fxsynth-val6-20262202). No merge / S2 v3 yet.
+Fix-6 seed 20262202 (11-06 04:17): FAIL. Kept R6: E-A 0.333/0.333 (target 0.20, +0.13 overshoot),
+E-R disc 0.197, E-S conf 0.114, E-B 0.44/0.53 at n 57. E-A disc was .214 in R3 then jumped to
+.33-.36 while other drifts moved (cross-edge interaction); E-A conf n swung 2322 -> 852 -> 106 -> 84
+with EVs -0.22/-0.29 = the cliff signature, which the absolute floor 30 no longer catches for a
+high-count key. So: relative floor too strict for thinning E-B, absolute too loose for E-A.
+Stopped overnight; options for user in the morning (no merge, no S2 v3).
