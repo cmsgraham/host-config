@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-05T10:43:55.058Z
+  modified: 2026-11-07T00:10:34.708Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -38,6 +38,12 @@ Follow-up: TASK-7.50 (run-20261105-083828) then failed lint-and-no-stray and str
 the stray node_context.py), and its reviewer blamed 7.50. I deleted the strays (backed up to /tmp/esc750)
 and fixed the I001 import sort; the owned code was already correct. The strays did not `cmp` equal to
 7.53's rebuilt version, so "not identical" does not mean "ours".
+
+TASK-3.188 (run-20261106-233327, 2026-11-06): same pattern again. The builder worked entirely in
+TASK-3.182's worktree, leaving `M rerun_cli.py` and `?? tests/pipeline/test_rerun_cli_b1.py` there.
+3.188 then had an empty diff and failed with missing_owned_test. I rebuilt both files from the
+spec in 3.188. The 3.182 strays are left for the operator, and 3.182 will likely fail
+lint-and-no-stray or protected-paths until they are removed.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
