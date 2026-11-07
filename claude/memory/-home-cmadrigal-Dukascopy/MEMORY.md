@@ -94,3 +94,4 @@
 - [B1 re-run chain refill (2026-11-06 18Z)](b1-rerun-chain-refill-2026-11-06.md) — 3.184-3.188 baseline_label / rerun_b1 / rerun_b1_stage / rerun_run b1= / rerun_cli --b1; C4 can pass; left B4, B-D1, V5/V6, V7
 - [B-D1 + B4/C5 chain refill (2026-11-06 20Z)](bd1-and-b4-chain-refill-2026-11-06.md) — 3.189 embargo / 3.190 bd1_dataset / 3.191 rerun_c5 / 3.192 rerun_b4_stage / 3.193 bd1_run; left B-D1 stage + C5 wiring
 - [B4/B-D1 -> C5 wiring refill (2026-11-07 01Z)](bd1-b4-c5-wiring-refill-2026-11-07.md) — 3.194 bd1_same_bar / 3.195 rerun_bd1_stage / 3.196 rerun_run b4=,bd1= / 3.197 rerun_cli --b4 --bd1; C5 chain complete
+- [V5/V6/V15/V16 pure halves refill (2026-11-07 03Z)](v5-v6-v15-v16-pure-halves-refill-2026-11-07.md) — 3.198 chandelier / 3.199 native_exits / 3.200-3.201 info_bars + θ / 3.202 quote_volume; V5/V6 wiring asked (decision:v5-v6-exits)
