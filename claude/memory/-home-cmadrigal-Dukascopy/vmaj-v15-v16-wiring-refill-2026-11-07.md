@@ -20,3 +20,5 @@ Refill 2026-11-07 20:40-21:15Z (runnable 3.208/3.210/3.212/3.213/3.217). All six
 LEFT: V15/V16 research wiring = research_helpers._DS_DEFAULTS + research_run.build_datasets(info_bars=) (research_run at 975 cap; 3.216 raises it to 980 - write after 3.216 lifts), then variants DATASET_KEYS info_bars + yaml V15/V16 dataset rows. V5/V6: re-review 3.214 after 3.213 merges. Next free id 3.223. Prototypes /tmp/sw3211, sw3218, sw3219, sw3220, sw3221, sw3222.
 
 **Why:** next writer should finish these chains, not re-survey. **How to apply:** see [[vmaj-v5v6-v15v16-refill-2026-11-07]], [[real-run-task-ids]].
+
+TRIAGE 2026-11-07 23:50Z: 3.210 failed max_attempts because its spec said train_symbols LAST - run_walk_forward tail is pinned too (noffd [-1]=='no_ffd', embargo [-2:]==['embargo_hours','no_ffd'], aux monotone->mae_target, monotone on_window->monotone). Fixed fd7cd31: after mae_target, before embargo_hours. Same signature-tail trap as phase2 (3.218).
