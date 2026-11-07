@@ -97,3 +97,4 @@
 - [V5/V6/V15/V16 pure halves refill (2026-11-07 03Z)](v5-v6-v15-v16-pure-halves-refill-2026-11-07.md) — 3.198 chandelier / 3.199 native_exits / 3.200-3.201 info_bars + θ / 3.202 quote_volume; V5/V6 wiring asked (decision:v5-v6-exits)
 - [V15/V16 + V7 asks, no task (2026-11-07 06Z)](v15-v16-v7-asks-2026-11-07.md) — sources exhausted; asks v15-v16-scope / v7-c11 sent; families on info bars = daily_signals, no new module
 - [V-MAJ / V3 / V8 asks, no task (2026-11-07 07Z)](vmaj-v3-v8-asks-2026-11-07.md) — all variants needs-build rows now asked; 6 asks pending; next writer checks answers first
+- [V3 / V8 / V7 variants refill (2026-11-07 10Z)](v3-v7-v8-variants-refill-2026-11-07.md) — all 6 asks RESOLVED; 3.203-3.208 written; left V-MAJ, V5/V6 + V15/V16 wiring; next free 3.209

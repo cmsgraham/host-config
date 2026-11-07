@@ -55,6 +55,7 @@
 - [fxplat Phase 3 decisions 2026-10-06](fxplat-phase3-specs-2026-10-06-decisions.md) — Cristian decides; 7 majors, 4 tracks
 - [TODO: local code reviewer](todo-local-code-reviewer.md) — evaluate an anti-slop local reviewer for agent-ci
 - [queue refill + autostash](queue-refill-autostash.md) — spec-writer refill below 4 runnable; gate autostashes edits
+- [refill deadlock on empty queue](refill-deadlock-empty-queue.md) — refill only runs inside the loop; answered asks need a manual check()
 - [commit during merge gate](commit-during-merge-gate.md) — pathspec commits in a supervised root; no untracked files
 - [fxplat Phases 4-8 re-grounded](fxplat-phases4-8-regrounded.md) — 3.6 = C1-C18 aggregator; Nautilus is the spine
 - [WireGuard home hub](wireguard-home-hub.md) — VPN via Linode 172.233.190.28 (10.6.0.0/24); Rodrigo peer .14
