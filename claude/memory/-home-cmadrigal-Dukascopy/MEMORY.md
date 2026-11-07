@@ -98,4 +98,5 @@
 - [V15/V16 + V7 asks, no task (2026-11-07 06Z)](v15-v16-v7-asks-2026-11-07.md) — sources exhausted; asks v15-v16-scope / v7-c11 sent; families on info bars = daily_signals, no new module
 - [V-MAJ / V3 / V8 asks, no task (2026-11-07 07Z)](vmaj-v3-v8-asks-2026-11-07.md) — all variants needs-build rows now asked; 6 asks pending; next writer checks answers first
 - [V3 / V8 / V7 variants refill (2026-11-07 10Z)](v3-v7-v8-variants-refill-2026-11-07.md) — all 6 asks RESOLVED; 3.203-3.208 written; left V-MAJ, V5/V6 + V15/V16 wiring; next free 3.209
+- [V-MAJ / V15 / V16 wiring refill (2026-11-07 21Z)](vmaj-v15-v16-wiring-refill-2026-11-07.md) — 3.211, 3.218-3.222 queued; phase2/symbol_stage signature-tail pins trap; left V15/V16 research wiring after 3.216; next free 3.223
 - [V-MAJ / V5-V6 / V15-V16 refill (2026-11-07 18Z)](vmaj-v5v6-v15v16-refill-2026-11-07.md) — 3.209/3.210/3.212/3.213/3.217 queued; 3.214-3.216 held; 3.211 reserved V-MAJ variants; next free 3.218
