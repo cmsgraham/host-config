@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-08T04:21:18.068Z
+  modified: 2026-11-08T05:59:35.889Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -52,6 +52,14 @@ was also an uncommitted `b`→`barriers` rename in the owned exit_labels.py. The
 `git checkout HEAD --`, `git restore` and `git reset` on them, but the **veto guard blocked every
 command** as "modifies protected path" (a1-vetoes.md). So a builder cannot clean a protected
 stray itself, and only escalation or the operator can. Fix: `git checkout HEAD -- <files>` and rm the stray.
+
+TASK-3.220 (run-20261108-053630, 2026-11-08): after the 15-min nudge the builder created its
+owned test inside TASK-3.218's worktree and tried editing 3.218's test_phase2_info.py. The veto
+blocked the edits, but the create got through. Its own worktree was clean, so it failed with
+missing_owned_test. By the time escalation ran, the stray in 3.218 was already gone. I rebuilt
+sources.store_minute_quote_volume and its test from the spec. The spec's own import line was not
+isort order (`DAY, E, ...` must be `DAY, FIRST_SUNDAY, LAST_DAY, SYMBOL, E, S, _ticks`), so
+`ruff --fix` was needed.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then

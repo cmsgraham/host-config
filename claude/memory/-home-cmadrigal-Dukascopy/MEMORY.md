@@ -101,3 +101,4 @@
 - [V-MAJ / V15 / V16 wiring refill (2026-11-07 21Z)](vmaj-v15-v16-wiring-refill-2026-11-07.md) — 3.211, 3.218-3.222 queued; phase2/symbol_stage signature-tail pins trap; left V15/V16 research wiring after 3.216; next free 3.223
 - [V-MAJ / V5-V6 / V15-V16 refill (2026-11-07 18Z)](vmaj-v5v6-v15v16-refill-2026-11-07.md) — 3.209/3.210/3.212/3.213/3.217 queued; 3.214-3.216 held; 3.211 reserved V-MAJ variants; next free 3.218
 - [Protected sibling test pins exact __all__](protected-sibling-test-pins-exact-all.md) — spec adds to __all__ but predecessor's protected test pins the exact list → own that test for the one assert (3.213 bb96b24) + retry
+- [V5/V6 + V15/V16 registry refill (2026-11-08 06Z)](v5v6-v15v16-registry-refill-2026-11-08.md) — 3.214-3.216 lifted, 3.223-3.225 queued; variants chain COMPLETE; _run_symbol_stage at C901 15 = limit (one-liners only); next free 3.226
