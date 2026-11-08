@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 09eeada9-bcd4-4a9e-857e-1671c9d81beb
-  modified: 2026-11-08T12:52:51.206Z
+  modified: 2026-11-08T14:23:31.652Z
 ---
 
 Refill 2026-11-08 ~09Z (runnable 3.215/3.216/3.223-3.225). Surveyed: no draft/roadmap holds to finish (4.4/7.2/8.4 stubs
@@ -27,6 +27,10 @@ flip. baseline_events.py is 485 lines — put new generators in a new module. Al
 Refill 2026-11-08 12:52Z: no commits since 6357bb2, ask still `pending` (actually sent 12:45Z, deadline +240 min),
 ops = only 3.215 merge_refused → zero tasks again. The variants.yaml hygiene task can't be written yet: 3.223/3.224/3.225
 all touch config/variants.yaml (3.225 owns it) — wait for 3.225 to merge.
+
+Refill 2026-11-08 14:23Z: still no commits since 6357bb2; ask 94a96e5e pending (143 min left at 14:25Z); ops = 3.215
+merge_refused (triage 14:21Z: branch dropped, rebuilding from main) + no_progress; only stubs 4.4/7.2/8.4 (already split)
+→ zero tasks a third time. Don't re-survey: check the RESOLVED line + `git log 6357bb2..` only.
 
 **Why:** the next writer must not re-survey; the queue is empty of spec-able work until this ask is answered.
 **How to apply:** check decisions-pending for the RESOLVED line first. See [[v5v6-v15v16-registry-refill-2026-11-08]].
