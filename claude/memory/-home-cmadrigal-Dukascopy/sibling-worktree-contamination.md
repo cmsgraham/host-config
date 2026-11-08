@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-07T00:10:34.708Z
+  modified: 2026-11-08T04:21:18.068Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -44,6 +44,14 @@ TASK-3.182's worktree, leaving `M rerun_cli.py` and `?? tests/pipeline/test_reru
 3.188 then had an empty diff and failed with missing_owned_test. I rebuilt both files from the
 spec in 3.188. The 3.182 strays are left for the operator, and 3.182 will likely fail
 lint-and-no-stray or protected-paths until they are removed.
+
+TASK-3.213 (run-20261108-040714, 2026-11-08): the worktree held TASK-3.210's uncommitted
+`M src/fxplat/pipeline/walkforward.py` and `?? tests/pipeline/test_walkforward_train.py`. There
+was also an uncommitted `b`→`barriers` rename in the owned exit_labels.py. The WIP commit
+76ccbb6 was already the complete, correct implementation. The builder SAW the strays and tried
+`git checkout HEAD --`, `git restore` and `git reset` on them, but the **veto guard blocked every
+command** as "modifies protected path" (a1-vetoes.md). So a builder cannot clean a protected
+stray itself, and only escalation or the operator can. Fix: `git checkout HEAD -- <files>` and rm the stray.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
