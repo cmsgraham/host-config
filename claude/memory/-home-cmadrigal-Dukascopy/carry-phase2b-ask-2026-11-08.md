@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 09eeada9-bcd4-4a9e-857e-1671c9d81beb
-  modified: 2026-11-08T14:23:31.652Z
+  modified: 2026-11-08T16:46:49.572Z
 ---
 
 Refill 2026-11-08 ~09Z (runnable 3.215/3.216/3.223-3.225). Surveyed: no draft/roadmap holds to finish (4.4/7.2/8.4 stubs
@@ -31,6 +31,11 @@ all touch config/variants.yaml (3.225 owns it) — wait for 3.225 to merge.
 Refill 2026-11-08 14:23Z: still no commits since 6357bb2; ask 94a96e5e pending (143 min left at 14:25Z); ops = 3.215
 merge_refused (triage 14:21Z: branch dropped, rebuilding from main) + no_progress; only stubs 4.4/7.2/8.4 (already split)
 → zero tasks a third time. Don't re-survey: check the RESOLVED line + `git log 6357bb2..` only.
+
+Refill 2026-11-08 15:54Z: waited on the ask; it EXPIRED 16:46:35Z -> safe option `wait` (noop): B6/B6x stay "pending
+data". 3.215/3.216/3.223/3.224 merged meanwhile; only 3.225 left (owns variants.yaml). Zero tasks a fourth time. Do NOT
+re-ask carry without a new reason (operator ignored it 4 h on a Sunday). Next real work: variants.yaml B1/B4/B-D1
+"needs-build" hygiene task once 3.225 merges; otherwise report "sources exhausted" quickly.
 
 **Why:** the next writer must not re-survey; the queue is empty of spec-able work until this ask is answered.
 **How to apply:** check decisions-pending for the RESOLVED line first. See [[v5v6-v15v16-registry-refill-2026-11-08]].
