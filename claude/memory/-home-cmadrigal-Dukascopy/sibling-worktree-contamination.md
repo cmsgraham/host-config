@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 68ddcb5b-13ed-4cdb-af53-a0bd01c63cc3
-  modified: 2026-11-08T05:59:35.889Z
+  modified: 2026-11-08T07:16:38.358Z
 ---
 
 TASK-11.31 (run-20261022-060738, 2026-10-22): the builder wandered into the sibling worktree
@@ -60,6 +60,12 @@ missing_owned_test. By the time escalation ran, the stray in 3.218 was already g
 sources.store_minute_quote_volume and its test from the spec. The spec's own import line was not
 isort order (`DAY, E, ...` must be `DAY, FIRST_SUNDAY, LAST_DAY, SYMBOL, E, S, _ticks`), so
 `ruff --fix` was needed.
+
+TASK-3.214 (run-20261108-070716, 2026-11-08): the builder made 3 tool calls, the last
+"Inspect TASK-3.219 worktree", then went idle. It wrote nothing, so the diff was empty and the
+run failed with missing_owned_test. I rebuilt the code from the spec, and the spec's measured
+numbers still held after TASK-3.218 merged. One spec trap: a 20-week synthetic_symbol_data has
+0 events after the CUSUM warm-up, so the spy tests must reuse the 66-week sd.
 
 **How to apply:** when protected-paths names files the task does not own, `cmp` them
 against the sibling worktree or main. If they are identical copies, delete them, then
