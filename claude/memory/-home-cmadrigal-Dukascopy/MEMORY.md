@@ -9,7 +9,7 @@
 - [Registry commit breaks main suite](registry-commit-breaks-main-suite.md) — registro.csv rows broke test_trials; fixed on main 29978f3 — stale-base task branches: ff to main
 - [Owned file inside protected dir](owned-inside-protected-dir.md) — fixed in agent-ci 068334d (exact owned files exempt); builders still misread it and quit; not-yet-existing protected dir → write owned files only, no __init__.py
 - [run_research 100-statement cap](run-research-statement-cap.md) — run_research is at PLR0915's 100 after 3.171; specs must add zero statements there (walrus / helper)
-- [strict-lint 1000-line cap](strict-lint-1000-line-cap.md) — lint-new fails modules >1000 lines; research_run.py NON-OWNED caps 995 + binding 975 (test_research_helpers_dataset_kwargs; 973 on 11-06) → grep all caps; new code in an owned module re-exported by name; storm_day.py 979
+- [strict-lint 1000-line cap](strict-lint-1000-line-cap.md) — lint-new fails modules >1000 lines; research_run.py NON-OWNED caps 995 + binding 975 (test_research_helpers_dataset_kwargs; 973 on 11-06) → grep all caps; new code in an owned module re-exported by name; storm_day.py 979; phase2.py 987 base vs spec 960 → repack calls (3.221)
 - [lint-new counts per (file, rule)](lint-new-counts-per-file-rule.md) — old violations reappear when a change adds one more of the same rule in that file
 - [Counterfactual venv symlink](counterfactual-venv-symlink.md) — BASE_ALREADY_PASSES is false: counterfactual .venv imports the task worktree's src
 - [Walk-forward min_train_years fixture](walkforward-min-train-years-fixture.md) — walk-forward fixtures need ≥3y of events before OOS or yield zero windows
