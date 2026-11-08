@@ -102,4 +102,4 @@
 - [V-MAJ / V5-V6 / V15-V16 refill (2026-11-07 18Z)](vmaj-v5v6-v15v16-refill-2026-11-07.md) — 3.209/3.210/3.212/3.213/3.217 queued; 3.214-3.216 held; 3.211 reserved V-MAJ variants; next free 3.218
 - [Protected sibling test pins exact __all__](protected-sibling-test-pins-exact-all.md) — spec adds to __all__ but predecessor's protected test pins the exact list → own that test for the one assert (3.213 bb96b24) + retry
 - [V5/V6 + V15/V16 registry refill (2026-11-08 06Z)](v5v6-v15v16-registry-refill-2026-11-08.md) — 3.214-3.216 lifted, 3.223-3.225 queued; variants chain COMPLETE; _run_symbol_stage at C901 15 = limit (one-liners only); next free 3.226
-- [Carry Phase-2b ask, no task (2026-11-08 09Z)](carry-phase2b-ask-2026-11-08.md) — sources exhausted; B6/B6x/d44 buildable now rates are ingested; ask decision:carry-phase2b sent; next free 3.226
+- [Carry Phase-2b ask, no task (2026-11-08 09Z, 12:52Z)](carry-phase2b-ask-2026-11-08.md) — sources exhausted twice; ask decision:carry-phase2b pending (sent 12:45Z); variants.yaml hygiene waits 3.225; next free 3.226
