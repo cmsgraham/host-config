@@ -124,3 +124,11 @@ turbulence needs ~3 y warm-up), measurement cache, judge.py. Fixes 7-11 on claud
 SEMANTIC: (a) misses below the measurement's resolution (E-Sd 0.002 at a step; tolerances < SE),
 (b) E-B confirmation < 30 trades in every calibrated world on seed 2101 because C-TURBULENT-USD is
 computed from all majors, which the other plants move. Loop stopped 17:16, user asked to decide.
+
+2026-11-08: scan-view calibration lab DONE. Fixes 23-27 on branch claude/scan-view-calibration in ~/Dukascopy-claude
+(head fa5ec6c; fix 27 = user's se cap: on target within max(tol,se) only while se <= size/2). Lab: b25 17/17 + b26 4/4
+new seeds (2 clean batches); full worlds 2009-2018 seeds 20262101 PASS (R6) and 20262202 PASS (R7), S/R/A on target,
+E-B often unreachable/unpowered (design open). NOT merged, S2 v3 NOT launched - both wait for the user. Log:
+~/fxsynth/lab/PLAN.md; full-world results ~/fxsynth/lab/runs/full/.
+User 2026-11-08 22:15: "fix them all, test them before S2 v3" - E-B and E-Ac unreachable keys must be fixed (not
+just labelled) before S2 v3. Root-cause work started (diag_overlap.py: planted vs scan-detected event overlap).

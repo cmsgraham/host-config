@@ -138,4 +138,5 @@
 - [Kronos lab side project](kronos-lab-side-project.md) — ~/kronos-lab; KRONOS-001 in test; fill descartadas when done
 - [GLM-5.3-Flash local sizing](glm-5-3-flash-local-sizing.md) — 320B MoE won't fit; needs 192-256 GB RAM; revisit later
 - [lessons scope mismatch](lessons-scope-mismatch.md) — 210/312 lessons unreachable until d360cf4 (11-03); rerun reach replay after changes
-- [handoff 2026-11-07 lab](handoff-2026-11-07-lab.md) — fix 22 clean batch 1 (9/9); b19 paused; how to resume after reboot
+- [handoff 2026-11-07 lab](handoff-2026-11-07-lab.md) — superseded 11-08: lab done, fixes to 27 (fa5ec6c), full worlds pass; merge + S2 v3 await user
+- [overnight autonomy 11-08](overnight-autonomy-2026-11-08.md) — decide E-B/E-Ac fixes alone that night; log every decision; no merge/S2 v3
