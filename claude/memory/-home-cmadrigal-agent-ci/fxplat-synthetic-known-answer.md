@@ -138,3 +138,5 @@ calibration='replant', frozen re-planted events, staged re-freeze, past-peak ste
 worlds every key on target. MERGED to fxplat main 59d7b2e; bench-v3.yaml replant 0b2adc5. S1 on ~/fxsynth/bench-v6
 passed (null clean; planted E-R cell found). S2 v3 launched 11-09 16:08 CST (unit fxbench-v6-S2, ~3.5 days). Pipeline
 on STOP (operator: bench only); agent-ci fixes on branch claude/agent-ci-fixes await operator merge.
+
+2026-11-09: S2 v3 running (fxbench-v6-S2). Pipeline runs alongside with max_parallel_tasks 1 (c19ff60) - restore 2 when S2 v3 ends. If recall is low: diagnose per edge/power level before changing bench or scanner (operator).
