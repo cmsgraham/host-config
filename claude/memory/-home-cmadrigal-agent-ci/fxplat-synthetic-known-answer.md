@@ -132,3 +132,9 @@ E-B often unreachable/unpowered (design open). NOT merged, S2 v3 NOT launched - 
 ~/fxsynth/lab/PLAN.md; full-world results ~/fxsynth/lab/runs/full/.
 User 2026-11-08 22:15: "fix them all, test them before S2 v3" - E-B and E-Ac unreachable keys must be fixed (not
 just labelled) before S2 v3. Root-cause work started (diag_overlap.py: planted vs scan-detected event overlap).
+2026-11-09: overnight root cause = plants sat on NULL-path events while the scan re-detects on the planted path (E-A
+14 % of scan trades planted; its over-driven jumps emptied E-B's turbulence days). Fixes 28-31 (re-planting:
+calibration='replant', frozen re-planted events, staged re-freeze, past-peak step-back) -> lab 8/8 and both full
+worlds every key on target. MERGED to fxplat main 59d7b2e; bench-v3.yaml replant 0b2adc5. S1 on ~/fxsynth/bench-v6
+passed (null clean; planted E-R cell found). S2 v3 launched 11-09 16:08 CST (unit fxbench-v6-S2, ~3.5 days). Pipeline
+on STOP (operator: bench only); agent-ci fixes on branch claude/agent-ci-fixes await operator merge.
