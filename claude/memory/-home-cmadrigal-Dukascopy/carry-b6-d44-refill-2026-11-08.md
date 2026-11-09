@@ -12,7 +12,7 @@ Decision `carry` RESOLVED 2026-11-08 (b) (VS Code, after the phone ask expired):
 Refill ~23Z wrote (ids 3.227/3.228 deliberately left free for B-D1 carry_dir):
 - 3.226 context.carry_at + build_context fills d44 (NaN only w/o snapshot or rate known on NY date - 1 day). Breaks
   ONLY features.d44_carry of golden/symbol_stage + golden/research_run/{EURUSD,GBPUSD}; task owns those 3 parquet
-  files + both tests' hash literals (home-venv hashes 68e9a865 / f5aeb7c7 / 49a3f081). Check its review/commit state.
+  files + both tests' hash literals (home-venv hashes 68e9a865 / f5aeb7c7 / 49a3f081). Committed HELD ea99910: spec-review TIMED OUT twice under load (cached ERROR by spec sha) -> next writer: re-run spec-review when the box is quiet (a trivial edit changes the sha), apply, lift. Prototype full-suite run was clipped; only the 2 golden tests were seen failing (tests/features, phase2, bd1, symbol_stage, models subset all green apart from those).
 - 3.229 fxplat.validation.carry_events (differential / carry_entries B6 / cross_carry_entries B6x: top-3 |diff| of the
   7 majors, ties by universe order, any NaN -> no_rate). Committed 213dc0c.
 - 3.230 fxplat.labeling.carry_labels (exit_labels' _enter/_row; stop only, no target, 504 market h; windowed twin
