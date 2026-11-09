@@ -22,3 +22,7 @@ Continues [[carry-chain-wiring-refill-2026-11-09]]. Every source was specified o
 
 **Why:** next writer should check the factor-carry answer first; otherwise there is nothing left to specify.
 **How to apply:** if RESOLVED (a)/(b), spec factor_series carry (validation) -> rerun_factors stage -> rerun_cli flag; next free id 3.236.
+
+2026-11-09 05:1xZ refill (runnable 3.228/3.235, 3.235 merge gate running): NOTHING QUEUED. Re-checked: no draft holds,
+no new RESOLVED, ops 0 cases, ask decision:factor-carry still status pending (state/asks/b1e7e5b1..., sent 03:41Z,
+240 min). Next writer: check that ask file / decisions-pending first; if still pending/expired -> nothing to write.
