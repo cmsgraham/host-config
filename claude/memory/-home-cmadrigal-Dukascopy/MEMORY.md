@@ -104,3 +104,4 @@
 - [V5/V6 + V15/V16 registry refill (2026-11-08 06Z)](v5v6-v15v16-registry-refill-2026-11-08.md) — 3.214-3.216 lifted, 3.223-3.225 queued; variants chain COMPLETE; _run_symbol_stage at C901 15 = limit (one-liners only); next free 3.226
 - [Carry Phase-2b ask (2026-11-08)](carry-phase2b-ask-2026-11-08.md) — superseded: RESOLVED (b) later that day, see carry-b6-d44-refill-2026-11-08
 - [Carry B6/B6x + d44 refill (2026-11-08 23Z)](carry-b6-d44-refill-2026-11-08.md) — decision carry RESOLVED (b); 3.226 d44 fill + goldens / 3.229 carry_events / 3.230 carry_labels; next 3.227/3.228 B-D1 carry_dir, rerun_b6_stage, C5
+- [Carry chain wiring refill (2026-11-09 02Z)](carry-chain-wiring-refill-2026-11-09.md) — 3.226 lifted; 3.227/3.228 B-D1 carry_dir, 3.231-3.234 B6 stage/C5/rerun_run/CLI; left variants.yaml wording; next 3.235
