@@ -29,3 +29,7 @@ Reviewer noted docs/PHASE3_PLAN.md §7 still says carry deferred — operator sh
 open (4.4/7.2/8.4 stubs already split; 6.6 = person's hold, its ask decision:final-test-holdout EXPIRED 11-04, not re-sent),
 no RESOLVED decision after factor-carry (11-09), no unresolved pending entries, latest ask answered. Sources exhausted
 until the operator records a new decision. Next writer: check decisions-pending / state/asks first; next free id 3.240.
+
+2026-11-10 03:29Z refill (runnable 3.238/3.239; 3.237 merged 8a1f0ee): NOTHING QUEUED, same checks as 01:12Z (holds = only
+the person-owned stubs 4.4/7.2/8.4 already split, no RESOLVED after 11-09, ops 0 cases, factor-carry ask answered). Don't
+re-read SPEC_WRITER sources until decisions-pending gains a new RESOLVED entry.
