@@ -23,4 +23,5 @@ Node injected into calc.exe (listening :20241) and charmap.exe; node listened on
 ~/malware-lab/evidence/2026-11-10-win-stealer/ (samples non-executable; HKCU-Run-before.reg export); killed
 54880/11616/49448, removed the Run key, deleted every dropped file. No other tasks/services/WMI persistence. Chrome on IMDb
 works again. Defender full scan started. The 03:00 WSL restart was a WSL update (service reinstalled 03:01), not the malware.
+Windows IOC block APPLIED 2026-11-10 16:5x by the user (C:\Users\crist\ioc-block-2026-11-10.ps1: 29 names x IPv4+IPv6 in hosts, 5 firewall rules, verified). WSL /etc/hosts blocked too (generateHosts=false).
 Open: credential rotation from a clean device (it ran ~13 h; assume Chrome, 1Password ext, \\wsl$ files were read).

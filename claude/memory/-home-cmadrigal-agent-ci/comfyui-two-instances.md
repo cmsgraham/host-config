@@ -16,7 +16,8 @@ Set up 2026-11-10 for the user's Mac client (192.168.1.97).
 - birefnet.safetensors added (core LoadBackgroundRemovalModel/RemoveBackground; InvertMask before JoinImageWithAlpha).
 - Gateway meter: GPU-lease hours per client; 11-10 fix in telemetry.lease_savings: the 4 h cap now applies only to
   'gateway restart'-ended leases (uncommitted in ~/ollama-gateway with the publish-script change).
-- While ComfyUI works: gateway Image mode, claude-history-index.timer STOPPED, S2 bench paused (see [[fxplat-synthetic-known-answer]]).
+- While ComfyUI works: gateway Image mode, stop claude-history-index.timer, pause S2 at a world boundary. 11-10 16:43 all
+  restored: gateway Pipeline mode (stops BOTH instances via comfy.sh), RAG timer on, S2 resumed at h-edge-02.
 - 2026-11-10: GPU 0 briefly set 250 -> 300 W, REVERTED to 250 W the same hour: 250 W is the measured efficiency optimum
   (2026-08-07 sweep: compute-bound 15.3 tok/s/W at 250 vs 14.3 at 300, +10% speed for +20% power; hashcat agreed).
   Do not raise caps for speed without the user. Mechanism for any change: at the user's request, via the HashPanel helper
