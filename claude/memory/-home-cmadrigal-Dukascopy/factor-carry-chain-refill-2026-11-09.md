@@ -24,3 +24,8 @@ Reviewer noted docs/PHASE3_PLAN.md §7 still says carry deferred — operator sh
 
 **Why:** next writer must not re-specify the factor regression.
 **How to apply:** sources were exhausted before this ask; check decisions-pending / asks first; next free id 3.240.
+
+2026-11-10 01:12Z refill (runnable 3.237/3.238/3.239, 3.237 BUILDING): NOTHING QUEUED. Re-checked: no draft/stub holds
+open (4.4/7.2/8.4 stubs already split; 6.6 = person's hold, its ask decision:final-test-holdout EXPIRED 11-04, not re-sent),
+no RESOLVED decision after factor-carry (11-09), no unresolved pending entries, latest ask answered. Sources exhausted
+until the operator records a new decision. Next writer: check decisions-pending / state/asks first; next free id 3.240.
