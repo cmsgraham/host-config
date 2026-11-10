@@ -140,3 +140,4 @@
 - [lessons scope mismatch](lessons-scope-mismatch.md) — 210/312 lessons unreachable until d360cf4 (11-03); rerun reach replay after changes
 - [handoff 2026-11-07 lab](handoff-2026-11-07-lab.md) — superseded 11-08: lab done, fixes to 27 (fa5ec6c), full worlds pass; merge + S2 v3 await user
 - [overnight autonomy 11-08](overnight-autonomy-2026-11-08.md) — decide E-B/E-Ac fixes alone that night; log every decision; no merge/S2 v3
+- [Windows infection 2026-11-09](windows-infection-2026-11-09.md) — node+python stealer since 11-09 19:10; Chrome closing was the symptom
