@@ -52,4 +52,4 @@
 - [spec_blocked case = diagnosis hold](spec-blocked-case-is-diagnosis-hold.md) — review OK but DIAGNOSIS-<id>.md exists → retry won't lift it; edit the spec (3.158 a0e4191)
 - [Spec "__all__ = sorted" = Python sorted()](spec-all-sorted-means-python-sorted.md) — NodeStrategy < TIMER_NAME; builder kept listed order → reviewer block (7.60); reviewer was right
 - [Protected sibling test pins exact __all__](protected-sibling-test-pins-exact-all.md) — spec adds to __all__ but predecessor's protected test pins the exact list → own that test for the one assert (3.213 bb96b24) + retry
-- [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 3.235 variants baselines flip + factor-carry ask (next 3.236)
+- [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 3.236-3.239 factor-carry chain (next 3.240)
