@@ -1,0 +1,28 @@
+[Unit]
+Description=ComfyUI #2 on GPU 1 under the gateway GPU lease - LAN :8189 (2026-11-10)
+After=network-online.target ollama-gateway.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cmadrigal
+Group=cmadrigal
+WorkingDirectory=/home/cmadrigal/comfyui
+Environment=COMFY_GPUS=1
+Environment=COMFY_PORT=8189
+Environment=COMFY_LISTEN=0.0.0.0
+Environment="COMFY_EXTRA_ARGS=--temp-directory /home/cmadrigal/comfyui/temp_gpu1 --output-directory /home/cmadrigal/comfyui/output_gpu1 --database-url sqlite:////home/cmadrigal/comfyui/user_gpu1/comfyui.db"
+Environment=COMFY_LEASE_MB=20000
+Environment=COMFY_GATEWAY_URL=http://127.0.0.1:11434
+Environment=COMFY_GATEWAY_TOKEN_FILE=<redacted>
+Environment=CUDA_DEVICE_ORDER=PCI_BUS_ID
+Environment=PATH=/usr/lib/wsl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/cmadrigal/comfyui/.venv/bin/python /home/cmadrigal/comfyui/comfy_supervisor.py
+# 75 = lease refused: not a crash; comfy.sh start retries
+SuccessExitStatus=75
+Restart=no
+KillMode=mixed
+TimeoutStopSec=40
+
+[Install]
+# not enabled: ComfyUI runs only in the gateway's Image mode

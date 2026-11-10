@@ -141,3 +141,4 @@
 - [handoff 2026-11-07 lab](handoff-2026-11-07-lab.md) — superseded 11-08: lab done, fixes to 27 (fa5ec6c), full worlds pass; merge + S2 v3 await user
 - [overnight autonomy 11-08](overnight-autonomy-2026-11-08.md) — decide E-B/E-Ac fixes alone that night; log every decision; no merge/S2 v3
 - [Windows infection 2026-11-09](windows-infection-2026-11-09.md) — node+python stealer since 11-09 19:10; Chrome closing was the symptom
+- [ComfyUI two instances](comfyui-two-instances.md) — GPU0 :8188 + GPU1 :8189 for the Mac; comfy.sh drives both; RAG timer + S2 paused meanwhile
