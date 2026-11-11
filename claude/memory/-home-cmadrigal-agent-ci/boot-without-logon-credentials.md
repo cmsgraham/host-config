@@ -28,3 +28,10 @@ The classifier refused kill of the hung git processes; `systemctl --user stop gi
 target vs `ip -4 addr show eth0`. Durable fixes need the user: WU AUOptions 3 (notify install), Linux-side creds
 (cifs + credentials file for the NAS, SSH key or store helper for GitHub), git-backup timeouts.
 Related: [[windows-update-boot-resilience]], [[backup-layout]], [[gateway-lan-access-nat]].
+2026-11-11 07:10 user chose: WU AUOptions 3 (user runs admin line), Linux-side creds, harden backup + drop dup dashboard.
+Done: cifs-utils; /etc/fstab NAS lines -> cifs //192.168.1.201/{home,main} with /etc/samba/nas1.cred (root 600,
+template until user fills it; backup /etc/fstab.bak-2026-11-11), x-systemd.automount. GitHub: ~/.ssh/github_backup +
+Host github.com in ~/.ssh/config; push URLs of fxplat/agent-ci/ollama-gateway/host-config set to SSH (fetch stays
+https). git-backup.service -> ~/.local/bin/git-backup-run (300 s per step, no prompts, exit 1 on failure, agent-ci
+notify when the failing set changes; old unit .bak-2026-11-11). fxplat-dashboard user unit disabled (system
+agent-ci-dashboard-fxplat serves 8767). Test run: fails in 3.6 s (nas-mount + gh-*) until creds + key are added.
