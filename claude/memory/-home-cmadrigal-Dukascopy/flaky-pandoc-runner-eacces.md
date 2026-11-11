@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: b38420b2-b50d-4b5a-8779-e51d0030f461
-  modified: 2026-11-10T00:52:31.029Z
+  modified: 2026-11-11T22:28:56.793Z
 ---
 
 2026-11-09 TASK-3.236 merge_refused: the only real failure was tests/pipeline/test_final_report_write.py::test_pandoc_runner_file_not_found.
@@ -14,3 +14,7 @@ The case text listed tests/pipeline/test_research_run_variant. That came from th
 
 **Why:** This is environmental, not a task or spec defect.
 **How to apply:** grep `^FAILED` at the bottom of the merge log. If this is the only failure, retry.
+
+Recurred 2026-11-11 on TASK-11.65 (family 1 levels grammar) with the same case-text pattern; retried.
+
+Root cause found 2026-11-11 (TASK-16.88 escalation): the PATH entry `/mnt/c/WINDOWS/system32/config/systemprofile/AppData/Local/Microsoft/WindowsApps` is unreadable (stat gives EACCES). In the escalation shell the test fails EVERY time, with or without the sandbox. It passes with that entry filtered out: `PATH=$(echo "$PATH" | tr ':' '\n' | grep -v systemprofile | paste -sd:)`. In escalation runs, treat it as environmental and do not edit the protected test.

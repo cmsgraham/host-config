@@ -53,4 +53,4 @@
 - [Spec "__all__ = sorted" = Python sorted()](spec-all-sorted-means-python-sorted.md) — NodeStrategy < TIMER_NAME; builder kept listed order → reviewer block (7.60); reviewer was right
 - [Protected sibling test pins exact __all__](protected-sibling-test-pins-exact-all.md) — spec adds to __all__ but predecessor's protected test pins the exact list → own that test for the one assert (3.213 bb96b24) + retry
 - [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 3.236-3.239 factor-carry chain (next 3.240)
-- [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from a PATH dir; case text lists warnings-tail tests; retry
+- [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from unreadable systemprofile WindowsApps PATH dir (always red in escalation shell; strip it from PATH to verify); retry
