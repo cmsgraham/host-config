@@ -35,3 +35,10 @@ Host github.com in ~/.ssh/config; push URLs of fxplat/agent-ci/ollama-gateway/ho
 https). git-backup.service -> ~/.local/bin/git-backup-run (300 s per step, no prompts, exit 1 on failure, agent-ci
 notify when the failing set changes; old unit .bak-2026-11-11). fxplat-dashboard user unit disabled (system
 agent-ci-dashboard-fxplat serves 8767). Test run: fails in 3.6 s (nas-mount + gh-*) until creds + key are added.
+2026-11-11 later: git backups moved to NAS .201 share `msi31-backup` (Btrfs) as the backup-only NAS user msi31-backup
+(no access to Main/usbshare/homes; verified), mounted /mnt/nas-backup (cifs automount). Synology Snapshot Replication
+on that share: daily 04:00, retention 24h/14d/8w/3m, immutable 7 days; first snapshot 11:05 verified from the PC
+(#snapshot visible, read-only, 4 repos at HEAD, fsck OK). My Bash sandbox cannot see the cifs mount: check it with
+`systemd-run --user --wait --pipe`. Off-site: user prefers a Linode S3 bucket (~116 GB incl. market data; restic) -
+waiting for bucket name/region. Open: move the Sunday full copy (676 GB, .200 USB ext4, no snapshots) to .201.
+Weekly cleanup: ~/.local/bin/weekly-cleanup + weekly-cleanup.timer (Sat 03:00). RECOVERY.md in host-config.
