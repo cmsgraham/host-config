@@ -3,17 +3,10 @@ Description=Hourly: refresh host-config, push fxplat/agent-ci/ollama-gateway/hos
 
 [Service]
 Type=oneshot
-# Never --force: a rejected push (remote ahead) just fails and is retried next hour.
-# NAS: \\nas1\home mounted at /mnt/nas-home (fstab); bare repos in msi31-backup/git. "-" = a NAS outage never blocks GitHub.
-ExecStartPre=-/bin/sh -c 'mountpoint -q /mnt/nas-home || sudo -n mount /mnt/nas-home'
-ExecStart=-/usr/bin/git -C /home/cmadrigal/Dukascopy push nas --all
-ExecStart=-/usr/bin/git -C /home/cmadrigal/Dukascopy push nas refs/agent-ci/*:refs/agent-ci/*
-ExecStart=-/usr/bin/git -C /home/cmadrigal/agent-ci push nas --all
-ExecStart=-/usr/bin/git -C /home/cmadrigal/ollama-gateway push nas --all
-ExecStart=-/bin/sh -c 'cd /home/cmadrigal/host-config && ./sync.sh && git add -A && (git diff --cached --quiet || git -c user.name="Cristian Madrigal" -c user.email=cristian.madrigal@gmail.com commit -qm "host-config: hourly snapshot")'
-ExecStart=-/usr/bin/git -C /home/cmadrigal/host-config push nas main
-ExecStart=-/usr/bin/git -C /home/cmadrigal/ollama-gateway push origin master
-ExecStart=-/usr/bin/git -C /home/cmadrigal/host-config push origin main
-ExecStart=/usr/bin/git -C /home/cmadrigal/Dukascopy push origin main
-ExecStart=/usr/bin/git -C /home/cmadrigal/agent-ci push origin master
-SuccessExitStatus=0 1
+# 2026-11-11: one wrapper instead of a list of "-" steps (which hid ~28 h of NAS failures and let one GitHub push
+# hang 3.5 h on the Windows credential manager after a no-logon reboot). Time limit per step, no prompts, NAS over
+# cifs from Linux, GitHub over SSH (~/.ssh/github_backup), phone alert when the failing set changes.
+# Previous unit: git-backup.service.bak-2026-11-11.
+ExecStart=%h/.local/bin/git-backup-run
+TimeoutStartSec=30min
+Nice=10
