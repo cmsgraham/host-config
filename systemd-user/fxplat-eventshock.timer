@@ -1,0 +1,10 @@
+[Unit]
+Description=fxplat Eventos: every 30 min while the US market is open, and once after the close
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 09..15:05,35:00 America/New_York
+OnCalendar=Mon..Fri *-*-* 16:20:00 America/New_York
+Persistent=true
+
+[Install]
+WantedBy=timers.target

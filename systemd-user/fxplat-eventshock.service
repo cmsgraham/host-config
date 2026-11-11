@@ -1,0 +1,10 @@
+[Unit]
+Description=fxplat Eventos: re-run the event-shock study (live case prices + weekly universe refresh; EXPLORATION, 2026-11-10)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Dukascopy
+Environment=PYTHONPATH=%h/Dukascopy/src
+Nice=19
+TimeoutStartSec=900
+ExecStart=%h/Dukascopy/.venv/bin/python -m fxplat.eventshock.study
