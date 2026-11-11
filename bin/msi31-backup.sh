@@ -28,6 +28,18 @@ for src in /home/cmadrigal /etc /usr/local /root; do
   r=$?; [ $r -eq 24 ] && r=0          # 24 = files vanished during the copy (normal on a live system)
   [ $r -ne 0 ] && { echo "$(date -Is) rsync $src exit $r" >> "$LOG"; rc=$r; }
 done
+# 2026-11-11 (disaster-recovery prep): the Windows profile, which no other backup covers (OneDrive's folder is
+# already in the cloud; AppData and caches are reinstall material). Local disk (drvfs), so it works with no logon.
+WIN=/mnt/c/Users/crist
+if [ -d "$WIN" ]; then
+  nice -n 19 ionice -c3 rsync -rlt --delete --delete-excluded --modify-window=2 \
+    --exclude='/AppData/' --exclude='/OneDrive/' --exclude='/.cache/' --exclude='/Application Data/' \
+    --exclude='/Local Settings/' --exclude='/NTUSER*' --exclude='/ntuser*' --exclude='/.vscode/extensions/' \
+    --exclude='node_modules/' --exclude='__pycache__/' --exclude='/.docker/' --exclude='*.tmp' \
+    "$WIN/" "$DEST/windows-profile/" >> "$LOG" 2>&1
+  r=$?; [ $r -eq 24 ] || [ $r -eq 23 ] && r=0   # 23/24: locked or vanished files on a live Windows profile
+  [ $r -ne 0 ] && { echo "$(date -Is) rsync windows-profile exit $r" >> "$LOG"; rc=$r; }
+fi
 date -Is > "$DEST/_meta/finished"
 [ $rc -eq 0 ] || fail "rsync exit $rc - see $LOG"
 echo "$(date -Is) done ($(du -sh "$DEST" 2>/dev/null | cut -f1))" >> "$LOG"
