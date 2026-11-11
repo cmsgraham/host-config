@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Weekly disk cleanup (weekly-cleanup.timer, Saturday 03:00). Operator request 2026-11-11: "the space utilization is
+# recurrent, can you schedule a weekly clean up" - after 274 GB were freed by hand the same day.
+# Only what is ALWAYS safe to delete; research data (fxsynth benches/labs, fxdata, models) is never touched here.
+#   1. agent-ci worktrees of PASSED fxplat tasks, untouched for 7+ days (code is merged; every attempt is also
+#      frozen under refs/agent-ci/attempts). Never a task that is running, pending, held or failed.
+#   2. package caches: uv (prune: drops only entries no environment uses), npm.
+#   3. systemd journal down to 500 MB.
+#   4. Docker: dangling images, stopped containers, build cache older than 7 days (named images are kept).
+#   5. leftover task temp dirs under /tmp/agent-ci older than 7 days (the 2026-10 492 GB leak).
+# Skips the worktree step while a pipeline run is active or a merge is in progress. One phone alert with the result.
+# --dry-run lists what would go and deletes nothing.
+set -u
+DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
+H=/home/cmadrigal; REPO=$H/Dukascopy
+LOG=$H/.cache/weekly-cleanup.log
+AGENT=("$H/agent-ci/.venv/bin/agent-ci" --config "$REPO/config.yaml")
+say() { echo "$(date -Is) $*" | tee -a "$LOG"; }
+used() { df -BG --output=used / | tail -1 | tr -dc 0-9; }
+run() { if [ $DRY -eq 1 ]; then say "would: $*"; else "$@" >>"$LOG" 2>&1; fi; }
+
+before=$(used); say "start (dry=$DRY), / used ${before}G"
+
+# 1. finished-task worktrees
+status=$("${AGENT[@]}" status 2>/dev/null)
+if ! grep -q "^no active run" <<<"$status" || [ -e "$REPO/.git/MERGE_HEAD" ] || [ -e "$REPO/state/MERGING.json" ]; then
+  say "worktrees: skipped (a run or merge is active)"
+else
+  passed=$(sed -n 's/^passed: *//p' <<<"$status" | tr ',' '\n' | tr -d ' ')
+  n=0
+  for d in "$REPO"/.agent-worktrees/TASK-*; do
+    [ -d "$d" ] || continue
+    t=$(basename "$d")
+    grep -qx "$t" <<<"$passed" || continue
+    [ -n "$(find "$d" -maxdepth 0 -mtime -7)" ] && continue          # touched in the last 7 days: keep
+    run git -C "$REPO" worktree remove --force --force "$d"; n=$((n+1))
+  done
+  run git -C "$REPO" worktree prune
+  say "worktrees: $n finished task folder(s) removed"
+fi
+
+# 2-4. caches, journal, docker
+command -v uv >/dev/null && run uv cache prune
+command -v uv >/dev/null || { [ -x "$H/.local/bin/uv" ] && run "$H/.local/bin/uv" cache prune; }
+command -v npm >/dev/null && run npm cache clean --force
+run sudo -n journalctl --vacuum-size=500M
+if command -v docker >/dev/null && timeout 20 docker info >/dev/null 2>&1; then
+  run docker container prune -f
+  run docker image prune -f
+  run docker builder prune -f --filter until=168h
+else
+  say "docker: not running, skipped"
+fi
+
+# 5. task temp leftovers
+if [ -d /tmp/agent-ci ]; then
+  while IFS= read -r d; do run rm -rf -- "$d"; done < <(find /tmp/agent-ci -mindepth 1 -maxdepth 1 -mtime +7 2>/dev/null)
+fi
+
+after=$(used); freed=$((before - after))
+say "done, / used ${after}G (freed ${freed}G)"
+if [ $DRY -eq 0 ]; then
+  "${AGENT[@]}" notify "weekly cleanup" "Freed ${freed} GB; WSL disk now ${after} GB used of $(df -BG --output=size / | tail -1 | tr -dc 0-9) GB. Log: ~/.cache/weekly-cleanup.log" >/dev/null 2>&1 || true
+fi

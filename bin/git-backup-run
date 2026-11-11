@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Hourly git backup (git-backup.service). 2026-11-11 rewrite of the unit's ExecStart list after the 03:21 Windows
+# Update reboot: a GitHub push waited 3.5 h on the Windows credential manager (no Windows logon) and blocked every
+# later run, and the NAS pushes had been failing silently for ~28 h while the unit still said "Finished".
+#   - every step has a time limit and never prompts (SSH BatchMode for GitHub, no terminal prompt);
+#   - NAS = cifs mount from Linux (/etc/fstab + /etc/samba/nas1.cred), GitHub = SSH key ~/.ssh/github_backup;
+#   - never --force: a rejected push (remote ahead) just fails and is retried next hour;
+#   - one phone alert (agent-ci notify) when the set of failing steps changes, one "OK" when it clears;
+#   - exit 1 when anything failed, so `systemctl --user status git-backup` tells the truth.
+set -u
+export GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never GIT_ASKPASS=/bin/false SSH_ASKPASS=/bin/false
+H=/home/cmadrigal
+STATE=$H/.cache/git-backup; mkdir -p "$STATE"
+fails=()
+step() {  # name, command...
+  local name=$1; shift
+  if ! timeout 300 "$@" >"$STATE/$name.log" 2>&1; then fails+=("$name"); echo "FAIL $name: $(tail -1 "$STATE/$name.log")"; fi
+}
+
+# NAS (cifs automount: touching the path mounts it)
+if timeout 40 ls /mnt/nas-backup/git >/dev/null 2>&1; then
+  step nas-fxplat      git -C $H/Dukascopy push nas --all
+  step nas-fxplat-refs git -C $H/Dukascopy push nas 'refs/agent-ci/*:refs/agent-ci/*'
+  step nas-agent-ci    git -C $H/agent-ci push nas --all
+  step nas-gateway     git -C $H/ollama-gateway push nas --all
+else
+  fails+=("nas-mount"); echo "FAIL nas-mount: /mnt/nas-backup/git not reachable"
+fi
+step host-config-snapshot sh -c 'cd '"$H"'/host-config && ./sync.sh && git add -A && (git diff --cached --quiet || git -c user.name="Cristian Madrigal" -c user.email=cristian.madrigal@gmail.com commit -qm "host-config: hourly snapshot")'
+[[ " ${fails[*]} " == *" nas-mount "* ]] || step nas-host-config git -C $H/host-config push nas main
+
+# GitHub (SSH)
+step gh-gateway     git -C $H/ollama-gateway push origin master
+step gh-host-config git -C $H/host-config push origin main
+step gh-fxplat      git -C $H/Dukascopy push origin main
+step gh-agent-ci    git -C $H/agent-ci push origin master
+
+now="${fails[*]:-}"
+prev=$(cat "$STATE/failing" 2>/dev/null || true)
+if [ "$now" != "$prev" ]; then
+  if [ -n "$now" ]; then
+    $H/agent-ci/.venv/bin/agent-ci --config $H/Dukascopy/config.yaml notify "git backup failing" \
+      "Steps: $now. Logs: ~/.cache/git-backup/<step>.log" >/dev/null 2>&1 || true
+  else
+    $H/agent-ci/.venv/bin/agent-ci --config $H/Dukascopy/config.yaml notify "git backup OK" \
+      "All NAS and GitHub pushes succeed again." >/dev/null 2>&1 || true
+  fi
+  printf '%s' "$now" >"$STATE/failing"
+fi
+[ -z "$now" ] && echo "git backup: all steps OK" && exit 0
+exit 1

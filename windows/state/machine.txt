@@ -10,7 +10,7 @@ BIOS: 1.L0
 
 DriveLetter FileSystemLabel FileSystem SizeGB FreeGB
 ----------- --------------- ---------- ------ ------
-          C                 NTFS          931    392
+          C                 NTFS          931    382
           D Mecanico        NTFS          932     98
           F New Volume      NTFS          233    209
           G WSL             NTFS          954     39

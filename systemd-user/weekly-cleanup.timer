@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly disk cleanup, Saturday 03:00 (the day before the Sunday 03:30 NAS backup)
+
+[Timer]
+OnCalendar=Sat *-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

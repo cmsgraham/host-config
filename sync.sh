@@ -10,7 +10,7 @@ cp_r "/etc/systemd/system/*.service /etc/systemd/system/*.timer /etc/fstab /etc/
 for d in /etc/systemd/system/*.service.d; do cp_r "$d/*.conf" "etc/systemd/$(basename "$d")"; done
 cp_r "$HOME/.config/systemd/user/*.service $HOME/.config/systemd/user/*.timer" systemd-user
 for d in "$HOME"/.config/systemd/user/*.d; do cp_r "$d/*.conf" "systemd-user/$(basename "$d")"; done
-cp_r "/usr/local/bin/*.sh $HOME/.local/bin/fxplat-*" bin
+cp_r "/usr/local/bin/*.sh $HOME/.local/bin/fxplat-* $HOME/.local/bin/git-backup-run $HOME/.local/bin/weekly-cleanup" bin
 cp_r "$HOME/.local/ollama/*.patch $HOME/.local/ollama/*.md $HOME/.local/ollama/*.sh" ollama-wslquiet
 sha256sum "$HOME"/.local/ollama/bin/* > "$R/ollama-wslquiet/binaries.sha256"
 cp_r "$HOME/.claude/history-rag/*.py $HOME/.claude/history-rag/README.md" history-rag

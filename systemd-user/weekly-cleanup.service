@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly disk cleanup: finished-task worktrees (7+ days), package caches, journal, docker leftovers, old task temp dirs (2026-11-11)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/weekly-cleanup
+Nice=19
+IOSchedulingClass=idle
+TimeoutStartSec=2h
