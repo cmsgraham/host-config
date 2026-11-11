@@ -1,0 +1,92 @@
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+	127.0.0.1       localhost
+	::1             localhost
+#127.0.0.1 kubernetes.docker.internal
+ 
+#Componente de Autenticacion y Firma Digital 
+127.0.0.1 service.componentefirmacr.go.cr  
+# Added by Docker Desktop
+192.168.1.119 host.docker.internal
+192.168.1.119 gateway.docker.internal
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section
+
+# BEGIN IOC-2026-11-10 (malware infra, see ioc-block-2026-11-10.ps1)
+0.0.0.0 lichii.org
+:: lichii.org
+0.0.0.0 www.lichii.org
+:: www.lichii.org
+0.0.0.0 tresoctavos.com.mx
+:: tresoctavos.com.mx
+0.0.0.0 www.tresoctavos.com.mx
+:: www.tresoctavos.com.mx
+0.0.0.0 cosmicsky.xyz
+:: cosmicsky.xyz
+0.0.0.0 www.cosmicsky.xyz
+:: www.cosmicsky.xyz
+0.0.0.0 cosmicsky.cc
+:: cosmicsky.cc
+0.0.0.0 www.cosmicsky.cc
+:: www.cosmicsky.cc
+0.0.0.0 realmadridistats.org
+:: realmadridistats.org
+0.0.0.0 www.realmadridistats.org
+:: www.realmadridistats.org
+0.0.0.0 tshn.edu.vn
+:: tshn.edu.vn
+0.0.0.0 www.tshn.edu.vn
+:: www.tshn.edu.vn
+0.0.0.0 notify-wild-art-practice.trycloudflare.com
+:: notify-wild-art-practice.trycloudflare.com
+0.0.0.0 api.trycloudflare.com
+:: api.trycloudflare.com
+0.0.0.0 login.trycloudflare.com
+:: login.trycloudflare.com
+0.0.0.0 region1.v2.argotunnel.com
+:: region1.v2.argotunnel.com
+0.0.0.0 region2.v2.argotunnel.com
+:: region2.v2.argotunnel.com
+0.0.0.0 us-region1.v2.argotunnel.com
+:: us-region1.v2.argotunnel.com
+0.0.0.0 us-region2.v2.argotunnel.com
+:: us-region2.v2.argotunnel.com
+0.0.0.0 update.argotunnel.com
+:: update.argotunnel.com
+0.0.0.0 staging-update.argotunnel.com
+:: staging-update.argotunnel.com
+0.0.0.0 cfd-features.argotunnel.com
+:: cfd-features.argotunnel.com
+0.0.0.0 management.argotunnel.com
+:: management.argotunnel.com
+0.0.0.0 ngc246.com
+:: ngc246.com
+0.0.0.0 www.ngc246.com
+:: www.ngc246.com
+0.0.0.0 easybooters.com
+:: easybooters.com
+0.0.0.0 www.easybooters.com
+:: www.easybooters.com
+0.0.0.0 poribax.com
+:: poribax.com
+0.0.0.0 www.poribax.com
+:: www.poribax.com
+# END IOC-2026-11-10

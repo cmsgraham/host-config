@@ -1,0 +1,31 @@
+﻿
+TaskPath                                                     TaskName                                                                      State
+--------                                                     --------                                                                      -----
+\                                                            Adobe Acrobat Update Task                                                     Ready
+\                                                            agent-ci gateway LAN                                                          Ready
+\                                                            agent-ci GPU-PV reset                                                         Ready
+\                                                            agent-ci WSL boot                                                           Running
+\PowerToys\                                                  Autorun for crist                                                             Ready
+\                                                            ClaudeHistoryRAG-Index                                                        Ready
+\                                                            Dukascopy update                                                           Disabled
+\                                                            HashPanel GPU PowerHelper                                                     Ready
+\                                                            NvDriverUpdateCheckDaily_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}               Ready
+\                                                            NVIDIA App SelfUpdate_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8}                  Ready
+\                                                            OllamaGateway                                                              Disabled
+\                                                            OneDrive Per-Machine Standalone Update Task                                   Ready
+\                                                            OneDrive Reporting Task-S-1-5-21-3154298875-1668412086-2274161153-1001        Ready
+\                                                            OneDrive Startup Task-S-1-5-21-3154298875-1668412086-2274161153-1001          Ready
+\                                                            RemapperWatch                                                                 Ready
+\GoogleUserPEH\                                              RunPlatformExperienceHelper_Daily                                             Ready
+\GoogleUserPEH\                                              RunPlatformExperienceHelper_Metrics                                           Ready
+\GoogleUserPEH\                                              RunPlatformExperienceHelperOnUnlock                                           Ready
+\SoftLanding\S-1-5-21-3154298875-1668412086-2274161153-1001\ SoftLandingCreativeManagementTask                                             Ready
+\SoftLanding\S-1-5-21-3154298875-1668412086-2274161153-1001\ SoftLandingRefreshForExpirationTask-{0adb7556-9980-4fa9-8a18-27f28e20a9ac}    Ready
+\                                                            ThermalWatchdog                                                             Running
+\                                                            ThermalWatcher                                                              Running
+\                                                            TuringSmartScreen                                                           Running
+\                                                            TuringSmartScreenWatchdog                                                     Ready
+\                                                            VoiceLabPublish                                                               Ready
+
+
+

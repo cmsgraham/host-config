@@ -1,5 +1,8 @@
 # host-config — msi31 (WSL2 Ubuntu 24.04) hand-built setup
 
+**Disaster recovery: see [RECOVERY.md](RECOVERY.md)** (Windows reinstall → everything back).
+
+
 Snapshot of everything that is configured by hand on this machine and lives outside the project repos
 (agent-ci, fxplat, ollama-gateway). Refreshed by `sync.sh` (run hourly by git-backup.service).
 Secret values (`*KEY=`, `*TOKEN=`, `*SECRET=`, `*PASSWORD=`) are redacted; credential files are never copied —
@@ -11,6 +14,6 @@ they live only in the full NAS backup (/mnt/nas-usb/msi31-backup, msi31-backup.t
 - `ollama-wslquiet/` — the WSL dxg patches (P1-P3), notes, switch/rollback script, binary hashes
 - `history-rag/` — conversation-history RAG code (the index DB is in the NAS backup)
 - `claude/` — global CLAUDE.md and Claude Code memory notes per project
-- `windows/` — GPU-PV reset task, WSL move scripts, MT5 cost recorder sources
+- `windows/` — GPU-PV reset task, WSL move scripts, MT5 cost recorder sources; `windows/state/` = hourly Windows snapshot (scheduled tasks XML, .wslconfig, portproxy, firewall rules, hosts, WU policy, machine facts, winget app list)
 
 Restore order: full NAS backup first (home, /etc, /usr/local), then use this repo to diff/review config.

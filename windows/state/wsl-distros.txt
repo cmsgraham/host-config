@@ -1,0 +1,2 @@
+﻿docker-desktop  BasePath=\\?\C:\Users\crist\AppData\Local\Docker\wsl\main  Version=2  Default=0
+Ubuntu  BasePath=G:\wsl\Ubuntu  Version=2  Default=1000

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Author>MSI31\crist</Author>
+    <Description>turing-smart-screen-python monitor for the 3.5in USB panel on COM4 (replaces TURMO_ScheduleTask). Repo: C:\Users\crist\turmo\turing-smart-screen-python. Triggers: logon, console connect, RDP connect, session unlock, plus a 2-min heartbeat that relaunches it if it died (IgnoreNew = no duplicate if already running). Re-create with C:\Users\crist\turmo\install-autostart.ps1</Description>
+    <URI>\TuringSmartScreen</URI>
+  </RegistrationInfo>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-21-3154298875-1668412086-2274161153-1001</UserId>
+      <LogonType>InteractiveToken</LogonType>
+      <RunLevel>HighestAvailable</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <RestartOnFailure>
+      <Count>10</Count>
+      <Interval>PT1M</Interval>
+    </RestartOnFailure>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>
+  </Settings>
+  <Triggers>
+    <LogonTrigger>
+      <Delay>PT20S</Delay>
+      <UserId>MSI31\crist</UserId>
+    </LogonTrigger>
+    <SessionStateChangeTrigger>
+      <Delay>PT10S</Delay>
+      <StateChange>ConsoleConnect</StateChange>
+      <UserId>MSI31\crist</UserId>
+    </SessionStateChangeTrigger>
+    <SessionStateChangeTrigger>
+      <Delay>PT10S</Delay>
+      <StateChange>RemoteConnect</StateChange>
+      <UserId>MSI31\crist</UserId>
+    </SessionStateChangeTrigger>
+    <SessionStateChangeTrigger>
+      <Delay>PT10S</Delay>
+      <StateChange>SessionUnlock</StateChange>
+      <UserId>MSI31\crist</UserId>
+    </SessionStateChangeTrigger>
+    <TimeTrigger>
+      <StartBoundary>2026-08-26T00:00:00</StartBoundary>
+      <Repetition>
+        <Interval>PT2M</Interval>
+      </Repetition>
+    </TimeTrigger>
+  </Triggers>
+  <Actions Context="Author">
+    <Exec>
+      <Command>C:\Users\crist\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\pythonw.exe</Command>
+      <Arguments>main.py</Arguments>
+      <WorkingDirectory>C:\Users\crist\turmo\turing-smart-screen-python</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>

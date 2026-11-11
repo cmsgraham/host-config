@@ -1,0 +1,32 @@
+# WSL2 VM settings.
+# Created 2026-09-01 to stop recurring wslservice wedges
+# (HCS_E_CONNECTION_TIMEOUT / E_UNEXPECTED) that killed VS Code Remote-WSL
+# and overnight agent-ci runs.
+# Applies on next WSL restart (wsl --shutdown).
+
+[wsl2]
+# NAT (2026-09-06): mirrored mode could not pass ANY Windows -> WSL traffic on
+# this box -- ollama :11434, gateway :11500 and the agent-ci dashboard :8765 all
+# timed out from Windows while answering in ~3ms inside WSL. That held with the
+# Hyper-V VM firewall fully permissive (DefaultInboundAction=Allow,
+# LoopbackEnabled=True) and on a fresh boot. Suspected VMware/Surfshark network
+# filter drivers. NAT + localhostForwarding uses the classic wslrelay path,
+# which this machine has always worked on.
+networkingMode=NAT
+localhostForwarding=true
+
+# Cap the VM so it can't fight Windows for RAM. Box has 61.6 GB; default cap
+# was ~31 GB. 24 GB was ample for docker builds and the agent-ci pipeline.
+# 2026-10-13: 48 GB for the fxplat O3 research run (7 pairs built in parallel);
+# Windows keeps ~13 GB (Chrome + WhatsApp only during runs). Backup: .wslconfig.bak-2026-10-13
+memory=48GB
+swap=8GB
+
+# More reliable DNS/proxy handling under load.
+dnsTunneling=true
+autoProxy=true
+
+[experimental]
+# Return freed page cache to Windows instead of holding it in vmmem.
+# "dropcache" (not "gradual") -- gradual has known issues with Docker cgroups.
+autoMemoryReclaim=dropcache

@@ -1,0 +1,19 @@
+﻿OS: Microsoft Windows 11 Pro 10.0.26300 build 26300
+Computer: MSI31  User: crist
+GPU: AMD Radeon(TM) Graphics driver 32.0.21030.2001
+GPU: NVIDIA GeForce RTX 3090 driver 32.0.16.1714
+GPU: Microsoft Remote Display Adapter driver 10.0.26100.9818
+GPU: NVIDIA GeForce RTX 3090 driver 32.0.16.1714
+Board: Micro-Star International Co., Ltd. MAG B650 TOMAHAWK WIFI (MS-7D75)
+BIOS: 1.L0
+
+
+DriveLetter FileSystemLabel FileSystem SizeGB FreeGB
+----------- --------------- ---------- ------ ------
+          C                 NTFS          931    392
+          D Mecanico        NTFS          932     98
+          F New Volume      NTFS          233    209
+          G WSL             NTFS          954     39
+
+
+

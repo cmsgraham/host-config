@@ -24,3 +24,14 @@ cp_r "$W/*.ps1" windows
 cp_r "$W/wsl-move/*.ps1" windows/wsl-move
 MT=$W/AppData/Roaming/MetaQuotes/Terminal/53785E099C927DB68A545C249CDBCE06/MQL5
 cp_r "$MT/Scripts/*.mq5 $MT/Services/*.mq5" windows/mt5
+# 2026-11-11 (disaster-recovery prep): Windows-side config - scheduled tasks as importable XML, .wslconfig, WSL
+# registration, port forwards, our firewall rules, hosts, Windows Update policy, machine facts, winget app list.
+mkdir -p "$W/.host-config" && cp "$R/windows-tools/snapshot.ps1" "$W/.host-config/snapshot.ps1"
+if timeout 600 powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Users\crist\.host-config\snapshot.ps1' \
+     -Out 'C:\Users\crist\.host-config\state' >/dev/null 2>&1; then
+  rm -rf "$R/windows/state"; mkdir -p "$R/windows/state/tasks"
+  for f in "$W"/.host-config/state/*.*; do redact < "$f" | tr -d '\r' > "$R/windows/state/$(basename "$f")"; done
+  for f in "$W"/.host-config/state/tasks/*; do redact < "$f" | tr -d '\r' > "$R/windows/state/tasks/$(basename "$f")"; done
+else
+  echo "sync.sh: Windows snapshot failed or timed out (kept the previous one)" >&2
+fi
