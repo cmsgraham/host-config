@@ -19,6 +19,10 @@ step() {  # name, command...
 
 # NAS (cifs automount: touching the path mounts it)
 if timeout 40 ls /mnt/nas-backup/git >/dev/null 2>&1; then
+  # agent/TASK-* branches are rebased by the pipeline (merge gate / branch-conflict rebuild), so their tips are
+  # rewritten: mirror them with a forced update (2026-11-12: 11.65/16.88/16.89 refused as non-fast-forward all night).
+  # Safe only because this is the backup repo with daily immutable snapshots; every other branch stays ff-only.
+  step nas-fxplat-agent git -C $H/Dukascopy push nas '+refs/heads/agent/*:refs/heads/agent/*'
   step nas-fxplat      git -C $H/Dukascopy push nas --all
   step nas-fxplat-refs git -C $H/Dukascopy push nas 'refs/agent-ci/*:refs/agent-ci/*'
   step nas-agent-ci    git -C $H/agent-ci push nas --all
