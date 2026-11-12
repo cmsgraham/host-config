@@ -144,3 +144,8 @@ real config from /opt/snoopyfrog/nginx/default.conf.bak-20261025001845, `nginx -
 (never restart: snoopyfrog-nginx-1 also serves fxplat.trade TLS). snoopyfrog.com + /health = 200, fxplat.trade
 unaffected. The offline page is saved as conf.d/default.conf.offline-20261027195146 (one-line swap to re-park).
 SSH as `fxplat-server` (user cristian + sudo); the `snoopyfrog` root alias is dead (hardening disabled root login).
+
+2026-11-11 15:40 CST: found api/scheduler/linkedin-worker/relay/postgres/redis running again (up 2 weeks); user said
+"shutdown snoopy frog" -> `docker stop` on those 6 (restart=unless-stopped, so they stay down across reboots; containers
+and volumes kept, nothing removed). snoopyfrog-nginx-1 left UP (serves fxplat.trade TLS; its snoopy server blocks have
+no proxy_pass). fxplat.trade 200 after. Restart = `docker start` the six, postgres/redis first.
