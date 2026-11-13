@@ -140,3 +140,8 @@ passed (null clean; planted E-R cell found). S2 v3 launched 11-09 16:08 CST (uni
 on STOP (operator: bench only); agent-ci fixes on branch claude/agent-ci-fixes await operator merge.
 
 2026-11-09: S2 v3 running (fxbench-v6-S2). Pipeline runs alongside with max_parallel_tasks 1 (c19ff60) - restore 2 when S2 v3 ends. If recall is low: diagnose per edge/power level before changing bench or scanner (operator).
+**S2 v3 result 2026-11-13 (bench-v6, BENCH_REPORT.md): gate FAIL on H1 only, and only from accounting.** H3 PASS (0/40
+everything). E-A's per-pair cells carry the POOL7 d but the replant spreads the edge unevenly by pair (EURUSD scan net
+-0.085 .. USDCAD +0.29) -> per-pair analytic power ~0.002, found 57/224. On POOL7 + E-S/E-R/E-B every recall is inside its
+Wilson 95 % interval (E-S 7/16 p.55, E-R 8/16 p.56, E-A 18/32 p.63, E-B 14/128 p.17). E-B sentinel's power is 0.17, not
+the designed 0.90. Operator to choose: score E-A on POOL7 only (per-pair = spillover) vs calibrate per pair.
