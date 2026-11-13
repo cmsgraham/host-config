@@ -52,5 +52,5 @@
 - [spec_blocked case = diagnosis hold](spec-blocked-case-is-diagnosis-hold.md) — review OK but DIAGNOSIS-<id>.md exists → retry won't lift it; edit the spec (3.158 a0e4191)
 - [Spec "__all__ = sorted" = Python sorted()](spec-all-sorted-means-python-sorted.md) — NodeStrategy < TIMER_NAME; builder kept listed order → reviewer block (7.60); spec writes `sorted([...])` → reviewer wants the call; PLE0605 → `# noqa: PLE0605` (3.240)
 - [Protected sibling test pins exact __all__](protected-sibling-test-pins-exact-all.md) — spec adds to __all__ but predecessor's protected test pins the exact list → own that test for the one assert (3.213 bb96b24) + retry
-- [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 2026-11-13 15.47 + catalogue-v2 proposal awaiting signature (next 3.243 / 15.48)
+- [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 2026-11-13 23Z espejo_ib + re_cell (next 3.244 / 11.69 / 15.50 / 16.92)
 - [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from unreadable systemprofile WindowsApps PATH dir (always red in escalation shell; strip it from PATH to verify); retry
