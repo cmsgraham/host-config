@@ -16,5 +16,6 @@ The case text listed tests/pipeline/test_research_run_variant. That came from th
 **How to apply:** grep `^FAILED` at the bottom of the merge log. If this is the only failure, retry.
 
 Recurred 2026-11-11 on TASK-11.65 (family 1 levels grammar) with the same case-text pattern; retried.
+Recurred 2026-11-13 on TASK-15.47 (S2 v3 bench); retried.
 
 Root cause found 2026-11-11 (TASK-16.88 escalation): the PATH entry `/mnt/c/WINDOWS/system32/config/systemprofile/AppData/Local/Microsoft/WindowsApps` is unreadable (stat gives EACCES). In the escalation shell the test fails EVERY time, with or without the sandbox. It passes with that entry filtered out: `PATH=$(echo "$PATH" | tr ':' '\n' | grep -v systemprofile | paste -sd:)`. In escalation runs, treat it as environmental and do not edit the protected test.
