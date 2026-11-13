@@ -12,3 +12,8 @@ the 11-11 reboot), which is EACCES; execvp then reports EACCES instead of ENOENT
 **Why:** I had started `agent-ci auto` with setsid nohup from my shell, so the loop and its merge gate inherited my PATH.
 **How to apply:** start agent-ci loops / runs with `systemd-run --user --collect -p WorkingDirectory=... python -m
 agent_ci.cli ...` (or let the watchdog start them), never from my shell. Related: [[boot-without-logon-credentials]].
+Second trap the same day: `systemd-run --wait --pipe python -c "queue_refill.check(...)"` started the refill and the
+unit's exit KILLED it (cgroup), leaving an empty refill log and a 90-min cooldown stamp. Use `-p KillMode=process`
+(no --wait) for anything that spawns a long child; if a start died, reset state/refill.json started_epoch to 0.
+Also: `agent-ci auto` exits at once when the queue is empty even while a refill runs; the watchdog starts the loop
+once tasks are eligible.

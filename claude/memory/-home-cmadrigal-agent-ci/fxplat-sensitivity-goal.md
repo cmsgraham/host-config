@@ -26,3 +26,9 @@ pre-registered idea lists add 2-4x. Operator DECIDED: Hallazgos judges on IC Raw
 registered idea-list path (spec back for approval first). Batch size: no gain; POOL7 pooling already exists.
 Runs cost ~18 h: decide and pre-flight (~2 h) first, ONE full run per frozen design, analyse offline after.
 Related: [[fxplat-synthetic-known-answer]], [[research-before-workaround]].
+
+2026-11-13 (S2 v3, E-B result): operator: "Rare = good and can be where the good opportunities resides too". A +0.6 R
+rare-regime edge (turbulent-USD days, 55-98 events per pair) is invisible per pair ('datos insuficientes') and only shows
+pooled. **How to apply:** treat rare conditions as a priority, not noise: pooled / partially pooled cells (multilevel /
+empirical-Bayes shrinkage across pairs), event-study style cross-asset looks (like Eventos), and an honest bench power for
+small-n edges. Never discard a rare idea as NO_EDGE for lack of events ([[scan-only-not-no-edge]]).
