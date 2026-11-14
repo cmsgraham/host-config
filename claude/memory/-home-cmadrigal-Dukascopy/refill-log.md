@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 350e3526-b067-49c5-bf2f-4d38c3c4cf3e
-  modified: 2026-11-14T16:26:32.797Z
+  modified: 2026-11-14T17:49:48.070Z
 ---
 
 Each line points at one refill memory file in this directory (spec-writer batches, 2026-10-31 onward).
@@ -69,7 +69,7 @@ See [[real-run-task-ids]] for the routine; check the newest entry for the next f
 - [Factor-carry chain refill (2026-11-09 23Z)](factor-carry-chain-refill-2026-11-09.md) — factor-carry RESOLVED (a); 3.236 carry_factor / 3.237 rerun_factors / 3.238 rerun_factors_stage / 3.239 rerun_cli --factors queued; next free 3.240
 - [C10 re-run chain refill (2026-11-11 23Z)](c10-rerun-chain-refill-2026-11-11.md) — 3.240 rerun_c10 / 3.241 rerun_run c10= / 3.242 rerun_cli --c10; catalogue conditions / big-jumps run / item-4 pack skipped on purpose; next free 3.243
 - [E-B power fix refill (2026-11-14 16Z)](eb-power-fix-refill-2026-11-14.md) — 15.61 bench_hz (frame, exit) sigma / 15.62 repower module; next free 3.244 / 11.74 / 15.63 / 16.98
-- [Empty refill (2026-11-14 12Z)](empty-refill-2026-11-14-12z.md) — nothing queued; 12.6 weekly-cells spec stale vs catalogue v2 (NOTE in decisions-pending); next free 3.244 / 11.74 / 15.61 / 16.98
+- [Empty refill (2026-11-14 12Z + 17:49Z)](empty-refill-2026-11-14-12z.md) — nothing queued (twice); 12.6 weekly-cells spec stale vs catalogue v2 (NOTE in decisions-pending); next free 3.244 / 11.74 / 15.61 / 16.98
 - [Bench v4 pass rule refill (2026-11-14 10Z)](bench-v4-pass-rule-refill-2026-11-14.md) — 15.59 score H7 / 15.60 bench-v4.yaml H7 + gate; bench v4 chain complete; next free 3.244 / 11.74 / 15.61 / 16.98
 - [Bench v4 scorer + Forward UI refill (2026-11-14 08Z)](bench-v4-scorer-and-forward-ui-refill-2026-11-14.md) — 15.55-15.58 + 16.96/16.97; ask decision:bench-v4-pass-rule holds the criterion row + yaml gate; next free 3.244 / 11.74 / 15.59 / 16.98
 - [Bench v4 wiring refill (2026-11-14 06Z)](bench-v4-wiring-refill-2026-11-14.md) — 15.51-15.54 (catalogue files, bench_hz RE7, driver baseline rescan, score_rows split); left scorer v4 rows + bench-v4.yaml; next free 3.244 / 11.74 / 15.55 / 16.96
