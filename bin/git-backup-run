@@ -24,7 +24,7 @@ if timeout 40 ls /mnt/nas-backup/git >/dev/null 2>&1; then
   # Safe only because this is the backup repo with daily immutable snapshots; every other branch stays ff-only.
   step nas-fxplat-agent git -C $H/Dukascopy push nas '+refs/heads/agent/*:refs/heads/agent/*'
   step nas-fxplat      git -C $H/Dukascopy push nas --all
-  step nas-fxplat-refs git -C $H/Dukascopy push nas 'refs/agent-ci/*:refs/agent-ci/*'
+  step nas-fxplat-refs git -C $H/Dukascopy push nas '+refs/agent-ci/*:refs/agent-ci/*'
   step nas-agent-ci    git -C $H/agent-ci push nas --all
   step nas-gateway     git -C $H/ollama-gateway push nas --all
 else

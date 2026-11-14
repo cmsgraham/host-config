@@ -145,3 +145,4 @@
 - [fxplat Eventos panel](fxplat-eventos-panel.md) — NVDA shock study + view (g j); timer/redeploy left to operator
 - [boot without logon creds](boot-without-logon-credentials.md) — 11-11 WU reboot: S4U WSL has no Windows creds; NAS mounts fail, GCM push hangs backups, LAN stale until logon
 - [Windows PATH EACCES trap](windows-path-eacces-trap.md) — start agent-ci via systemd-run, not my shell; shell PATH breaks the pandoc test
+- [overnight autonomy 11-14](overnight-autonomy-2026-11-14.md) — away until 11-14 pm: decide alone, log; hourly cron + Sunday restart deploy

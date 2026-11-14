@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 350e3526-b067-49c5-bf2f-4d38c3c4cf3e
-  modified: 2026-11-13T12:32:30.840Z
+  modified: 2026-11-14T05:32:25.292Z
 ---
 
 Each line points at one refill memory file in this directory (spec-writer batches, 2026-10-31 onward).
@@ -68,6 +68,7 @@ See [[real-run-task-ids]] for the routine; check the newest entry for the next f
 - [Variants baselines flip + factor ask (2026-11-09 04Z)](variants-baselines-flip-and-factor-ask-2026-11-09.md) — 3.235 only (sources exhausted); ask decision:factor-carry; 05Z refill queued nothing (ask pending); next free 3.236
 - [Factor-carry chain refill (2026-11-09 23Z)](factor-carry-chain-refill-2026-11-09.md) — factor-carry RESOLVED (a); 3.236 carry_factor / 3.237 rerun_factors / 3.238 rerun_factors_stage / 3.239 rerun_cli --factors queued; next free 3.240
 - [C10 re-run chain refill (2026-11-11 23Z)](c10-rerun-chain-refill-2026-11-11.md) — 3.240 rerun_c10 / 3.241 rerun_run c10= / 3.242 rerun_cli --c10; catalogue conditions / big-jumps run / item-4 pack skipped on purpose; next free 3.243
+- [RE7 wiring + catalogue v2 refill (2026-11-14 05Z)](re7-wiring-and-catalogue-v2-refill-2026-11-14.md) — 11.70-11.73 + 15.50; ask decision:bench-v4-catalogue; next free 3.244 / 11.74 / 15.51 / 16.96
 - [Bench v4 ask, no task (2026-11-14 02Z)](bench-v4-ask-refill-2026-11-14.md) — nothing queued; ask decision:rare-edge-bench-v4 sent; rare-edge-rw pending; next free 3.244 / 11.70 / 15.50 / 16.96
 - [Restart-all + RE7 scan row refill (2026-11-14 01Z)](restart-all-and-re7-refill-2026-11-14.md) — 16.92-16.95 restart-all python half COMPLETE + 11.69; ask decision:rare-edge-rw; next free 3.244 / 11.70 / 15.50 / 16.96
 - [Espejo_ib + rare-edge re_cell refill (2026-11-13 23Z)](espejo-ib-rare-edge-refill-2026-11-13.md) — finished orphaned 16.90/16.91/15.48/15.49 + 11.68; restart-all not specced; next free 3.244 / 11.69 / 15.50 / 16.92
