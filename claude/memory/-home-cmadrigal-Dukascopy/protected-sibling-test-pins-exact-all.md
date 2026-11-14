@@ -13,3 +13,5 @@ TASK-3.213 (2026-11-08) hit protected-paths: the spec said `__all__` gains `labe
 **Why:** chained specs ("wiring 1/4, 2/4 …") protect the previous task's test, and that test usually pins the exact `__all__`.
 
 **How to apply:** at triage, fix the spec: move that test from protected_paths to owned_paths and add a requirement allowing ONLY the `__all__` assertion to change (fix commit bb96b24), then run `retry`. Spec writers should check for exact `__all__` pins in sibling tests before protecting them. Related: [[owned-inside-protected-dir]], [[spec-all-sorted-means-python-sorted]].
+
+Same pattern, 2026-11-14 TASK-15.52 (0e653ef): spec made bench_hz.main() pass a new run_world kwarg (catalogue_path); protected tests/synthetic/test_bench_calibrated_cli.py's fake `_fake_run_world(..., approvals_dir=None)` raised TypeError → 3 reds at the merge gate only (task-alone run had no suite-green log). Fix: own that file for the one signature change + retry. grep every test fake of a function whose call gains a kwarg.
