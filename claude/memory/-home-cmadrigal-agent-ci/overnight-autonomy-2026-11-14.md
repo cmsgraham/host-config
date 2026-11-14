@@ -29,3 +29,4 @@ RE7 outside RW (a); bench v4 (a) fixed sizes; E-B audit unit fxbench-v6-audit (h
 - 11-13 23:00 restart-all deploy deferred to Sunday open (preflight; markets closed).
 - 11-13 23:20 asks answered (a): bench-v4-catalogue = own catalogue v1+RE7 (2,856 cells, edge worlds rescanned without RE7 as baseline; RE7 to the real catalogue only if v4 passes); rare-edge-bench-v4 = fixed sizes.
 - 11-13 23:20 git-backup: nas-fxplat-refs non-fast-forward (attempt refs rewritten) -> forced mirror '+refs/agent-ci/*' like agent/* (backup repo, daily immutable snapshots).
+- 11-14 02:18 ask bench-v4-pass-rule answered (a): no group (E-B/E-H/E-K) drops and the total rises; nulls 0/40 confirmed (E-B already ~12/16 via POOL7, RE7 adds nothing there).

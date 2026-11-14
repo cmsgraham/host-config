@@ -21,3 +21,7 @@ uncommitted under `tasks/` (or anywhere) is lost, silently.
 background shell that waits for the file to vanish, re-applies, and commits atomically. Always
 `git status --short tasks/` plus `sha256sum tasks/<id>.yaml` after any wait to confirm the edit is
 still there. Related: [[real-run-task-ids]] (untracked drafts under tasks/ found 3x).
+
+2026-11-14: `git add -f tasks/<new>.yaml` while MERGING.json exists stages the file INTO the gate's in-progress
+merge index (commit fails "cannot do a partial commit during a merge"); unstage with `git rm --cached` immediately
+or it lands in the merge commit. Use a wait-then-commit script (/tmp/commit_specs.sh pattern).
