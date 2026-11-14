@@ -21,3 +21,7 @@ Real bench-v6 h-edge-01 copy: E-B POOL7 0.947 -> 0.998 (confirm n 214). Per-pair
 
 **Why:** the next writer must not re-spec this. **How to apply:** after 15.65 merges, the operator re-runs repower + score on
 bench-v6 (not spec-writer work). See [[refill-log]], [[eb-power-fix-refill-2026-11-14]].
+
+Repeat 2026-11-14 20:51Z (main 160a361, runnable 15.64 in the merge gate + 15.65): nothing queued. decisions-pending
+mtime 18:19Z (before this chain), no new RESOLVED/approvals/drafts/ops cases; stubs 4.4/7.2/8.4 skipped as always.
+Staged bench_hz.py / test_bench_hz.py in the main tree = 15.64's gate merge, not stray work.
