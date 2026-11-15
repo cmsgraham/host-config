@@ -23,3 +23,7 @@ bench-v7 is operator work. Prototype tip: `git archive HEAD src tests config pyp
 + PYTHONPATH=src works for module tests, but hallazgos promote / bench_v1 main tests fail there (no .git /
 experiments/) - environment, not the change. `pkill -f` with a bracket pattern still kills the calling shell if the
 same command line contains the literal path elsewhere. See [[refill-log]], [[confirmation-power-refill-2026-11-14]].
+
+Repeat 2026-11-15 18:34Z (main 705d0de, runnable 15.68 building + 15.69): nothing queued. decisions-pending mtime
+16:39Z (= the source of this chain), no new RESOLVED / approvals / drafts / ops cases / open asks; 12.6 NOTE still
+unanswered; stubs 4.4/7.2/8.4 skipped as always. ~8 tool calls.
