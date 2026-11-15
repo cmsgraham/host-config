@@ -38,3 +38,4 @@ RE7 outside RW (a); bench v4 (a) fixed sizes; E-B audit unit fxbench-v6-audit (h
 - 11-14 12:40 bench-v6 re-scored: E-B POOL7 fixed (12/16 vs 0.69). Per-pair still out: confirmation half has 16-56 events/pair (<30 -> p 1). RESOLVED 2nd bench task: confirmation term on the real confirmation-half count, 0 below 30.
 - 11-14 16:00 bench-v6 re-scored after 15.63-65: E-B POOL7 OK (12/16 vs 0.835); per pair 2/112 vs 0.078 (small residual, just outside). Did NOT redefine v3's registered ruler (option: treat E-B as pooled like E-A) - for the operator.
 - 11-14 19:18 operator back (asked 'Where we are'); hourly autonomy cron 08f93e5e deleted. Sunday deploy cron 8df82951 kept. Pending for operator: E-B per-pair ruler (treat as pooled?), S2 v4 S1 edge world -> check then launch S2, TASK-12.6 / 12.16.
+- 11-15 10:40 S1 checked, operator chose launch S2 now + RE7 ruler fix alongside; fxbench-v7-S2 running; config max_parallel_tasks 1 (restore 2 after S2).
