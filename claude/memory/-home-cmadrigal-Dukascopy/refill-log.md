@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 350e3526-b067-49c5-bf2f-4d38c3c4cf3e
-  modified: 2026-11-14T17:49:48.070Z
+  modified: 2026-11-15T22:50:39.454Z
 ---
 
 Each line points at one refill memory file in this directory (spec-writer batches, 2026-10-31 onward).
@@ -68,6 +68,7 @@ See [[real-run-task-ids]] for the routine; check the newest entry for the next f
 - [Variants baselines flip + factor ask (2026-11-09 04Z)](variants-baselines-flip-and-factor-ask-2026-11-09.md) — 3.235 only (sources exhausted); ask decision:factor-carry; 05Z refill queued nothing (ask pending); next free 3.236
 - [Factor-carry chain refill (2026-11-09 23Z)](factor-carry-chain-refill-2026-11-09.md) — factor-carry RESOLVED (a); 3.236 carry_factor / 3.237 rerun_factors / 3.238 rerun_factors_stage / 3.239 rerun_cli --factors queued; next free 3.240
 - [C10 re-run chain refill (2026-11-11 23Z)](c10-rerun-chain-refill-2026-11-11.md) — 3.240 rerun_c10 / 3.241 rerun_run c10= / 3.242 rerun_cli --c10; catalogue conditions / big-jumps run / item-4 pack skipped on purpose; next free 3.243
+- [Bench v4 de-overlap refill (2026-11-15 22Z)](bench-v4-deoverlap-refill-2026-11-15.md) — 15.70 plant _deoverlap / 15.71 bench_hz RE7 oracle candidates / 15.72 driver plant_mismatch; next free 3.244 / 11.74 / 15.73 / 16.98
 - [RE7 ruler fixes refill (2026-11-15 17Z)](re7-ruler-fixes-refill-2026-11-15.md) — 18:34Z repeat EMPTY; 15.66 RE7 tau^2 power / 15.67 re_spillover / 15.68 score RE7_unverified / 15.69 repower; next free 3.244 / 11.74 / 15.70 / 16.98
 - [Confirmation power refill (2026-11-14 19Z)](confirmation-power-refill-2026-11-14.md) — 20:51Z repeat EMPTY; 15.63 plant n_events_by_period_symbol / 15.64 bench_hz conf_n / 15.65 repower; next free 3.244 / 11.74 / 15.66 / 16.98
 - [E-B power fix refill (2026-11-14 16Z)](eb-power-fix-refill-2026-11-14.md) — 15.61 bench_hz (frame, exit) sigma / 15.62 repower module; next free 3.244 / 11.74 / 15.63 / 16.98
