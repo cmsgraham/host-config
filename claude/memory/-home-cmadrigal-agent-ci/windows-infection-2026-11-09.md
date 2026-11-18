@@ -25,3 +25,4 @@ Node injected into calc.exe (listening :20241) and charmap.exe; node listened on
 works again. Defender full scan started. The 03:00 WSL restart was a WSL update (service reinstalled 03:01), not the malware.
 Windows IOC block APPLIED 2026-11-10 16:5x by the user (C:\Users\crist\ioc-block-2026-11-10.ps1: 29 names x IPv4+IPv6 in hosts, 5 firewall rules, verified). WSL /etc/hosts blocked too (generateHosts=false).
 Open: credential rotation from a clean device (it ran ~13 h; assume Chrome, 1Password ext, \\wsl$ files were read).
+ON HOLD 2026-11-17 (operator: "hold on the password rotations"): do not raise it in status reports; plan given 11-17 (email -> money -> 1Password -> Linode/GitHub/Cloudflare from another device, then I rotate SSH keys + list API secrets). Resume only when the operator brings it up.
