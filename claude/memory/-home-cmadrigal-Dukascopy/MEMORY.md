@@ -55,3 +55,4 @@
 - [Refill log](refill-log.md) — index of all spec-writer refill/ask memories by chain and date; newest = 2026-11-18 02Z unpowered period 15.74 (08:15Z repeat EMPTY) (next 3.244 / 11.74 / 15.75 / 16.98); check decisions-pending mtime vs last refill time; 12Z EMPTY (12.6 stale NOTE)
 - [ui/node_modules symlink left by builder](ui-node-modules-symlink-left-by-builder.md) — protected-paths/tree-drift on ui/node_modules + tsbuildinfo = builder's manual typecheck leftovers; clean, verify, retry (16.97)
 - [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from unreadable systemprofile WindowsApps PATH dir (always red in escalation shell; strip it from PATH to verify); retry
+- [oracle_spec 10-year hang](oracle-spec-ten-year-hang.md) — synthetic TIMEOUT = test prepare_oracle(oracle.oracle_spec(...)) builds the 10y world; use spec_for_weeks directly (15.74); reviewer blamed iloc
