@@ -26,3 +26,8 @@ See [[refill-log]], [[s1-guard-fix-refill-2026-11-16]].
 Repeat 2026-11-18 08:15Z (main f65fc33, 15.74 BUILDING attempt 1, runnable 1): EMPTY. decisions-pending mtime 02:21Z
 (no new RESOLVED / unresolved heading), no draft holds (4.4/7.2/8.4 = anchor stubs), approvals newest 11-14, only new
 ask = ops stop_reminder. Nothing queued, no NOTE appended.
+
+Repeat 2026-11-18 11:36Z (main f65fc33, runnable 1 = 15.74): EMPTY again, same sources (decisions-pending mtime still
+02:21Z, approvals newest 11-14, no draft holds). New ops case at 11:36Z: 15.74 MERGE REFUSED - its own
+test_b_calibrate_joint_leaves_an_empty_period_out raised "E-S/discovery +0.6187" in the gate although branch tree ==
+merged tree (branch based on main f65fc33) -> nondeterminism/state leak under xdist, escalation-engineer work, not a spec.
