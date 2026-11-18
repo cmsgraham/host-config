@@ -22,3 +22,7 @@ Prototype /tmp/proto1574. Review OK (low: init `empty` before the loop, applied)
 
 **Why:** next writer must not re-spec. **How to apply:** after 15.74 merges, the h-edge-02 re-run is operator-side.
 See [[refill-log]], [[s1-guard-fix-refill-2026-11-16]].
+
+Repeat 2026-11-18 08:15Z (main f65fc33, 15.74 BUILDING attempt 1, runnable 1): EMPTY. decisions-pending mtime 02:21Z
+(no new RESOLVED / unresolved heading), no draft holds (4.4/7.2/8.4 = anchor stubs), approvals newest 11-14, only new
+ask = ops stop_reminder. Nothing queued, no NOTE appended.
