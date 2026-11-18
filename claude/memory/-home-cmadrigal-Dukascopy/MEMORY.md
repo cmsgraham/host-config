@@ -56,4 +56,4 @@
 - [ui/node_modules symlink left by builder](ui-node-modules-symlink-left-by-builder.md) — protected-paths/tree-drift on ui/node_modules + tsbuildinfo = builder's manual typecheck leftovers; clean, verify, retry (16.97)
 - [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from unreadable systemprofile WindowsApps PATH dir (always red in escalation shell; strip it from PATH to verify); retry
 - [oracle_spec 10-year hang](oracle-spec-ten-year-hang.md) — synthetic TIMEOUT = test prepare_oracle(oracle.oracle_spec(...)) builds the 10y world; use spec_for_weeks directly (15.74); reviewer blamed iloc
-- [Oracle unpowered test_b full-suite leak](oracle-unpowered-test-b-full-suite-leak.md) — 15.74 test_b fails 3/3 only in full xdist gate, passes alone + serial synthetic; spec note 78843a2; bisect next
+- [Oracle test_b full-suite leak: pipeline session fixture](oracle-unpowered-test-b-full-suite-leak.md) — SOLVED: tests/pipeline/conftest.py session autouse patches policy_snapshot.snapshot_path for the whole xdist worker; pin it in the test; grep `scope="session", autouse` first
