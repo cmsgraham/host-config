@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 3d3dfc60-c1bb-4711-9e65-e4063021b466
-  modified: 2026-11-18T03:02:52.752Z
+  modified: 2026-11-18T13:16:48.850Z
 ---
 
 Refill 2026-11-18 ~02:21-02:55Z (main b90bb7d, runnable 0). Source: decisions-pending "RESOLVED 2026-11-17 (Claude,
@@ -31,3 +31,7 @@ Repeat 2026-11-18 11:36Z (main f65fc33, runnable 1 = 15.74): EMPTY again, same s
 02:21Z, approvals newest 11-14, no draft holds). New ops case at 11:36Z: 15.74 MERGE REFUSED - its own
 test_b_calibrate_joint_leaves_an_empty_period_out raised "E-S/discovery +0.6187" in the gate although branch tree ==
 merged tree (branch based on main f65fc33) -> nondeterminism/state leak under xdist, escalation-engineer work, not a spec.
+
+Repeat 2026-11-18 13:16Z (main f65fc33, runnable 1 = 15.74): EMPTY a third time. Same sources unchanged; 15.74
+merge refused AGAIN (run-20261118-124459, same test_b failure) - still escalation work. Only new ask = ops
+stop_reminder re-sent 12:45Z. Further repeats today will be empty until 15.74 merges or a new RESOLVED lands.
