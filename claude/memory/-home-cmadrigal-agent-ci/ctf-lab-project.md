@@ -21,3 +21,5 @@ MCP `sandbox_run` only (Bash dropped: `sbx echo a; whoami` ran whoami on the hos
 all solved: rsa small-e, png metadata, nc service via scope firewall, stripped crackme, drawn-text image (~$0.05-0.12
 each, ~20 s). Hint/resume tested. Phone notify path NOT exercised (tests ran with CTF_NO_NOTIFY=1). Not yet: headless
 Ghidra, AI-probe bank (docs/DESIGN.md roadmap), backup remote for ~/ctf-lab.
+
+2026-11-20: web page added at http://localhost:8770 (ctflab/web.py + web.html, user unit ctf-web.service, 127.0.0.1 only, Host/Origin guard). The user asked for it instead of the commands; it is the main way to use ctf-lab now. Test event "webtest" was solved through it ($0.08).

@@ -146,4 +146,4 @@
 - [boot without logon creds](boot-without-logon-credentials.md) — 11-11 WU reboot: S4U WSL has no Windows creds; NAS mounts fail, GCM push hangs backups, LAN stale until logon
 - [Windows PATH EACCES trap](windows-path-eacces-trap.md) — start agent-ci via systemd-run, not my shell; shell PATH breaks the pandoc test
 - [overnight autonomy 11-14](overnight-autonomy-2026-11-14.md) — away until 11-14 pm: decide alone, log; hourly cron + Sunday restart deploy; 11-15 S2 v4 launched (fxbench-v7-S2), max_parallel 1 until it ends
-- [ctf-lab project](ctf-lab-project.md) — reusable CTF solver: inbox -> Claude in Docker sandbox -> flag check + lessons; AI-probe bank later
+- [ctf-lab project](ctf-lab-project.md) — CTF solver; web page localhost:8770 is the main UI; Claude in Docker sandbox, flag check + lessons

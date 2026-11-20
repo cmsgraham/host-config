@@ -1,0 +1,13 @@
+[Unit]
+Description=ctf-lab web page (http://localhost:8770, local only)
+After=network.target
+
+[Service]
+WorkingDirectory=/home/cmadrigal/ctf-lab
+Environment=PATH=/home/cmadrigal/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /home/cmadrigal/ctf-lab/ctflab/web.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
