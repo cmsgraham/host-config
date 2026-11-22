@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 75f75a96-583c-40ca-8ddb-4b8b24653fad
-  modified: 2026-11-12T00:52:41.454Z
+  modified: 2026-11-22T07:57:20.222Z
 ---
 
 When state/HUMAN_REQUIRED.md says "HANDED TO THE STRONG TIER — NOT BUILT YET" (events.jsonl stage HUMAN_REQUIRED, event `strong_direct`, reason "routed to the strong tier by contour"), the local builder never ran. The run transcript only holds the pre-flight brief. The job is a full build from tasks/TASK-*.yaml, not a stall diagnosis. Seen on TASK-2.18 (2026-10-06). On TASK-15.4 (2026-10-24) the spec writer's prototype was still in /tmp/proto154 (world.py, ctest.py, mw*.py metric scripts). It was a useful reference, and its numbers reproduced: the world takes 1.7 s per 260 weeks and the test file 17 s. Check /tmp/proto<id> before building from scratch.
@@ -47,5 +47,7 @@ TASK-3.158 (2026-11-05 14:02Z, triage): missing_owned_test after 1 of 2; the opu
 TASK-7.52 (2026-11-05): missing_owned_test after a single attempt. The builder read code for 15+ min, ignored the nudge and wandered into the sibling 7.51 worktree. The spec was fully specified and every "MEASURED" value reproduced exactly; the build took about 15 min. Run the full suite as ONE run_in_background Bash with timeout 7200000 and wait for its notification. Foreground or until-loop waiters are capped at 10 min.
 
 TASK-3.212 (2026-11-07, exit_labels V5/V6) was another missing_owned_test case. After 1 of 1 attempt the builder had spent 30+ min reading, much of it in the sibling 3.210 worktree, and wrote nothing. The prototype was at the spec's path /tmp/sw3212/src/fxplat/labeling/exit_labels.py, with measure scripts in /tmp/sw3212/m/m1-m8.py. That prototype also holds TASK-3.213's `label_exits_from_source`, so drop it here. It also needed refactoring for the strict lint (`_Trade`/`_Ticks` NamedTuples plus the `_enter`/`_walk`/`_row`/`_charges` helpers), and the result came to 256 of the 260 allowed lines. Every MEASURED and HAND value reproduced on the first run: 16 tests in about 6 s.
+
+TASK-11.84 (2026-11-22, block_value_report) was the "deleted its own test" flavour of missing_owned_test. The builder wrote a correct module (103/130 lines) and a test file, then saw the test was over the spec's 190-line cap, ran `rm` ("Remove to rewrite compact") and timed out before rewriting it. builder-activity.log shows the create → rm sequence. To fit the cap: use a `put(root, world_id, cells)` writer helper instead of the verbatim copied `bench_root` body, a one-line docstring, and walrus/one-line asserts. strict-lint-new flagged `split("/")[-1]` (PLC0207), so use `Path(x).name`. Ended at 188 lines; 17 tests in ~2.5 s.
 
 TASK-11.77 (2026-11-20, promote RE7) was another missing_owned_test case with an empty diff. After 1 of 1 attempt the builder had spent about 12 min reading, partly in the sibling TASK-3.246 worktree. The spec's prototype in /tmp/p1177 (src/ + t/test_hz_promote_re7.py) worked as-is, but the prototype src left out the registered module-docstring bullet, so diff the prototype against EVERY "Registered definitions" item. I added the bullet as a pure addition and left the previous bullet's trailing '.' alone. 66 module tests take about 6 s.

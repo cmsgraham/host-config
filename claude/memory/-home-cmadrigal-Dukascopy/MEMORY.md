@@ -57,3 +57,4 @@
 - [Flaky pandoc_runner EACCES](flaky-pandoc-runner-eacces.md) — merge gate: test_pandoc_runner_file_not_found PermissionError from unreadable systemprofile WindowsApps PATH dir (always red in escalation shell; strip it from PATH to verify); retry
 - [oracle_spec 10-year hang](oracle-spec-ten-year-hang.md) — synthetic TIMEOUT = test prepare_oracle(oracle.oracle_spec(...)) builds the 10y world; use spec_for_weeks directly (15.74); reviewer blamed iloc
 - [Oracle test_b full-suite leak: pipeline session fixture](oracle-unpowered-test-b-full-suite-leak.md) — SOLVED: tests/pipeline/conftest.py session autouse patches policy_snapshot.snapshot_path for the whole xdist worker; pin it in the test; grep `scope="session", autouse` first
+- [Reviewer literalizes spec "reads" clause](reviewer-literalizes-spec-reads-clause.md) — "X reads Y, no other docstring line changes" flagged as a missing edit (11.82); keep the spec edit, pin it; the real blocker was the 200-line test cap
