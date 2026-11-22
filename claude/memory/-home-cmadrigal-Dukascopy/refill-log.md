@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 350e3526-b067-49c5-bf2f-4d38c3c4cf3e
-  modified: 2026-11-15T22:50:39.454Z
+  modified: 2026-11-22T09:16:50.483Z
 ---
 
 Each line points at one refill memory file in this directory (spec-writer batches, 2026-10-31 onward).
@@ -90,4 +90,4 @@ See [[real-run-task-ids]] for the routine; check the newest entry for the next f
 - [S2 v3 pooled + catalogue v2 proposal (2026-11-13 12Z)](s2v3-pooled-and-catalogue-v2-refill-2026-11-13.md) — 15.47 score.py pooled [E-A]; 52-condition draft in state/proposals/catalogue-v2/ awaits signature; next free 3.243 / 15.48
 - [Empty refill (2026-11-12 00Z)](empty-refill-2026-11-12.md) — nothing queued, sources exhausted; NOTE in decisions-pending asks about drafting family 1/3/4 catalogue conditions; next free 3.243
 - [[refill-2026-11-21-r2-block-pools]] — R2 block pools: 11.78/11.81/11.79/11.80/11.82/15.75 queued; stubs 15.76, 15.77, 11.83; next free 11.84 / 15.78
-- [R2 follow-ups refill (2026-11-22 04:30Z)](refill-2026-11-22-r2-followups.md) — 07:46Z repeat EMPTY (no new decision, bench-v5-baseline ask still pending, ops 0 cases); 15.76 catalogue-bench-v5 / 11.83 block_value / 11.84 block_value_report / 15.77 driver guard / 15.79 repower re_k; 15.78 bench-v5.yaml held on ask decision:bench-v5-baseline; next free 11.85 / 15.80
+- [R2 follow-ups refill (2026-11-22 04:30Z)](refill-2026-11-22-r2-followups.md) — 07:46Z + 09:16Z repeats EMPTY (no new decision, bench-v5-baseline ask still pending with sent_at "" = held for quiet hours, ops 0 cases; decisions-pending.md mtime unchanged since 04:37Z is the quick check); 15.76 catalogue-bench-v5 / 11.83 block_value / 11.84 block_value_report / 15.77 driver guard / 15.79 repower re_k; 15.78 bench-v5.yaml held on ask decision:bench-v5-baseline; next free 11.85 / 15.80
