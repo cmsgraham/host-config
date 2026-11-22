@@ -148,3 +148,4 @@
 - [overnight autonomy 11-14](overnight-autonomy-2026-11-14.md) — away until 11-14 pm: decide alone, log; hourly cron + Sunday restart deploy; 11-15 S2 v4 launched (fxbench-v7-S2), max_parallel 1 until it ends
 - [ctf-lab project](ctf-lab-project.md) — CTF solver; web page localhost:8770 is the main UI; Claude in Docker sandbox, flag check + lessons
 - [fxplat bench smoke feasibility](fxplat-bench-smoke-feasibility.md) — no fast mini-bench via --weeks (fixed 2015-18 DEV window); generate-once full-span / scan-many; replant is the days-long cost
+- [autonomous progression policy](autonomous-progression-policy.md) — default to moving forward; timed wakeup on reversible calls; only money/deploy/gate/STOP wait
