@@ -150,3 +150,4 @@
 - [fxplat bench smoke feasibility](fxplat-bench-smoke-feasibility.md) — no fast mini-bench via --weeks (fixed 2015-18 DEV window); generate-once full-span / scan-many; replant is the days-long cost
 - [autonomous progression policy](autonomous-progression-policy.md) — default to moving forward; timed wakeup on reversible calls; only money/deploy/gate/STOP wait
 - [fxplat auth security](fxplat-auth-security.md) — oauth2-proxy Google login; emails.txt per-request gate + un-spoofable X-Forwarded-Email; 11-22 dropped cookie-refresh
+- [crypto micro-edge screen](crypto-micro-edge-screen.md) — micro spot crypto loses at 10bp/side fees (20bp wall); fxplat.crypto.micro_shadow; fees are the only lever
