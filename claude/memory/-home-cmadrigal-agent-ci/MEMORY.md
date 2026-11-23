@@ -149,3 +149,4 @@
 - [ctf-lab project](ctf-lab-project.md) — CTF solver; web page localhost:8770 is the main UI; Claude in Docker sandbox, flag check + lessons
 - [fxplat bench smoke feasibility](fxplat-bench-smoke-feasibility.md) — no fast mini-bench via --weeks (fixed 2015-18 DEV window); generate-once full-span / scan-many; replant is the days-long cost
 - [autonomous progression policy](autonomous-progression-policy.md) — default to moving forward; timed wakeup on reversible calls; only money/deploy/gate/STOP wait
+- [fxplat auth security](fxplat-auth-security.md) — oauth2-proxy Google login; emails.txt per-request gate + un-spoofable X-Forwarded-Email; 11-22 dropped cookie-refresh
