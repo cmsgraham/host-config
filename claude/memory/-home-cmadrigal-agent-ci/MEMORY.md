@@ -152,3 +152,5 @@
 - [fxplat auth security](fxplat-auth-security.md) — oauth2-proxy Google login; emails.txt per-request gate + un-spoofable X-Forwarded-Email; 11-22 dropped cookie-refresh
 - [crypto micro-edge screen](crypto-micro-edge-screen.md) — micro spot crypto loses at 10bp/side fees (20bp wall); fxplat.crypto.micro_shadow; fees are the only lever
 - [fxplat tail-capture track](fxplat-tail-capture-track.md) — CAPTURE big event moves (convex trend-following), crypto-first, equities out; draft on claude/tail-capture; awaiting §8 reaction
+- [gateway 3D Print feature](gateway-3d-print-feature.md) — upload pic → TRELLIS.2/Pixal3D → print-ready STL; 1 GPU run pending
+- [Leonardo VR art gallery](leonardo-vr-art-gallery.md) — FUTURE VR room: major works, HD, dated, timeline story
