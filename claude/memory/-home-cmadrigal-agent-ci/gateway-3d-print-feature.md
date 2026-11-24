@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 65592fdb-22b6-4529-9491-76c88746cc4c
-  modified: 2026-11-24T11:59:16.402Z
+  modified: 2026-11-24T17:05:21.657Z
 ---
 
 2026-11-23: built a **"3D Print" tab in the gateway** (Cristian's ask: "upload a picture and it
@@ -43,8 +43,37 @@ UI `m3Rasterize()` draws any browser-decodable image (incl. SVG) to a canvas and
 server `_sniff_ext()` sets the extension from magic bytes and rejects SVG/vector with a clear message.
 app.js is a static file (hard-refresh to pick it up). SVG/flat logos are weak 3D subjects anyway.
 
-**OPEN — still the only untested bit:** one real image->3D->STL run on the GPU (neither Tux attempt
-reached the GPU), to confirm ComfyUI accepts the V3 dynamic-combo's flattened sub-inputs and to learn
-the Save3DAdvanced history output key (_collect_outputs/pick_mesh are generic for now). Run it when
-ComfyUI is free with a real photo/render, not a flat logo; a /prompt 400 names any bad node in one
-line. Needs Image mode on. Related: [[leonardo-vr-art-gallery]] [[focus-fxplat-2026-10]].
+**END-TO-END PROVEN 2026-11-24**: sessions e45cc2df32bb (Linux logo) and eccfabab2ab3 both ran
+ComfyUI -> GLB -> STL. The graph converter and the Save3DAdvanced output handling are correct.
+
+**STL repair — the real defect, measured.** Cristian repaired one of our STLs on formware.co and gave
+me the before/after pair; that file pair, not the site, was the evidence (the page documents no
+algorithm: it is the engine from Formware's resin slicer, free, 6 h retention, API EUR100/mo).
+- Pixal3D/TRELLIS output has **non-manifold edges (254), ZERO holes** — marching-cubes pinch points.
+  Hole-filling is irrelevant; `trimesh.repair.fill_holes` can't help, and **manifold3d REFUSES a
+  non-manifold mesh** (returns empty), so the old fill_holes->manifold chain had no stage that could
+  ever fix it => every run reported `fill-holes(not-watertight)`, `printable:false`.
+- Formware's fix is surgical: -41 faces, +46 vertices, bbox identical to ~1 micron, 254 nonman -> 0.
+  Not a remesh. That is MeshLab's standard repair pipeline.
+- Benchmarked MeshLab against it on the same file: `meshing_repair_non_manifold_edges`
+  **method="Remove Faces" clears all 254 and reproduces Formware exactly (18.053 cm3)**;
+  **"Split Vertices" left all 254 in place (no-op)**. Constant `NM_EDGE_METHOD` — re-measure before
+  changing. Order matters: remove faces -> repair_non_manifold_vertices -> close_holes patches the gap.
+- Added to model3d_stl.py: MeshLab stage between fill_holes and manifold3d; shell triage (drop bodies
+  <0.1% of the largest = AI specks/bubbles, boolean-UNION overlapping bodies so overlaps stop being
+  self-intersections); before/after defect report in the metadata; opt-in `--force-solid` voxel wrap.
+  Result on the real mesh: 254->0 nonman, watertight+is_solid+printable, 99.98% of triangles kept,
+  6.9 s. Note `split()` cuts the mesh at pinch points, so junk-shell removal alone fixed this one.
+- Deps now in model3d-venv: **pymeshlab** (needs `apt install libopengl0` in WSL or every plugin
+  fails to load; also `uv pip install --python ./model3d-venv/bin/python` — that venv has no pip)
+  and **scikit-image** (trimesh's `marching_cubes`, i.e. --force-solid, needs skimage).
+- **Texture trap (37x):** the same 700k-tri mesh took 6.9 s from an STL but **>300 s from the
+  textured 35 MB GLB** — materials/UV get dragged through split(), the diagnosis and the MeshLab PLY
+  round-trip. `_geometry_only()` rebuilds vertices+faces right after the merge: 8.2 s. An STL carries
+  no colour anyway, and the GLB is still kept for the colour download.
+- Verified on 5 synthetic defects (hole, overlap, junk shells, flipped normals, open sheet): all
+  printable. A holed sphere needs the MeshLab stage; trimesh's fill_holes alone fails on big holes.
+
+**OPEN:** feed `printable`/the repair report into the UI, and consider exposing --force-solid as a
+toggle. Flat 2D logos are weak 3D subjects regardless. Related: [[leonardo-vr-art-gallery]]
+[[research-before-workaround]] [[focus-fxplat-2026-10]].
