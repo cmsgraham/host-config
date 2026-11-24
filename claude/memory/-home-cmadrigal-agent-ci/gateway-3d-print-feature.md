@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 65592fdb-22b6-4529-9491-76c88746cc4c
-  modified: 2026-11-24T17:05:21.657Z
+  modified: 2026-11-24T20:51:47.247Z
 ---
 
 2026-11-23: built a **"3D Print" tab in the gateway** (Cristian's ask: "upload a picture and it
@@ -74,6 +74,16 @@ algorithm: it is the engine from Formware's resin slicer, free, 6 h retention, A
 - Verified on 5 synthetic defects (hole, overlap, junk shells, flipped normals, open sheet): all
   printable. A holed sphere needs the MeshLab stage; trimesh's fill_holes alone fails on big holes.
 
-**OPEN:** feed `printable`/the repair report into the UI, and consider exposing --force-solid as a
-toggle. Flat 2D logos are weak 3D subjects regardless. Related: [[leonardo-vr-art-gallery]]
+**PARITY CONFIRMED 2026-11-24 (2nd ground-truth pair).** Cristian ran our NEW output (session
+f4e657ed888f, the buff penguin) through formware.co again: **identical** — same 15.013 cm3 volume,
+same 42.81x50x23.01 bbox, both watertight/solid, 0 boundary + 0 non-manifold on both. Formware only
+re-tessellated (+102 tris, +38 verts). It found nothing to fix, so the local step is at parity and
+that website is no longer needed. Second mesh with the UV-seam profile too (59,894 boundary edges,
+432 apparent shells -> 1 welded solid). The repair report is in the UI; `printable` drives the chip.
+
+**Watch:** stable-pose auto-orientation LAYS FIGURINES DOWN (the penguin seated on its back — a
+top-heavy figure on small feet is not stable upright). Good for printing (less support) but
+surprising; untick orientation in the tab to keep a figure standing.
+
+**OPEN:** consider exposing --force-solid as a toggle. Flat 2D logos are weak 3D subjects regardless. Related: [[leonardo-vr-art-gallery]]
 [[research-before-workaround]] [[focus-fxplat-2026-10]].
