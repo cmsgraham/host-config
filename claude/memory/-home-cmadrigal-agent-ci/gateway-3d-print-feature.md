@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 65592fdb-22b6-4529-9491-76c88746cc4c
-  modified: 2026-11-24T04:58:11.893Z
+  modified: 2026-11-24T11:59:16.402Z
 ---
 
 2026-11-23: built a **"3D Print" tab in the gateway** (Cristian's ask: "upload a picture and it
@@ -35,7 +35,16 @@ Weights downloaded to ~/comfyui/models (both engines): trellis_2_int8_convrot, p
 trellis_2_shape/texture_vae, dino_v3_L_naf, moge_2_vitl_normal, birefnet. TRELLIS.2 nodes are NATIVE
 in ComfyUI core now (not a custom-node pack).
 
-**OPEN — the only untested bit:** one real image->3D->STL run on the GPU, to confirm ComfyUI accepts
-the V3 dynamic-combo's flattened sub-inputs and to learn the Save3DAdvanced history output key
-(_collect_outputs/pick_mesh are generic for now). Run it when ComfyUI is free; a /prompt 400 names
-any bad node in one line. Needs Image mode on. Related: [[leonardo-vr-art-gallery]] [[focus-fxplat-2026-10]].
+2026-11-24: two Tux failures debugged after deploy. (1) HTTP 400 node_errors = converter widget
+alignment (dynamic-combo dotted sub-keys sign_mode.fill/qef + consume linked-widget placeholders);
+fixed, validates 0-problem. (2) Then `ComfyUI: Decoder not found` — Tux was an **SVG saved under a
+.png name** (submit() kept the claimed extension), so PIL got `<?xml ...>` bytes. Fixed BOTH sides:
+UI `m3Rasterize()` draws any browser-decodable image (incl. SVG) to a canvas and uploads a real PNG;
+server `_sniff_ext()` sets the extension from magic bytes and rejects SVG/vector with a clear message.
+app.js is a static file (hard-refresh to pick it up). SVG/flat logos are weak 3D subjects anyway.
+
+**OPEN — still the only untested bit:** one real image->3D->STL run on the GPU (neither Tux attempt
+reached the GPU), to confirm ComfyUI accepts the V3 dynamic-combo's flattened sub-inputs and to learn
+the Save3DAdvanced history output key (_collect_outputs/pick_mesh are generic for now). Run it when
+ComfyUI is free with a real photo/render, not a flat logo; a /prompt 400 names any bad node in one
+line. Needs Image mode on. Related: [[leonardo-vr-art-gallery]] [[focus-fxplat-2026-10]].
